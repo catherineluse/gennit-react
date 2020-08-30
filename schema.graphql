@@ -1,0 +1,27 @@
+type Task
+@auth(
+  query: {
+    rule: """
+    query($USER: String!) {
+        queryTask {
+            user(filter: { username: { eq: $USER } }) {
+                __typename
+            }
+        }
+    }
+    """
+  }
+) {
+  id: ID!
+  title: String! @search(by: [fulltext])
+  completed: Boolean! @search
+  user: User!
+}
+
+type User {
+  username: String! @id @search(by: [hash])
+  name: String @search(by: [exact])
+  tasks: [Task] @hasInverse(field: user)
+}
+
+# Dgraph.Authorization X-Auth0-Token https://dgraph.io/jwt/claims RS256 "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtCYMdQ2L1LkWPV85mXUu\nG77D+sT4BZ+t+q+rPyPbIn9ZbdegHMpdlCAxAM3Imvusjv8nsT6kb+3lUBNA4VZF\n6tupe0BiC4ftQEp4XjlGsGAT0UO99b2fRSq0LVFJMrYRyITESPcz6fGaeZ253fF6\nqL8GbvBQnFxQS1Cw+fJ2hzY+wGxaPnciIOM9rKiBFvY54ovuSDZiEXLq6+aP5MOb\n2u+F5IWP7cFjJdN8pbwCvXapv8k7GkGNvHfECHX38glC1hxCtYnjm8X2s6IGi9o/\nfLv9r/fpH/GtOmuoZZQHl3I3DmZ988ZpHFWKsdybmlX0ttn2ZhAaFV/xQOaAbztS\njQIDAQAB\n-----END PUBLIC KEY-----"
