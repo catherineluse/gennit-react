@@ -14,6 +14,18 @@ export const GET_USER = gql`
   }
 `;
 
+export const GET_USERS = gql`
+  query {
+    queryUser {
+        name
+        username
+        tasks {
+          title
+        }
+    }
+  }
+`;
+
 export const ADD_USER = gql`
   mutation addUser($user: AddUserInput!) {
     addUser(input: [$user]) {

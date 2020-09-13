@@ -1,26 +1,96 @@
+# type Task
+# @auth(
+#   query: {
+#     rule: """
+#     query($USER: String!) {
+#         queryTask {
+#             user(filter: { username: { eq: $USER } }) {
+#                 __typename
+#             }
+#         }
+#     }
+#     """
+#   }
+# ) {
+#   id: ID!
+#   title: String! @search(by: [fulltext])
+#   completed: Boolean! @search
+#   user: User!
+# }
+
+# type User {
+#   username: String! @id @search(by: [hash])
+#   name: String @search(by: [exact])
+#   tasks: [Task] @hasInverse(field: user)
+# }
 type Task
 @auth(
-  query: {
-    rule: """
-    query($USER: String!) {
-        queryTask {
-            user(filter: { username: { eq: $USER } }) {
-                __typename
-            }
-        }
-    }
-    """
-  }
+ query: {
+   rule: """
+   query($USER: String!) {
+       queryTask {
+           user(filter: { username: { eq: $USER } }) {
+               __typename
+           }
+       }
+   }
+   """
+ }
 ) {
-  id: ID!
-  title: String! @search(by: [fulltext])
-  completed: Boolean! @search
-  user: User!
+ id: ID!
+ title: String! @search(by: [fulltext])
+ completed: Boolean! @search
+ user: User!
 }
 
 type User {
-  username: String! @id @search(by: [hash])
-  name: String @search(by: [exact])
-  tasks: [Task] @hasInverse(field: user)
+ username:                 String! @id @search(by: [hash])
+ name:                     String @search(by: [exact])
+ tasks:                    [Task] @hasInverse(field: user)
+ age:                      Int
+ email:                    String!    
+ Comment:                  [Comment!] @hasInverse(field: Author)
+ OrganizerOfCommunities:   [Community!] @hasInverse(field: Organizer)       
+ SubscriberOfCommunities:  [Community!] @hasInverse(field: Subscribers)
+ Discussion:               [Discussion!] @hasInverse(field: Author)
+ SentMessages:             [Message!] @hasInverse(field: Author)            
+ ReceivedMessages:         [Message!] @hasInverse(field: Recipient)            
+}
+
+type Community {     
+ description:              String
+ name:                     String!
+ url:                      String!       @id @search(by: [hash])
+ Organizer:                User          @hasInverse(field: OrganizerOfCommunities)
+ Subscribers:              [User!]       @hasInverse(field: SubscriberOfCommunities)
+ Discussion:               [Discussion!] @hasInverse(field: Community)
+}
+
+type Discussion {
+ Author:       User!
+ body:         String
+ Community:    Community!  @hasInverse(field: Discussion)
+ title:        String!
+ Comment:      [Comment]   @hasInverse(field: Discussion)
+}
+
+type Comment {
+ Author:          User!         @hasInverse(field: Comment)
+ Discussion:      Discussion!   @hasInverse(field: Comment)
+ ParentComment:   Comment       @hasInverse(field: ChildComment)
+ text:            String
+ isRootComment:   Boolean
+ ChildComment:    [Comment]     @hasInverse(field: ParentComment)
+}
+
+type Message {
+ Author:               User!
+ Recipient:            User!
+ text:                 String!
+}
+
+enum Role {
+ ADMIN
+ USER
 }
 # Dgraph.Authorization {"VerificationKey":"-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtCYMdQ2L1LkWPV85mXUu\nG77D+sT4BZ+t+q+rPyPbIn9ZbdegHMpdlCAxAM3Imvusjv8nsT6kb+3lUBNA4VZF\n6tupe0BiC4ftQEp4XjlGsGAT0UO99b2fRSq0LVFJMrYRyITESPcz6fGaeZ253fF6\nqL8GbvBQnFxQS1Cw+fJ2hzY+wGxaPnciIOM9rKiBFvY54ovuSDZiEXLq6+aP5MOb\n2u+F5IWP7cFjJdN8pbwCvXapv8k7GkGNvHfECHX38glC1hxCtYnjm8X2s6IGi9o/\nfLv9r/fpH/GtOmuoZZQHl3I3DmZ988ZpHFWKsdybmlX0ttn2ZhAaFV/xQOaAbztS\njQIDAQAB\n-----END PUBLIC KEY-----","Header":"X-Auth-Token","Namespace":"https://dgraph.io/jwt/claims","Algo":"RS256","Audience":["qdl0gxJpVch6Qt9xoJm2IhXSUiEr574h"]}

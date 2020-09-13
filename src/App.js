@@ -8,6 +8,7 @@ import { useAuth0 } from './react-auth0-spa';
 import { setContext } from 'apollo-link-context';
 import AuthToken from './AuthToken';
 import TodoApp from './TodoApp';
+import UserList from './UserList';
 import NavBar from './NavBar';
 import Profile from './Profile';
 import history from './history';
@@ -16,7 +17,6 @@ import './App.css';
 
 const createApolloClient = (token) => {
   const httpLink = createHttpLink({
-    // uri: getSlashGraphQLEndpoint(),
     uri: 'http://localhost:8080/graphql',
     options: {
       reconnect: true,
@@ -58,7 +58,8 @@ const App = ({ idToken }) => {
             <NavBar />
           </header>
           <Switch>
-            <PrivateRoute path='/' component={TodoApp} exact />
+            <PrivateRoute path='/' component={UserList} exact />
+            <PrivateRoute path='/todos' component={TodoApp} exact />
             <PrivateRoute path='/profile' component={Profile} />
           </Switch>
         </Router>

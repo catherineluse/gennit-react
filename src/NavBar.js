@@ -17,7 +17,13 @@ const NavBar = () => {
         {isAuthenticated && (
           <span>
             <li>
-              <Link to='/'>Home</Link>
+              <Link to='/'>
+                Users</Link>
+            </li>
+            <li>
+              <Link to='/todos' style={{ marginRight: 10 }}>
+                Todos
+              </Link>
             </li>
             <li>
               <Link to='/profile' style={{ marginRight: 10 }}>
