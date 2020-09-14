@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import {
     GET_USER,
     GET_USERS,
     ADD_USER,
-} from './GraphQLData';
+} from './graphQLData/users';
 import { useAuth0 } from './react-auth0-spa';
 
 const useImperativeQuery = (query) => {
@@ -60,15 +60,29 @@ const UserList = () => {
     const [shownUsers, setShownUsers] = useState([]);
 
     const userListItems = shownUsers.map((userData, i) => {
+        const { username, name } = userData
         return (
-            <p key={i}>{JSON.stringify(userData)}</p>
+            <tr key={i}>
+                <td><Link to={`/u/${username}`}>{username}</Link></td>
+                <td>{name ? name : "null"}</td>
+            </tr >
         )
     });
 
     const main = !shownUsers.length ? null : (
-        <section className='main'>
-            <ul className='user-list'>{userListItems}</ul>
-        </section>
+        <Router>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {userListItems}
+                </tbody>
+            </table>
+        </Router>
     );
 
     useEffect(() => {
@@ -78,7 +92,8 @@ const UserList = () => {
     }, [user, data]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
-        <div>
+        <div className="container">
+            <h2>Users</h2>
             {main}
         </div>
     );

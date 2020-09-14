@@ -11,6 +11,7 @@ import TodoApp from './TodoApp';
 import UserList from './UserList';
 import NavBar from './NavBar';
 import Profile from './Profile';
+import UserProfile from './UserProfile';
 import history from './history';
 import PrivateRoute from './PrivateRoute';
 import './App.css';
@@ -59,6 +60,12 @@ const App = ({ idToken }) => {
           </header>
           <Switch>
             <PrivateRoute path='/' component={UserList} exact />
+            <PrivateRoute path='/u/:username' component={({ match }) => {
+              const username = match.params.username;
+              return (
+                <UserProfile username={username} />
+              )
+            }} exact />
             <PrivateRoute path='/todos' component={TodoApp} exact />
             <PrivateRoute path='/profile' component={Profile} />
           </Switch>

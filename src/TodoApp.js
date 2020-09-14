@@ -7,15 +7,17 @@ import TodoFooter from './TodoFooter';
 import TodoItem from './TodoItem';
 import {
   GET_USER,
-  GET_TODOS,
   ADD_USER,
+} from './graphQLData/users';
+import {
+  GET_TODOS,
   ADD_TODO,
+  TOGGLE_ALL_TODO,
   DELETE_TODO,
   TOGGLE_TODO,
   UPDATE_TODO,
   CLEAR_COMPLETED_TODO,
-  TOGGLE_ALL_TODO,
-} from './GraphQLData';
+} from './graphQLData/todos';
 import { useAuth0 } from './react-auth0-spa';
 
 const ENTER_KEY = 13;
