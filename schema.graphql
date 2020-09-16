@@ -67,6 +67,7 @@ type Community {
 }
 
 type Discussion {
+ id:           ID!
  Author:       User!
  body:         String
  Community:    Community!  @hasInverse(field: Discussion)
@@ -75,15 +76,17 @@ type Discussion {
 }
 
 type Comment {
+ id:              ID!
  Author:          User!         @hasInverse(field: Comment)
  Discussion:      Discussion!   @hasInverse(field: Comment)
  ParentComment:   Comment       @hasInverse(field: ChildComment)
  text:            String
- isRootComment:   Boolean
+ isRootComment:   Boolean!      @search
  ChildComment:    [Comment]     @hasInverse(field: ParentComment)
 }
 
 type Message {
+ id:                   ID!
  Author:               User!
  Recipient:            User!
  text:                 String!
