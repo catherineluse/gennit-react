@@ -88,4 +88,66 @@ mutation {
 
 // get related communities
 
+query {
+    getCommunity(url: "cats") {
+        name
+        url
+        RelatedCommunities {
+            url
+        }
+    }
+}
+
 // add related community to a community
+
+mutation {
+    updateCommunity(input: {
+        filter: {
+            url: {
+                eq: "dogs"
+            }
+        },
+        set: {
+            RelatedCommunities: [{ url: "cats" }]
+        }
+    }) {
+        community {
+            url
+            name
+            description
+            Organizer {
+                username
+            }
+            RelatedCommunities {
+                url
+            }
+        }
+    }
+}
+
+// remove related community from a community
+
+mutation {
+    updateCommunity(input: {
+        filter: {
+            url: {
+                eq: "dogs"
+            }
+        },
+        remove: {
+            RelatedCommunities: [{ url: "goats" }]
+        }
+    }) {
+        community {
+            url
+            name
+            description
+            Organizer {
+                username
+            }
+            RelatedCommunities {
+                url
+            }
+        }
+    }
+}

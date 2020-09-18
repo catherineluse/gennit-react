@@ -101,8 +101,7 @@ query {
         Comment(
             filter: {
             isRootComment: true
-        }
-        ) {
+        }) {
             id
             Author {
                 username

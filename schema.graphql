@@ -23,6 +23,7 @@
 #   name: String @search(by: [exact])
 #   tasks: [Task] @hasInverse(field: user)
 # }
+
 type Task
 @auth(
  query: {
@@ -48,7 +49,11 @@ type User {
  name:                     String @search(by: [exact])
  tasks:                    [Task] @hasInverse(field: user)
  age:                      Int
- email:                    String!    
+ pronouns:                 String
+ location:                 String
+ email:                    String!
+ bio:                      String
+ interests:                String
  Comment:                  [Comment!] @hasInverse(field: Author)
  OrganizerOfCommunities:   [Community!] @hasInverse(field: Organizer)       
  SubscriberOfCommunities:  [Community!] @hasInverse(field: Subscribers)
@@ -64,6 +69,7 @@ type Community {
  Organizer:                User          @hasInverse(field: OrganizerOfCommunities)
  Subscribers:              [User!]       @hasInverse(field: SubscriberOfCommunities)
  Discussion:               [Discussion!] @hasInverse(field: Community)
+ RelatedCommunities:       [Community!]  @hasInverse(field: RelatedCommunities)
 }
 
 type Discussion {

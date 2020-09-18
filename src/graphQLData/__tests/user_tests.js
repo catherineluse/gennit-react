@@ -26,9 +26,6 @@ query {
     queryUser {
         name
         username
-        tasks {
-            title
-        }
     }
 }
 
@@ -70,6 +67,7 @@ mutation {
 }
 
 // get communities that a user is subscribed to
+
 query {
     getUser(
         username : "catherine.luse@gmail.com"
