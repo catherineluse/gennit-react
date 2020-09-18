@@ -38,12 +38,12 @@ export const GET_USERS = gql`
   }
 `;
 
-export const SUBSCRIBE_USER_TO_COMMUNITY = gql``;
-export const UNSUBSCRIBE_USER_FROM_COMMUNITY = gql``;
-export const GET_USERS_SUBSCRIBED_TO_COMMUNITY = gql``;
-export const UPDATE_USER_DETAILS = gql``;
-export const ADD_USER_AS_COMMUNITY_ORGANIZER = gql``;
-export const REMOVE_USER_AS_COMMUNITY_ORGANIZER = gql``;
+// export const SUBSCRIBE_USER_TO_COMMUNITY = gql``;
+// export const UNSUBSCRIBE_USER_FROM_COMMUNITY = gql``;
+// export const GET_USERS_SUBSCRIBED_TO_COMMUNITY = gql``;
+// export const UPDATE_USER_DETAILS = gql``;
+// export const ADD_USER_AS_COMMUNITY_ORGANIZER = gql``;
+// export const REMOVE_USER_AS_COMMUNITY_ORGANIZER = gql``;
 
 
 // Auth restrictions:

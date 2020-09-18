@@ -9,6 +9,8 @@ import { setContext } from 'apollo-link-context';
 import AuthToken from './AuthToken';
 import TodoApp from './TodoApp';
 import UserList from './UserList';
+import CommunityList from './CommunityList';
+import Community from './Community';
 import NavBar from './NavBar';
 import Profile from './Profile';
 import UserProfile from './UserProfile';
@@ -59,11 +61,19 @@ const App = ({ idToken }) => {
             <NavBar />
           </header>
           <Switch>
-            <PrivateRoute path='/' component={UserList} exact />
+            <PrivateRoute path='/' component={CommunityList} exact />
+            <PrivateRoute path='/communities' component={CommunityList} exact />
+            <PrivateRoute path='/users' component={UserList} exact />
             <PrivateRoute path='/u/:username' component={({ match }) => {
               const username = match.params.username;
               return (
                 <UserProfile username={username} />
+              )
+            }} exact />
+            <PrivateRoute path='/c/:url' component={({ match }) => {
+              const url = match.params.url;
+              return (
+                <Community url={url} />
               )
             }} exact />
             <PrivateRoute path='/todos' component={TodoApp} exact />

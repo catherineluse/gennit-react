@@ -17,7 +17,11 @@ const NavBar = () => {
         {isAuthenticated && (
           <span>
             <li>
-              <Link to='/'>
+              <Link to='/communities'>
+                Communities</Link>
+            </li>
+            <li>
+              <Link to='/users'>
                 Users</Link>
             </li>
             <li>
