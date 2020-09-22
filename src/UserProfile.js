@@ -2,7 +2,8 @@ import React from "react";
 import { useAuth0 } from "./react-auth0-spa";
 import './Profile.css';
 
-const UserProfile = ({ username }) => {
+const UserProfile = ({ match }) => {
+    const { username } = match.params;
     const { loading } = useAuth0();
 
     if (loading || !username) {

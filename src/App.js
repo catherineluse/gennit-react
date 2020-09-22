@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Switch } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
 import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -55,7 +55,7 @@ const App = ({ idToken }) => {
   return (
     <ApolloProvider client={client}>
       <div className='todoapp'>
-        <Router history={history}>
+        <BrowserRouter history={history}>
           <h1>todos</h1>
           <header className='navheader'>
             <NavBar />
@@ -64,22 +64,12 @@ const App = ({ idToken }) => {
             <PrivateRoute path='/' component={CommunityList} exact />
             <PrivateRoute path='/communities' component={CommunityList} exact />
             <PrivateRoute path='/users' component={UserList} exact />
-            <PrivateRoute path='/u/:username' component={({ match }) => {
-              const username = match.params.username;
-              return (
-                <UserProfile username={username} />
-              )
-            }} exact />
-            <PrivateRoute path='/c/:url' component={({ match }) => {
-              const url = match.params.url;
-              return (
-                <Community url={url} />
-              )
-            }} exact />
+            <PrivateRoute path='/u/:username' component={UserProfile} exact />
+            <PrivateRoute path='/c/:url' component={Community} exact />
             <PrivateRoute path='/todos' component={TodoApp} exact />
-            <PrivateRoute path='/profile' component={Profile} />
+            <PrivateRoute path='/profile' component={Profile} exact />
           </Switch>
-        </Router>
+        </BrowserRouter>
       </div>
 
       <AuthToken token={idToken} />

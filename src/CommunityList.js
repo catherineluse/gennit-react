@@ -50,19 +50,17 @@ const CommunityList = () => {
     });
 
     const main = !shownCommunities.length ? null : (
-        <Router>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Community name</th>
-                        <th scope="col">Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {communityListItems}
-                </tbody>
-            </table>
-        </Router>
+        <table className="table">
+            <thead>
+                <tr>
+                    <th scope="col">Community name</th>
+                    <th scope="col">Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {communityListItems}
+            </tbody>
+        </table>
     );
 
     useEffect(() => {

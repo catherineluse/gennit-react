@@ -70,19 +70,18 @@ const UserList = () => {
     });
 
     const main = !shownUsers.length ? null : (
-        <Router>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Username</th>
-                        <th scope="col">Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {userListItems}
-                </tbody>
-            </table>
-        </Router>
+
+        <table className="table">
+            <thead>
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {userListItems}
+            </tbody>
+        </table>
     );
 
     useEffect(() => {

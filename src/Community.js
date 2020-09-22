@@ -1,7 +1,8 @@
 import React from "react";
 import { useAuth0 } from "./react-auth0-spa";
 
-const Community = ({ url }) => {
+const Community = ({ match }) => {
+    const { url } = match.params;
     const { loading } = useAuth0();
 
     if (loading) {
@@ -9,7 +10,7 @@ const Community = ({ url }) => {
     }
 
     return (
-        <div >
+        <div>
             <p>Community URL: <strong>{url}</strong></p>
         </div>
     );
