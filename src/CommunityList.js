@@ -29,27 +29,29 @@ const CommunityList = () => {
     const communityListItems = shownCommunities.map((communityData, i) => {
         const { url, name, description } = communityData
         return (
-            <tr key={i}>
-                <td><Link to={`/c/${url}`}>c/{url}</Link></td>
-                <td>{description ? description : "null"}</td>
-                <td>{name ? name : "null"}</td>
-            </tr >
+            <Link to={`/c/${url}`} key={i}>
+                <div className="row communityListItem" >
+                    <div className="col-2">
+                        <div className="circle"></div>
+                    </div>
+                    <div className="col-6">
+                        <h2>{name ? name : "Untitled"}</h2>
+                        <div className="communityUrl">{`c/${url}`}</div>
+                        <p className="communityDescription">{description ? description : "null"}</p>
+                    </div>
+                </div>
+            </Link >
+
         )
     });
 
+    console.log('community list items are ', JSON.stringify(shownCommunities))
+
     const main = !shownCommunities.length ? null : (
-        <table className="table">
-            <thead>
-                <tr>
-                    <th scope="col">Community URL</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                {communityListItems}
-            </tbody>
-        </table>
+        <div>
+            <h1>Communities</h1>
+            { communityListItems}
+        </div>
     );
 
     useEffect(() => {
@@ -58,7 +60,7 @@ const CommunityList = () => {
 
     return (
         <div className="container">
-            <h1>Communities</h1>
+
             {main}
         </div>
     );

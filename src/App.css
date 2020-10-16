@@ -1,23 +1,60 @@
 @import url('https://fonts.googleapis.com/css?family=DM+Serif+Display:regular');
 @import url('https://fonts.googleapis.com/css?family=Lato:regular,bold,italic');
+@import url('https://fonts.googleapis.com/css?family=DM+Mono:regular');
+@import url('https://fonts.googleapis.com/css?family=Roboto:regular');
 
 h1 {
     font-family: "DM Serif Display", serif;
     padding-top: 20px;
-    font-size: 45px;
+    font-size: 55px;
+}
+
+h2 {
+    font-family: "Roboto", sans-serif;
+    font-size: 35px;
+    margin-bottom: 0;
 }
 
 p {
     font-family: "Lato", sans-serif
 }
 
+a {
+    color: black;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.communityUrl {
+    font-family: "DM Mono";
+    font-size: 18px;
+    color: gray;
+}
+
+.communityDescription {
+    color: gray;
+    font-size: 18px;
+}
+
+.communityListItem {
+    padding-top: 20px;
+    border-bottom: 1px solid gray;
+    padding-bottom: 10px;
+}
+
+.communityListItem:hover {
+    background-color: ghostwhite;
+    cursor: pointer;
+}
 
 .sidenav {
     height: 100%;
-    width: 160px;
+    width: 170px;
     position: fixed;
     z-index: 1;
-    top: 70px;
+    top: 0;
     left: 0;
     background-color: #111;
     overflow-x: hidden;
@@ -41,7 +78,7 @@ p {
     /* Same as the width of the sidenav */
     font-size: 28px;
     /* Increased text to enable scrolling */
-    padding: 0px 10px;
+    padding-left: 10px;
 }
 
 
@@ -79,4 +116,15 @@ p {
 /* Hide the link that should open and close the topnav on small screens */
 .topnav .icon {
     display: none;
+}
+
+.topnav li {
+    display: inline;
+}
+
+.circle {
+    background: lightslategray;
+    border-radius: 50%;
+    height: 110px;
+    width: 110px;
 }

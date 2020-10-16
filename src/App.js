@@ -56,10 +56,11 @@ const App = ({ idToken }) => {
     <ApolloProvider client={client}>
       <Router history={history}>
         <div>
-          <TopNav />
+
           <SideNav />
 
           <div className="main">
+            <TopNav />
             <Switch>
               <PrivateRoute path='/' component={CommunityList} exact />
               <PrivateRoute path='/communities' component={CommunityList} exact />
