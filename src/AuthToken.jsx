@@ -10,7 +10,7 @@ const AuthToken = ({ token }) => {
         <input id="token" value={token || ""} readOnly />
 
         <Clipboard data-clipboard-text={token}>
-            <img src="https://clipboardjs.com/assets/images/clippy.svg" alt="Copy To Clipboard"/>
+            Copy
         </Clipboard>
     </div>;
 }

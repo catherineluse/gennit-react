@@ -16,11 +16,6 @@ export const GET_USER = gql`
     getUser(username: $username) {
       username
       name
-      tasks {
-        id
-        title
-        completed
-      }
     }
   }
 `;
@@ -31,9 +26,6 @@ export const GET_USERS = gql`
     queryUser {
         name
         username
-        tasks {
-          title
-        }
     }
   }
 `;

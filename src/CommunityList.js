@@ -1,28 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { useQuery } from '@apollo/react-hooks';
+import { Link } from 'react-router-dom';
 import {
-    GET_COMMUNITY,
     GET_COMMUNITIES,
-    ADD_COMMUNITY,
 } from './graphQLData/communities';
 import { useAuth0 } from './react-auth0-spa';
 
-const useImperativeQuery = (query) => {
-    const { refetch } = useQuery(query, { skip: true });
-    const imperativelyCallQuery = (variables) => {
-        return refetch(variables);
-    };
-    return imperativelyCallQuery;
-};
+
 const CommunityList = () => {
 
-    const [addCommunity] = useMutation(ADD_COMMUNITY);
-    const getCommunityData = useImperativeQuery(GET_COMMUNITY);
-
     const { community } = useAuth0();
-
     const { loading, error, data } = useQuery(GET_COMMUNITIES);
+    const [shownCommunities, setShownCommunities] = useState([]);
 
     const getData = () => {
         if (loading) {
@@ -37,13 +26,12 @@ const CommunityList = () => {
         }
     };
 
-    const [shownCommunities, setShownCommunities] = useState([]);
-
     const communityListItems = shownCommunities.map((communityData, i) => {
-        const { url, name } = communityData
+        const { url, name, description } = communityData
         return (
             <tr key={i}>
-                <td><Link to={`/c/${url}`}>{url}</Link></td>
+                <td><Link to={`/c/${url}`}>c/{url}</Link></td>
+                <td>{description ? description : "null"}</td>
                 <td>{name ? name : "null"}</td>
             </tr >
         )
@@ -53,7 +41,8 @@ const CommunityList = () => {
         <table className="table">
             <thead>
                 <tr>
-                    <th scope="col">Community name</th>
+                    <th scope="col">Community URL</th>
+                    <th scope="col">Description</th>
                     <th scope="col">Name</th>
                 </tr>
             </thead>
@@ -69,7 +58,7 @@ const CommunityList = () => {
 
     return (
         <div className="container">
-            <h2>Communities</h2>
+            <h1>Communities</h1>
             {main}
         </div>
     );

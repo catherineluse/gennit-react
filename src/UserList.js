@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
     GET_USER,
     GET_USERS,
@@ -92,7 +92,7 @@ const UserList = () => {
 
     return (
         <div className="container">
-            <h2>Users</h2>
+            <h1>Users</h1>
             {main}
         </div>
     );

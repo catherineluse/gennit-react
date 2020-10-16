@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'todomvc-app-css/index.css';
-
+import './App.css'
 import { Auth0Provider } from './react-auth0-spa';
 import config from './config.json';
 import history from './history';

@@ -10,9 +10,9 @@ const Community = ({ match }) => {
     }
 
     return (
-        <div>
-            <p>Community URL: <strong>{url}</strong></p>
-        </div>
+        <div className="container">
+            <h1>Welcome to c/{url}</h1>
+        </div >
     );
 };
 
