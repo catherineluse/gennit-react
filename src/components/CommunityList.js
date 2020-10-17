@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from "react";
 import { useQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 import {
     GET_COMMUNITIES,
-} from './graphQLData/communities';
-import { useAuth0 } from './react-auth0-spa';
-
+} from '../graphQLData/communities';
+import Context from "../context";
 
 const CommunityList = () => {
-
-    const { community } = useAuth0();
+    const { state, dispatch } = useContext(Context);
     const { loading, error, data } = useQuery(GET_COMMUNITIES);
-    const [shownCommunities, setShownCommunities] = useState([]);
+    const [communities, setCommunities] = useState([]);
 
     const getData = () => {
         if (loading) {
@@ -22,11 +20,12 @@ const CommunityList = () => {
             return `Error: ${error.message}`;
         }
         if (data.queryCommunity) {
-            setShownCommunities(data.queryCommunity);
+            setCommunities(data.queryCommunity);
+            console.log(communities)
         }
     };
 
-    const communityListItems = shownCommunities.map((communityData, i) => {
+    const communityListItems = communities.map((communityData, i) => {
         const { url, name, description } = communityData
         return (
             <Link to={`/c/${url}`} key={i}>
@@ -45,9 +44,9 @@ const CommunityList = () => {
         )
     });
 
-    console.log('community list items are ', JSON.stringify(shownCommunities))
+    console.log('community list items are ', JSON.stringify(communities))
 
-    const main = !shownCommunities.length ? null : (
+    const main = !communities.length ? null : (
         <div>
             <h1>Communities</h1>
             { communityListItems}
@@ -56,7 +55,7 @@ const CommunityList = () => {
 
     useEffect(() => {
         getData();
-    }, [community, data]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="container">

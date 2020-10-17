@@ -113,11 +113,6 @@ a:hover {
     color: white;
 }
 
-/* Hide the link that should open and close the topnav on small screens */
-.topnav .icon {
-    display: none;
-}
-
 .topnav li {
     display: inline;
 }
@@ -127,4 +122,14 @@ a:hover {
     border-radius: 50%;
     height: 110px;
     width: 110px;
+}
+
+.profile {
+    padding: 15px;
+}
+
+.profile-img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
 }

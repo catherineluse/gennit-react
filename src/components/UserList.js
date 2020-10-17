@@ -5,8 +5,8 @@ import {
     GET_USER,
     GET_USERS,
     ADD_USER,
-} from './graphQLData/users';
-import { useAuth0 } from './react-auth0-spa';
+} from '../graphQLData/users';
+import { useAuth0 } from '../react-auth0-spa';
 
 const useImperativeQuery = (query) => {
     const { refetch } = useQuery(query, { skip: true });

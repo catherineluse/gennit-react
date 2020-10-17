@@ -7,13 +7,12 @@ import { createHttpLink } from 'apollo-link-http';
 import { useAuth0 } from './react-auth0-spa';
 import { setContext } from 'apollo-link-context';
 import AuthToken from './AuthToken';
-import UserList from './UserList';
-import CommunityList from './CommunityList';
-import Community from './Community';
-import TopNav from './TopNav';
-import SideNav from './SideNav';
-import Profile from './Profile';
-import UserProfile from './UserProfile';
+import UserList from './components/UserList';
+import CommunityList from './components/CommunityList';
+import Community from './components/Community';
+import TopNav from './components/TopNav';
+import SideNav from './components/SideNav';
+import UserProfile from './components/UserProfile';
 import history from './history';
 import PrivateRoute from './PrivateRoute';
 import './App.css';
@@ -67,7 +66,6 @@ const App = ({ idToken }) => {
               <PrivateRoute path='/users' component={UserList} exact />
               <PrivateRoute path='/u/:username' component={UserProfile} exact />
               <PrivateRoute path='/c/:url' component={Community} exact />
-              <PrivateRoute path='/profile' component={Profile} exact />
             </Switch>
             <div className="container">
               <AuthToken token={idToken} />

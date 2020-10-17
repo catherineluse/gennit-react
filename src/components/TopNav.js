@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth0 } from './react-auth0-spa';
+import { useAuth0 } from '../react-auth0-spa';
 
 const TopNav = () => {
     const { loading, logout } = useAuth0();
