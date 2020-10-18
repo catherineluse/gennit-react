@@ -13,9 +13,11 @@ const Context = React.createContext({
         // "__typename":"Community"}
     ],
     currentCommunity: {},
+    communityToEdit: {},
     currentDiscussion: {
 
     },
+    discussionToEdit: {},
     showSideNav: true,
     feeds: [],
     favorites: [],
