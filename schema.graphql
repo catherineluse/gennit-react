@@ -35,11 +35,13 @@ type User {
  bio:                      String
  interests:                String
  Comment:                  [Comment!] @hasInverse(field: Author)
- OrganizerOfCommunities:   [Community!] @hasInverse(field: Organizer)       
+ OrganizerOfCommunities:   [Community!] @hasInverse(field: Organizer)
  SubscriberOfCommunities:  [Community!] @hasInverse(field: Subscribers)
  Discussion:               [Discussion!] @hasInverse(field: Author)
- SentMessages:             [Message!] @hasInverse(field: Author)            
- ReceivedMessages:         [Message!] @hasInverse(field: Recipient)            
+ SentMessages:             [Message!] @hasInverse(field: Author)
+ ReceivedMessages:         [Message!] @hasInverse(field: Recipient)
+ Feeds:                    [Feed!] @hasInverse(field: Owner)
+ DefaultFeed:              Feed
 }
 
 type Community {     
@@ -50,6 +52,7 @@ type Community {
  Subscribers:              [User!]       @hasInverse(field: SubscriberOfCommunities)
  Discussion:               [Discussion!] @hasInverse(field: Community)
  RelatedCommunities:       [Community!]  @hasInverse(field: RelatedCommunities)
+ Events:                   [Event]       @hasInverse(field: Community)
 }
 
 type Discussion {
@@ -78,8 +81,19 @@ type Message {
  text:                 String!
 }
 
-enum Role {
- ADMIN
- USER
+type Event {
+  title: String!
+  description: String
+  date: String!
+  Community: Community!
+  location: String
+  isVirtual: Boolean!
+  Organizer: User!
+  rsvps: [User!]
+}
+
+type Feed {
+  Owner: User
+  Communities: [Community!]
 }
 # Dgraph.Authorization {"VerificationKey":"-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtCYMdQ2L1LkWPV85mXUu\nG77D+sT4BZ+t+q+rPyPbIn9ZbdegHMpdlCAxAM3Imvusjv8nsT6kb+3lUBNA4VZF\n6tupe0BiC4ftQEp4XjlGsGAT0UO99b2fRSq0LVFJMrYRyITESPcz6fGaeZ253fF6\nqL8GbvBQnFxQS1Cw+fJ2hzY+wGxaPnciIOM9rKiBFvY54ovuSDZiEXLq6+aP5MOb\n2u+F5IWP7cFjJdN8pbwCvXapv8k7GkGNvHfECHX38glC1hxCtYnjm8X2s6IGi9o/\nfLv9r/fpH/GtOmuoZZQHl3I3DmZ988ZpHFWKsdybmlX0ttn2ZhAaFV/xQOaAbztS\njQIDAQAB\n-----END PUBLIC KEY-----","Header":"X-Auth-Token","Namespace":"https://dgraph.io/jwt/claims","Algo":"RS256","Audience":["qdl0gxJpVch6Qt9xoJm2IhXSUiEr574h"]}
