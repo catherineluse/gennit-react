@@ -22,7 +22,8 @@ const Context = React.createContext({
     feeds: [],
     favorites: [],
     messages: [],
-    userProfileDetails: {}
+    userProfileDetails: {},
+    loggedInUserProfileDetails: {}
 });
 
 export default Context;

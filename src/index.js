@@ -5,8 +5,6 @@ import { Auth0Provider } from './react-auth0-spa';
 import config from './config.json';
 import history from './history';
 
-import Context from './context';
-
 /* A function that routes the user to the right place after login */
 const onRedirectCallback = (appState) => {
   history.push(
