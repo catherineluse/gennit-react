@@ -1,11 +1,13 @@
 
 const initialState = {
-    messages: []
+    events: []
 }
 
-export default function message(state = initialState, action) {
+const events = (state = initialState, action) => {
     switch (action.type) {
         default:
             return state
     }
 }
+
+export default events;

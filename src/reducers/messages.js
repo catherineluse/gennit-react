@@ -1,11 +1,13 @@
 
 const initialState = {
-    userProfile: []
+    messages: []
 }
 
-export default function userProfile(state = initialState, action) {
+const messages = (state = initialState, action) => {
     switch (action.type) {
         default:
             return state
     }
 }
+
+export default messages;

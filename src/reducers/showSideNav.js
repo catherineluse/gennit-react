@@ -1,8 +1,8 @@
 
 const initialState = {
-    sideNav: true
+    showSideNav: true
 }
-export default function sideNav(state = initialState, action) {
+const showSideNav = (state = initialState, action) => {
     switch (action.type) {
         case "TOGGLE_SIDE_NAV":
             return {
@@ -13,3 +13,5 @@ export default function sideNav(state = initialState, action) {
             return state
     }
 }
+
+export default showSideNav;

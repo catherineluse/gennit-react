@@ -1,11 +1,13 @@
 
 const initialState = {
-    comments: []
+    feeds: []
 }
 
-export default function comment(state = initialState, action) {
+const feeds = (state = initialState, action) => {
     switch (action.type) {
         default:
             return state
     }
 }
+
+export default feeds;

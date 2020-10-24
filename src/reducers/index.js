@@ -1,12 +1,32 @@
-import { combineReducers } from 'redux'
-import community from './community'
-import discussion from './discussion'
-import sideNav from './sideNav'
+import { combineReducers } from 'redux';
+import communities from './communities';
+import comments from './comments';
+import currentCommunity from './currentCommunity';
+import communityToEdit from './communityToEdit';
+import discussionToEdit from './discussionToEdit';
+import currentDiscussion from './currentDiscussion';
+import showSideNav from './showSideNav';
+import loggedInUserProfileDetails from './loggedInUserProfileDetails';
+import feeds from './feeds';
+import messages from './messages';
+import userProfileDetails from './userProfileDetails';
+import events from './events';
 
-const reducer = combineReducers({
-    community,
-    discussion,
-    sideNav
+const rootReducer = combineReducers({
+    communities,
+    comments,
+    currentCommunity,
+    communityToEdit,
+    feeds,
+    events,
+    discussionToEdit,
+    currentDiscussion,
+    showSideNav,
+    messages,
+    userProfileDetails,
+    loggedInUserProfileDetails
 })
 
-export default reducer;
+
+
+export default rootReducer;

@@ -1,29 +1,22 @@
-import React, { useEffect, useContext, useReducer } from "react";
+import React, { useEffect, useContext } from "react";
 import { useQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
-import Context from "../context";
-import reducer from "../reducers/index"
 import { GET_COMMUNITIES } from '../graphQLData/communities';
+import { GennitContext } from "../AppWithContext";
 
 const CommunityList = () => {
 
-    const initialState = useContext(Context)
-    console.log('initial state is ', initialState)
-
-    const [state, dispatch] = useReducer(reducer, initialState)
-    console.log('community list items are ', state.communities)
+    const { state, dispatch } = useContext(GennitContext);
     const { loading: communitiesAreLoading, error, data } = useQuery(GET_COMMUNITIES);
 
     const getCommunities = () => {
         if (communitiesAreLoading) {
-            return;
+            return null;
         }
         if (error) {
-            console.error(`GET_COMMUNITIES error: ${error}`);
-            return;
+            return `GET_COMMUNITIES error: ${error}`;
         }
         if (data.queryCommunity) {
-
             dispatch({
                 type: "GET_COMMUNITIES",
                 payload: data.queryCommunity
@@ -37,10 +30,12 @@ const CommunityList = () => {
     }, [data])
 
     const communityListItems = () => {
+
         return state.communities.map((communityData, i) => {
-            const { url, name, description } = communityData
+            const { url, name, description } = communityData;
+
             return (
-                <Link to={`/c/${url}`} key={i}>
+                <Link to={`/c/${url}`} key={url}>
                     <div className="row communityListItem" >
                         <div className="col-2">
                             <div className="circle"></div>
@@ -62,7 +57,7 @@ const CommunityList = () => {
     return !state.communities ? null : (
         <div className="container">
             <h1>Communities</h1>
-            { communityListItems}
+            { communityListItems()}
         </div>
     )
 }

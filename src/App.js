@@ -7,7 +7,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { useAuth0 } from './react-auth0-spa';
 import { setContext } from 'apollo-link-context';
 import history from './history';
-import AppWithContext from './AppWithContext';
+import { AppWithContext } from './AppWithContext';
 import './App.css';
 
 const createApolloClient = (token) => {
@@ -43,7 +43,9 @@ const App = ({ idToken }) => {
 
   const client = createApolloClient(idToken);
 
-
+  // The useContext hook can't be in a
+  // conditionally rendered component,
+  // so I moved it from App to AppWithContext.
   return (
     <ApolloProvider client={client}>
       <Router history={history}>

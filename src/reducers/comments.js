@@ -1,11 +1,11 @@
-
 const initialState = {
-    loggedInProfile: []
+    comments: []
 }
-
-export default function loggedInProfile(state = initialState, action) {
+const comments = (state = initialState, action) => {
     switch (action.type) {
         default:
             return state
     }
 }
+
+export default comments;
