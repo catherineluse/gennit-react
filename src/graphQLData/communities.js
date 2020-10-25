@@ -25,6 +25,27 @@ query getCommunity($url: String!) {
     }
   }
 }`;
+export const GET_COMMUNITY_WITH_DISCUSSIONS = gql`
+query getCommunityWithDiscussions($url: String!) {
+  getCommunity(url: $url) {
+    name
+    url
+    description
+    Organizer {
+      username
+    }
+    RelatedCommunities {
+      url
+    }
+    Discussion {
+      title
+      Author {
+        username
+      }
+    }
+  }
+}
+`
 export const GET_COMMUNITIES = gql`
 query queryCommunity {
   queryCommunity {

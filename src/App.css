@@ -56,21 +56,23 @@ a:hover {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
+    background-color: #0d2629;
     overflow-x: hidden;
-    padding-top: 90px;
-}
-
-.sidenav a {
-    padding: 0px 8px 0px 16px;
-    text-decoration: none;
-    font-size: 20px;
-    color: #818181;
+    padding: 0;
     display: block;
 }
 
-.sidenav a:hover {
-    color: #f1f1f1;
+.sidenav a {
+    text-decoration: none;
+    font-size: 14px;
+    color: #6fdeb0;
+    display: inline-block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.sidenav li:hover {
+    background-color: #32634f;
 }
 
 .main {
@@ -85,7 +87,7 @@ a:hover {
 
 /* Add a black background color to the top navigation */
 .topnav {
-    background-color: #333;
+    background-color: black;
     overflow: hidden;
 }
 
@@ -93,7 +95,7 @@ a:hover {
 .topnav a {
     float: left;
     display: block;
-    color: #f2f2f2;
+    color: darkgray;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -103,13 +105,13 @@ a:hover {
 
 /* Change the color of links on hover */
 .topnav a:hover {
-    background-color: #ddd;
-    color: black;
+    background-color: #0d2629;
+    color: #6fdeb0;
 }
 
 /* Add an active class to highlight the current page */
 .topnav a.active {
-    background-color: #4CAF50;
+    background-color: #32634f;
     color: white;
 }
 
@@ -132,4 +134,9 @@ a:hover {
     display: block;
     margin: 0 auto;
     border-radius: 50%;
+}
+
+.community-info {
+    color: gray;
+    font-size: 12px;
 }

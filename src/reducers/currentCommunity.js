@@ -4,10 +4,7 @@ const initialState = {
 const currentCommunity = (state = initialState, action) => {
     switch (action.type) {
         case "SET_CURRENT_COMMUNITY":
-            return {
-                ...state,
-                currentCommunity: action.payload
-            };
+            return action.payload;
         default:
             return state
     }

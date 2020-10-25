@@ -6,7 +6,6 @@ const communities = (state = [], action) => {
             return action.payload;
         case "ADD_COMMUNITY":
             const withAdded = [...state.communities, action.payload];
-
             return withAdded
         case "UPDATE_COMMUNITY":
             const updatedCommunity = { ...action.payload };

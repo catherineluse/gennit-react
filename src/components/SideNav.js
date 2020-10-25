@@ -11,14 +11,14 @@ const SideNav = () => {
 
     return (
         <div className="sidenav">
-            <li>
+            <li className="sideNavItem">
                 <Link
                     to='/communities'
                 >
                     Communities
               </Link>
             </li>
-            <li>
+            <li className="sideNavItem">
                 <Link
                     to='/users'
                 >
