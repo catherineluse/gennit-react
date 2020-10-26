@@ -1,31 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth0 } from '../react-auth0-spa';
+import { GennitContext } from "../AppWithContext";
 
 const SideNav = () => {
-    const { loading } = useAuth0();
 
-    if (loading) {
-        return <div>Loading...</div>;
+    const { state, dispatch } = useContext(GennitContext);
+
+
+    const toggleSideNav = () => {
+        dispatch({
+            type: "TOGGLE_SIDE_NAV",
+            payload: !state.showSideNav
+        })
     }
 
     return (
         <div className="sidenav">
-            <li className="sideNavItem">
-                <Link
-                    to='/communities'
-                >
-                    Communities
-              </Link>
-            </li>
-            <li className="sideNavItem">
-                <Link
-                    to='/users'
-                >
-                    Users
-              </Link>
-            </li>
-        </div>
+            <span
+                className="closeButtonInSideNav"
+                onClick={toggleSideNav}
+            >
+                &times;
+            </span>
+            <div className="sideNavItems">
+                <Link to='/communities' className="sideNavItem">
+                    <li >
+                        <i className="fas fa-users"></i> Communities
+                    </li>
+                </Link>
+                <Link to='/users'>
+                    <li className="sideNavItem">
+                        <i className="fas fa-id-card"></i> Users
+                    </li>
+                </Link>
+            </div >
+        </div >
     );
 };
 

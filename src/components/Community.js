@@ -1,50 +1,52 @@
 import React, { useContext, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import { GennitContext } from "../AppWithContext";
 import { GET_COMMUNITY_WITH_DISCUSSIONS } from '../graphQLData/communities';
+import { Switch, Route } from 'react-router-dom';
+import CommunitySettingsForm from './forms/CommunitySettingsForm'
+import Discussions from './Discussions'
 
 const renderCommunityWithDiscussions = (currentCommunity) => {
     const { name, url, description, Organizer, Discussion
     } = currentCommunity;
 
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col">
-                    <h1>{name ? name : "Untitled Community"}</h1>
-                    <p className="communityUrl">{`c/${url}`}</p>
-                    <p className="communityDescription">{description ? description : "null"}</p>
-                </div>
+        <div className="community">
+            <div className="communityHeader">
+                <h2>{name ? name : "Untitled Community"}</h2>
+                <span className="communityUrl">{`c/${url}`}</span>
+                <Link to={`/c/${url}`} >
+                    <span className="communitySectionTitle">
+                        <i className="far fa-comments"></i> DISCUSSIONS
+                  </span>
+                </Link>
+                <Link to={`/c/${url}/settings`}>
+                    <span className="communitySectionTitle">
+                        <i className="fas fa-cog"></i> SETTINGS
+                    </span>
+                </Link>
             </div>
-            <div className="row">
-                <div className="col-6">
-                    {!Discussion ? null : renderDiscussions(Discussion)}
-                </div>
-                <div className="col">
-                    <p className="communityInfo">Organizer: {Organizer ? Organizer.username : "None"}</p>
-                </div>
+            <div className="communityBody">
+                <Switch>
+                    <Route
+                        path='/c/:url'
+                        render={(props) => (
+                            <Discussions {...props} currentCommunity={currentCommunity} />
+                        )}
+                        exact
+                    />
+                    <Route
+                        path='/c/:url/settings'
+                        component={CommunitySettingsForm}
+                        exact
+                    />
+                </Switch>
             </div>
         </div>
     )
 }
 
-const renderDiscussions = (Discussion) => {
-
-    const discussions = Discussion.map((discussionData, i) => {
-        return (
-            <li key={i}>
-                <p>Title: {discussionData.title}</p>
-                <p>Author: {discussionData.Author.username}</p>
-            </li>
-        )
-    })
-
-    return discussions.length > 0 ? (
-        <ul>
-            { discussions}
-        </ul>
-    ) : "There are no discussions yet."
-}
 
 const Community = ({ match }) => {
     const { url } = match.params;

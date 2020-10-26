@@ -1,14 +1,9 @@
 
-const initialState = {
-    showSideNav: true
-}
-const showSideNav = (state = initialState, action) => {
+
+const showSideNav = (state = true, action) => {
     switch (action.type) {
         case "TOGGLE_SIDE_NAV":
-            return {
-                ...state,
-                showSideNav: !state.showSideNav
-            }
+            return !state;
         default:
             return state
     }

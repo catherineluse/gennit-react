@@ -37,9 +37,6 @@ const CommunityList = () => {
             return (
                 <Link to={`/c/${url}`} key={url}>
                     <div className="row communityListItem" >
-                        <div className="col-2">
-                            <div className="circle"></div>
-                        </div>
                         <div className="col-6">
                             <h2>{name ? name : "Untitled"}</h2>
                             <div className="communityUrl">{`c/${url}`}</div>
@@ -57,7 +54,7 @@ const CommunityList = () => {
     return !state.communities ? null : (
         <div className="container">
             <h1>Communities</h1>
-            { communityListItems()}
+            <div className="communityList">{communityListItems()}</div>
         </div>
     )
 }

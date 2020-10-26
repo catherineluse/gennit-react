@@ -1,17 +1,22 @@
 @import url('https://fonts.googleapis.com/css?family=DM+Serif+Display:regular');
 @import url('https://fonts.googleapis.com/css?family=Lato:regular,bold,italic');
-@import url('https://fonts.googleapis.com/css?family=DM+Mono:regular');
+@import url('https://fonts.googleapis.com/css?family=Fira+Mono:regular');
 @import url('https://fonts.googleapis.com/css?family=Roboto:regular');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:regular');
+
+
 
 h1 {
-    font-family: "DM Serif Display", serif;
+    font-family: "Fira Mono", serif;
     padding-top: 20px;
-    font-size: 55px;
+    color: #1f4737;
+    font-weight: bold;
+    font-size: 35px;
 }
 
 h2 {
-    font-family: "Roboto", sans-serif;
-    font-size: 35px;
+    font-family: "Lato", sans-serif;
+    font-size: 25px;
     margin-bottom: 0;
 }
 
@@ -25,28 +30,16 @@ a {
 
 a:hover {
     text-decoration: none;
+    color: inherit;
 }
 
 .communityUrl {
-    font-family: "DM Mono";
+    font-family: "Fira Mono";
     font-size: 18px;
     color: gray;
-}
-
-.communityDescription {
-    color: gray;
-    font-size: 18px;
-}
-
-.communityListItem {
-    padding-top: 20px;
-    border-bottom: 1px solid gray;
-    padding-bottom: 10px;
-}
-
-.communityListItem:hover {
-    background-color: ghostwhite;
-    cursor: pointer;
+    padding: 0;
+    margin-top: 0;
+    display: block;
 }
 
 .sidenav {
@@ -59,7 +52,8 @@ a:hover {
     background-color: #0d2629;
     overflow-x: hidden;
     padding: 0;
-    display: block;
+    display: inline-block;
+    font-family: "Fira Mono"
 }
 
 .sidenav a {
@@ -69,26 +63,66 @@ a:hover {
     display: inline-block;
     padding-top: 10px;
     padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 100%
 }
 
-.sidenav li:hover {
-    background-color: #32634f;
+.sidenav li {
+    list-style-type: none;
+}
+
+.sidenav a:hover {
+    background-color: #1f4737;
+}
+
+.sidenav Link {
+    color: #6fdeb0;
+    float: right;
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
+.closeButtonInSideNav {
+    cursor: pointer;
+}
+
+.closeButtonInSideNav:hover {
+    color: white;
+}
+
+.sideNavItems {
+    margin-top: 30px;
 }
 
 .main {
-    margin-left: 160px;
+    display: block;
     /* Same as the width of the sidenav */
     font-size: 28px;
     /* Increased text to enable scrolling */
-    padding-left: 10px;
+    width: 100%;
 }
 
+.movedToTheRight {
+    /* This is used in main 
+    when the side nav bar is opened. */
+    margin-left: 160px;
+}
 
+.movedToTheLeft {
+    /* This is used in main 
+    when the side nav bar is opened. */
+    margin-right: 160px;
+}
 
 /* Add a black background color to the top navigation */
 .topnav {
-    background-color: black;
+    background-color: white;
     overflow: hidden;
+    display: inline-block;
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 0;
 }
 
 /* Style the links inside the navigation bar */
@@ -97,16 +131,16 @@ a:hover {
     display: block;
     color: darkgray;
     text-align: center;
-    padding: 14px 16px;
+    padding: 10px;
     text-decoration: none;
     margin-top: 0;
-    font-size: 17px;
+    font-size: 14px;
+    box-shadow: 5px;
 }
 
 /* Change the color of links on hover */
 .topnav a:hover {
-    background-color: #0d2629;
-    color: #6fdeb0;
+    background-color: #f0f0f0;
 }
 
 /* Add an active class to highlight the current page */
@@ -139,4 +173,197 @@ a:hover {
 .community-info {
     color: gray;
     font-size: 12px;
+}
+
+
+.site-logo {
+    float: left;
+    color: black;
+    text-align: center;
+    padding-top: 8px;
+    padding-left: 10px;
+    text-decoration: none;
+    margin-top: 0;
+    margin-right: 0px;
+    font-size: 10px;
+}
+
+.sitename {
+    font-family: "Fira Mono";
+    float: left;
+    color: black;
+    text-align: center;
+    padding-top: 8px;
+    margin-left: 5px;
+    text-decoration: none;
+    margin-top: 0;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.toggleSideNavButton {
+    cursor: pointer;
+    float: left;
+    display: block;
+    color: darkgray;
+    text-align: center;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    padding-left: 10px;
+    text-decoration: none;
+    margin-top: 0;
+    font-size: 17px;
+}
+
+.toggleSideNavButton:hover {
+    color: black;
+}
+
+.discussionList {
+    padding: auto;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.communityBody {
+    background-color: #f1f1f1;
+    padding: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: calc(100vh - 110px);
+}
+
+.discussionList>li {
+    font-family: IBM Plex Sans;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.discussionTitle {
+    font-size: 18px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.discussionAuthor {
+    font-size: 14px;
+    color: #babdbe;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.discussionListItem {
+    background-color: white;
+    border: 1px solid #dedede;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+.discussionListItem:hover {
+    border: 1px solid gray;
+    cursor: pointer;
+}
+
+.logo {
+    margin-right: 7px;
+    color: white;
+}
+
+.icon-background {
+    color: #42bda0;
+    display: block;
+}
+
+.box {
+    background-color: white;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    border: 1px solid lightgray;
+}
+
+.boxHeader {
+    color: black;
+    background-color: #d5e8e3;
+    padding: 6px;
+    font-size: 12px;
+}
+
+.boxContent {
+    font-size: 16px;
+    padding: 8px;
+    font-family: Lato;
+    color: black;
+}
+
+
+.communitySectionTitle {
+    color: gray;
+    font-family: 'Fira Mono';
+    font-size: 12px;
+    display: inline-block;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.communitySectionTitle:hover {
+    color: black;
+}
+
+.communityDescription {
+    padding-left: 0;
+    font-size: 16px;
+    padding: 0px;
+    font-family: Lato;
+    color: black;
+}
+
+.understatedLink {
+    color: inherit;
+}
+
+.understatedLink:hover {
+    text-decoration: underline;
+}
+
+
+
+.communityList {
+    padding: 0;
+    border-top: 1px solid lightgray;
+    margin-bottom: 10px;
+}
+
+.communityList>li {
+    font-family: IBM Plex Sans;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.communityListItem {
+    background-color: white;
+    border: 1px solid #dedede;
+    margin-top: 5px;
+    padding-top: 10px;
+    border-radius: 5px;
+    width: 600px;
+}
+
+.communityListItem:hover {
+    border: 1px solid gray;
+    cursor: pointer;
+}
+
+.communityHeader {
+    background-color: white;
+    border-bottom: 1px solid lightgray;
+    padding-left: 30px;
+}
+
+.community {
+    margin: 0;
+    padding: 0;
 }
