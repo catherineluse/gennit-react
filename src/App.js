@@ -8,7 +8,7 @@ import { useAuth0 } from './react-auth0-spa';
 import { setContext } from 'apollo-link-context';
 import history from './history';
 import { AppWithContext } from './AppWithContext';
-import './App.css';
+import './App.scss';
 
 const createApolloClient = (token) => {
   const httpLink = createHttpLink({

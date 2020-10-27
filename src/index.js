@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './App.css'
+import './App.scss'
 import { Auth0Provider } from './react-auth0-spa';
 import config from './config.json';
 import history from './history';

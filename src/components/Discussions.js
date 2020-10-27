@@ -5,10 +5,14 @@ const renderDiscussions = (Discussion) => {
 
     const discussions = Discussion.map((discussionData, i) => {
         return (
-            <li className="discussionListItem" key={i}>
-                <p className="discussionTitle">{discussionData.title}</p>
-                <p className="discussionAuthor">Posted by <Link className="understatedLink" to={`/u/${discussionData.Author.username}`}>{`u/${discussionData.Author.username}`}</Link></p>
-            </li>
+            <div className="discussionListItem" key={i}>
+                <div className="discussionTitle">{discussionData.title}</div>
+                <div className="discussionAuthor">
+                    Posted by <Link className="understatedLink" to={`/u/${discussionData.Author.username}`}>{`u/${discussionData.Author.username}`}
+                    </Link>
+                </div>
+                <div className="discussionLinks"><i class="far fa-comment"></i> Comments</div>
+            </div>
         )
     })
 

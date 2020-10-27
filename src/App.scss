@@ -1,0 +1,366 @@
+@import "https://fonts.googleapis.com/css?family=DM+Serif+Display:regular";
+@import "https://fonts.googleapis.com/css?family=Fira+Mono:regular";
+@import "https://fonts.googleapis.com/css?family=Roboto:regular";
+@import "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap";
+
+h1 {
+    font-family: "Fira Mono", serif;
+    padding-top: 20px;
+    color: #1f4737;
+    font-weight: bold;
+    font-size: 35px;
+}
+
+h2 {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 25px;
+    margin-bottom: 0;
+}
+
+p {
+    font-family: "IBM Plex Sans", sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    color: black;
+    font-size: inherit;
+
+    &:hover {
+        text-decoration: none;
+        color: inherit;
+    }
+
+}
+
+.communityUrl {
+    font-family: "Fira Mono";
+    font-size: 18px;
+    color: gray;
+    padding: 0;
+    margin-top: 0;
+    display: block;
+}
+
+.sidenav {
+    height: 100%;
+    width: 170px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #0d2629;
+    overflow-x: hidden;
+    padding: 0;
+    display: inline-block;
+    font-family: "Fira Mono";
+
+    a {
+        text-decoration: none;
+        font-size: 14px;
+        color: #6fdeb0;
+        display: inline-block;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        width: 100%;
+
+        &:hover {
+            background-color: #1f4737;
+        }
+    }
+
+    li {
+        list-style-type: none;
+    }
+
+    Link {
+        color: #6fdeb0;
+        float: right;
+        padding-right: 10px;
+        padding-top: 5px;
+    }
+}
+
+.closeButtonInSideNav {
+    cursor: pointer;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.sideNavItems {
+    margin-top: 30px;
+}
+
+.main {
+    display: block;
+    font-size: 28px;
+    width: 100%;
+}
+
+.movedToTheRight {
+    margin-left: 160px;
+}
+
+.movedToTheLeft {
+    margin-right: 160px;
+}
+
+.topnav {
+    background-color: white;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 0;
+
+    a {
+        float: left;
+        display: block;
+        color: darkgray;
+        text-align: center;
+        padding: 10px;
+        text-decoration: none;
+        margin-top: 0;
+        font-size: 14px;
+        box-shadow: 5px;
+
+        &:hover {
+            background-color: #f0f0f0;
+        }
+    }
+
+    a.active {
+        background-color: #32634f;
+        color: white;
+    }
+
+    li {
+        display: inline;
+    }
+
+    .logo {
+        margin-right: 7px;
+        color: white;
+    }
+
+    .icon-background {
+        color: #42bda0;
+        display: block;
+    }
+
+    .site-logo {
+        float: left;
+        color: black;
+        text-align: center;
+        padding-top: 8px;
+        padding-left: 10px;
+        text-decoration: none;
+        margin-top: 0;
+        margin-right: 0px;
+        font-size: 10px;
+    }
+
+    .sitename {
+        font-family: "Fira Mono";
+        float: left;
+        color: black;
+        text-align: center;
+        padding-top: 8px;
+        margin-left: 5px;
+        text-decoration: none;
+        margin-top: 0;
+        margin-right: 10px;
+        font-size: 18px;
+    }
+
+    .toggleSideNavButton {
+        cursor: pointer;
+        float: left;
+        display: block;
+        color: darkgray;
+        text-align: center;
+        padding-bottom: 8px;
+        padding-top: 8px;
+        padding-left: 10px;
+        text-decoration: none;
+        margin-top: 0;
+        font-size: 17px;
+
+        &:hover {
+            color: black;
+        }
+    }
+}
+
+
+.profile {
+    padding: 15px;
+}
+
+.profile-img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
+.community-info {
+    color: gray;
+    font-size: 12px;
+}
+
+
+.communityHeader {
+    background-color: white;
+    border-bottom: 1px solid lightgray;
+    padding-left: 30px;
+
+    .communitySectionTitle {
+        color: gray;
+        font-family: 'Fira Mono';
+        font-size: 12px;
+        display: inline-block;
+        margin-right: 15px;
+        cursor: pointer;
+
+        &:hover {
+            color: black;
+        }
+    }
+
+    .communityDescription {
+        padding-left: 0;
+        font-size: 16px;
+        padding: 0px;
+        font-family: IBM Plex Sans;
+        color: black;
+    }
+
+}
+
+.communityBody {
+    margin-left: 10px;
+    margin-right: 10px;
+    height: calc(100vh - 110px);
+
+    .discussionList {
+        padding: 0;
+        margin-left: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        >li {
+            font-family: IBM Plex Sans;
+            list-style-type: none;
+            padding-left: 0;
+        }
+    }
+
+    .discussionTitle {
+        font-size: 18px;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .discussionAuthor {
+        font-size: 12px;
+        color: #5d6b66;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+    }
+
+    .discussionLinks {
+        font-size: 12px;
+        color: #538f71;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .discussionListItem {
+        background-color: white;
+        border-bottom: 1px solid lightgray;
+        margin-top: 5px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: #e6ffec;
+        }
+    }
+
+
+
+    .box {
+        background-color: white;
+        border-radius: 5px;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        border: 1px solid lightgray;
+
+        .boxHeader {
+            color: black;
+            background-color: #e6ffec;
+            padding: 6px;
+            font-size: 12px;
+        }
+
+        .boxContent {
+            font-size: 16px;
+            padding: 8px;
+            font-family: IBM Plex Sans;
+            color: black;
+        }
+
+    }
+}
+
+
+.understatedLink {
+    color: inherit;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.communityList {
+    padding: 0;
+    border-top: 1px solid lightgray;
+    margin-bottom: 10px;
+
+    .communityListItem {
+        background-color: white;
+        border: 1px solid #dedede;
+        margin-top: 5px;
+        padding-top: 10px;
+        border-radius: 5px;
+        width: 600px;
+        font-size: 12px;
+
+        &:hover {
+            border: 1px solid gray;
+            cursor: pointer;
+        }
+    }
+
+    >li {
+        font-family: IBM Plex Sans;
+        list-style-type: none;
+        padding-left: 0;
+    }
+}
+
+
+
+.community {
+    margin: 0;
+    padding: 0;
+}
