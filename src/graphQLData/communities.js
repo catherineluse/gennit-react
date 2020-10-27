@@ -37,7 +37,8 @@ query getCommunityWithDiscussions($url: String!) {
     RelatedCommunities {
       url
     }
-    Discussion {
+    Discussions {
+      id
       title
       Author {
         username

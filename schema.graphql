@@ -35,10 +35,10 @@ type User {
  email:                    String!
  bio:                      String
  interests:                String
- Comment:                  [Comment!] @hasInverse(field: Author)
+ Comments:                 [Comment!] @hasInverse(field: Author)
  OrganizerOfCommunities:   [Community!] @hasInverse(field: Organizer)
  SubscriberOfCommunities:  [Community!] @hasInverse(field: Subscribers)
- Discussion:               [Discussion!] @hasInverse(field: Author)
+ Discussions:              [Discussion!] @hasInverse(field: Author)
  SentMessages:             [Message!] @hasInverse(field: Author)
  ReceivedMessages:         [Message!] @hasInverse(field: Recipient)
  Feeds:                    [Feed!] @hasInverse(field: Owner)
@@ -51,7 +51,7 @@ type Community {
  url:                      String!       @id @search(by: [hash])
  Organizer:                User          @hasInverse(field: OrganizerOfCommunities)
  Subscribers:              [User!]       @hasInverse(field: SubscriberOfCommunities)
- Discussion:               [Discussion!] @hasInverse(field: Community)
+ Discussions:               [Discussion!] @hasInverse(field: Community)
  RelatedCommunities:       [Community!]  @hasInverse(field: RelatedCommunities)
  Events:                   [Event]       @hasInverse(field: Community)
 }
@@ -60,19 +60,19 @@ type Discussion {
  id:           ID!
  Author:       User!
  body:         String
- Community:    Community!  @hasInverse(field: Discussion)
+ Community:    Community!  @hasInverse(field: Discussions)
  title:        String!
- Comment:      [Comment]   @hasInverse(field: Discussion)
+ Comments:     [Comment]   @hasInverse(field: Discussion)
 }
 
 type Comment {
  id:              ID!
- Author:          User!         @hasInverse(field: Comment)
- Discussion:      Discussion!   @hasInverse(field: Comment)
- ParentComment:   Comment       @hasInverse(field: ChildComment)
+ Author:          User!         @hasInverse(field: Comments)
+ Discussion:      Discussion!   @hasInverse(field: Comments)
+ ParentComment:   Comment       @hasInverse(field: ChildComments)
  text:            String
  isRootComment:   Boolean!      @search
- ChildComment:    [Comment]     @hasInverse(field: ParentComment)
+ ChildComments:   [Comment]     @hasInverse(field: ParentComment)
 }
 
 type Message {

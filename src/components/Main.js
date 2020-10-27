@@ -8,10 +8,10 @@ import Profile from './Profile';
 import UserProfile from './UserProfile';
 import UserList from './UserList';
 import { Switch } from 'react-router-dom';
-
+import Discussion from './Discussion';
 
 export const communityBodyContentTypes = {
-    DISCUSSIONS: "DISCUSSIONS",
+    DISCUSSION_LIST: "DISCUSSION_LIST",
     SETTINGS: "SETTINGS"
 }
 
@@ -33,7 +33,7 @@ const Main = ({ movedToTheRight, navItemsMovedToTheLeft }) => {
                 <Route
                     path={`/c/:url`}
                     render={(props) => (
-                        <Community {...props} communityBodyContent={communityBodyContentTypes.DISCUSSIONS} />
+                        <Community {...props} communityBodyContent={communityBodyContentTypes.DISCUSSION_LIST} />
                     )}
                     exact
                 />
@@ -44,6 +44,12 @@ const Main = ({ movedToTheRight, navItemsMovedToTheLeft }) => {
                     )}
                     exact
                 >
+                </Route>
+                <Route
+                    path={`/c/:url/discussion/:discussionId`}
+                    exact
+                >
+                    <Discussion />
                 </Route>
             </Switch>
         </div >

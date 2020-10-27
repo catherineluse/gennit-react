@@ -4,7 +4,7 @@
 @import "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap";
 
 h1 {
-    font-family: "Fira Mono", serif;
+    font-family: "IBM Plex Sans", sans-serif;
     padding-top: 20px;
     color: #1f4737;
     font-weight: bold;
@@ -13,6 +13,7 @@ h1 {
 
 h2 {
     font-family: "IBM Plex Sans", sans-serif;
+    color: #0d2629;
     font-size: 25px;
     margin-bottom: 0;
 }
@@ -82,19 +83,27 @@ a {
         padding-right: 10px;
         padding-top: 5px;
     }
-}
 
-.closeButtonInSideNav {
-    cursor: pointer;
+    .closeButtonInSideNav {
+        cursor: pointer;
+        float: right;
+        color: #6fdeb0;
+        font-size: 24px;
+        padding-right: 10px;
 
-    &:hover {
-        color: white;
+        &:hover {
+            color: white;
+        }
     }
+
+    .sideNavItems {
+        margin-top: 30px;
+    }
+
 }
 
-.sideNavItems {
-    margin-top: 30px;
-}
+
+
 
 .main {
     display: block;
@@ -236,7 +245,7 @@ a {
         padding-left: 0;
         font-size: 16px;
         padding: 0px;
-        font-family: IBM Plex Sans;
+        font-family: IBM Plex Sans, sans-serif;
         color: black;
     }
 
@@ -254,7 +263,7 @@ a {
         margin-bottom: 10px;
 
         >li {
-            font-family: IBM Plex Sans;
+            font-family: IBM Plex Sans, sans-serif;
             list-style-type: none;
             padding-left: 0;
         }
@@ -286,10 +295,12 @@ a {
 
     .discussionListItem {
         background-color: white;
+        border-left: 2px solid white;
+        border-bottom: 1px solid lightgray;
 
         &:hover {
             cursor: pointer;
-            border: 1px solid #6fdeb0;
+            border-left: 2px solid #6fdeb0;
         }
     }
 
@@ -313,7 +324,7 @@ a {
         .boxContent {
             font-size: 14px;
             padding: 8px;
-            font-family: IBM Plex Sans;
+            font-family: IBM Plex Sans, sans-serif;
             color: black;
         }
 
@@ -350,7 +361,7 @@ a {
     }
 
     >li {
-        font-family: IBM Plex Sans;
+        font-family: IBM Plex Sans, sans-serif;
         list-style-type: none;
         padding-left: 0;
     }
