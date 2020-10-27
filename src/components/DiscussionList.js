@@ -11,7 +11,7 @@ const renderDiscussions = (Discussions, url, history) => {
         return (
             <div
                 className="discussionListItem"
-                onClick={handleClick}
+                onClick={handleClick}/*This should not affect the Link below.*/
                 key={i}
             >
                 <div className="discussionTitle">{discussionData.title}</div>

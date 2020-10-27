@@ -1,7 +1,7 @@
 import React from 'react'
 
 const CommunitySettingsForm = () => {
-    return (<p>This is the community settings form.</p>)
+    return (<div className="container">This is the community settings form.</div>)
 }
 
 export default CommunitySettingsForm;

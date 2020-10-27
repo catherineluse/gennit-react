@@ -1,3 +1,5 @@
+import gql from 'graphql-tag';
+
 // create discussion
 // get all discussions in a community
 // update discussion (create revision history)
@@ -20,6 +22,12 @@ query getDiscussion($id: ID!) {
     }
     Community {
         url
+    }
+    Comments {
+        Author {
+            username
+        }
+        text
     }
   }
 }`;

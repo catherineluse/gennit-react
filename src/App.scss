@@ -222,24 +222,23 @@ a {
     font-size: 12px;
 }
 
+.communitySectionTitle {
+    color: gray;
+    font-family: 'Fira Mono';
+    font-size: 12px;
+    display: inline-block;
+    margin-right: 15px;
+    cursor: pointer;
+
+    &:hover {
+        color: black;
+    }
+}
 
 .communityHeader {
     background-color: white;
     border-bottom: 1px solid lightgray;
     padding-left: 30px;
-
-    .communitySectionTitle {
-        color: gray;
-        font-family: 'Fira Mono';
-        font-size: 12px;
-        display: inline-block;
-        margin-right: 15px;
-        cursor: pointer;
-
-        &:hover {
-            color: black;
-        }
-    }
 
     .communityDescription {
         padding-left: 0;
@@ -304,8 +303,6 @@ a {
         }
     }
 
-
-
     .box {
         background-color: white;
         border-radius: 5px;
@@ -331,6 +328,25 @@ a {
     }
 }
 
+.discussionPage {
+    .discussionBody {
+        font-size: 16px;
+        border: 1px solid #6fdeb0;
+        width: 600px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        padding-top: 7px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        background-color: #e9fcf4;
+    }
+
+    .discussionAuthor {
+        font-size: 14px;
+    }
+}
 
 .understatedLink {
     color: inherit;
@@ -372,4 +388,19 @@ a {
 .community {
     margin: 0;
     padding: 0;
+}
+
+.comment {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    font-weight: bold;
+
+    .commentText {
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        font-weight: normal;
+        margin-bottom: 10px;
+    }
 }
