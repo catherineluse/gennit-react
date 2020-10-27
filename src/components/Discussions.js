@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 const renderDiscussions = (Discussion) => {
 
+
     const discussions = Discussion.map((discussionData, i) => {
         return (
             <div className="discussionListItem" key={i}>

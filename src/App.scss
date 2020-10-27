@@ -261,14 +261,14 @@ a {
     }
 
     .discussionTitle {
-        font-size: 18px;
+        font-size: 16px;
         padding-top: 10px;
         padding-left: 10px;
         padding-right: 10px;
     }
 
     .discussionAuthor {
-        font-size: 12px;
+        font-size: 10px;
         color: #5d6b66;
         padding-left: 10px;
         padding-right: 10px;
@@ -276,7 +276,7 @@ a {
     }
 
     .discussionLinks {
-        font-size: 12px;
+        font-size: 10px;
         color: #538f71;
         padding-left: 10px;
         padding-right: 10px;
@@ -286,12 +286,10 @@ a {
 
     .discussionListItem {
         background-color: white;
-        border-bottom: 1px solid lightgray;
-        margin-top: 5px;
 
         &:hover {
             cursor: pointer;
-            background-color: #e6ffec;
+            border: 1px solid #6fdeb0;
         }
     }
 
@@ -309,11 +307,11 @@ a {
             color: black;
             background-color: #e6ffec;
             padding: 6px;
-            font-size: 12px;
+            font-size: 14px;
         }
 
         .boxContent {
-            font-size: 16px;
+            font-size: 14px;
             padding: 8px;
             font-family: IBM Plex Sans;
             color: black;

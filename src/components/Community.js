@@ -3,52 +3,40 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import { GennitContext } from "../AppWithContext";
 import { GET_COMMUNITY_WITH_DISCUSSIONS } from '../graphQLData/communities';
-import { Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import CommunitySettingsForm from './forms/CommunitySettingsForm'
 import Discussions from './Discussions'
+import UserProfile from './UserProfile'
+import CommunityHeader from './CommunityHeader'
+import { communityBodyContentTypes } from './Main';
 
-const renderCommunityWithDiscussions = (currentCommunity) => {
-    const { name, url, description, Organizer, Discussion
-    } = currentCommunity;
+const renderCommunity = (currentCommunity, communityBodyContent) => {
+    const { name, url } = currentCommunity;
 
-    return (
-        <div className="community">
-            <div className="communityHeader">
-                <h2>{name ? name : "Untitled Community"}</h2>
-                <span className="communityUrl">{`c/${url}`}</span>
-                <Link to={`/c/${url}`} >
-                    <span className="communitySectionTitle">
-                        <i className="far fa-comments"></i> DISCUSSIONS
-                  </span>
-                </Link>
-                <Link to={`/c/${url}/settings`}>
-                    <span className="communitySectionTitle">
-                        <i className="fas fa-cog"></i> SETTINGS
-                    </span>
-                </Link>
-            </div>
-            <div className="communityBody">
-                <Switch>
-                    <Route
-                        path='/c/:url'
-                        render={(props) => (
-                            <Discussions {...props} currentCommunity={currentCommunity} />
-                        )}
-                        exact
-                    />
-                    <Route
-                        path='/c/:url/settings'
-                        component={CommunitySettingsForm}
-                        exact
-                    />
-                </Switch>
-            </div>
-        </div>
-    )
+    if (!communityBodyContent) {
+        throw new Error("Could not find content.")
+    }
+
+    switch (communityBodyContent) {
+        case communityBodyContentTypes.DISCUSSIONS:
+            return (
+                <div>
+                    <CommunityHeader name={name} url={url} />
+                    <div className="communityBody">
+                        <Discussions currentCommunity={currentCommunity} />
+                    </div>
+                </div>
+            )
+        case communityBodyContentTypes.SETTINGS:
+            return (
+                <div>
+                    <CommunityHeader name={name} url={url} />
+                    <CommunitySettingsForm currentCommunity={currentCommunity} />
+                </div>
+            )
+    }
 }
-
-
-const Community = ({ match }) => {
+const Community = ({ match, communityBodyContent }) => {
     const { url } = match.params;
     const { state, dispatch } = useContext(GennitContext);
     const { loading: communityIsLoading, error, data } = useQuery(GET_COMMUNITY_WITH_DISCUSSIONS, {
@@ -92,7 +80,7 @@ const Community = ({ match }) => {
 
     return !state.currentCommunity ? null : (
         <div >
-            { renderCommunityWithDiscussions(state.currentCommunity)}
+            { renderCommunity(state.currentCommunity, communityBodyContent)}
         </div>
     );
 };
