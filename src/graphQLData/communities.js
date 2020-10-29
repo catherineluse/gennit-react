@@ -71,18 +71,31 @@ mutation deleteCommunity($url: String!) {
   }
 }`;
 export const UPDATE_COMMUNITY = gql`
-mutation updateCommunity($input: UpdateCommunityInput!) {
-  updateCommunity( input: $input) {
-    community {
-      url
-      name
-      description
-      Organizer {
-        username
+mutation updateCommunity($url: String!, $name: String, $description: String) {
+  updateCommunity(input: {
+    filter: {
+      url: {
+        eq: $url
       }
+    },
+    set: {
+      name: $name,
+      description: $description
     }
   }
-}`;
+  ) { 
+    data: 
+      community {
+        url
+        name
+        description
+        Organizer {
+          username
+        }
+      }
+    }
+}
+`;
 
 // Auth restrictions:
 // - Communities can only be updated by their organizer(s)

@@ -44,12 +44,9 @@ const CommunityList = () => {
                         </div>
                     </div>
                 </Link >
-
             )
         })
     };
-
-
 
     return !state.communities ? null : (
         <div className="container">

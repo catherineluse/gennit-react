@@ -1,22 +1,35 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { communityBodyContentTypes } from './Main';
 
-const CommunityHeader = ({ name, url }) => {
+const CommunityHeader = ({ name, url, activeSection }) => {
 
     return (
         <div className="communityHeader" >
-            <h2>{name ? name : "Untitled Community"}</h2>
-            <span className="communityUrl">{`c/${url}`}</span>
-            <Link to={`/c/${url}`} >
-                <span className="communitySectionTitle">
-                    <i className="far fa-comments"></i> DISCUSSIONS
+            <div className="communityNameBar">
+                <h2>{name ? name : "Untitled Community"}</h2>
+                <span className="communityUrl">{`c/${url}`}</span>
+            </div>
+            <div className="communitySectionBar">
+                <NavLink
+                    exact
+                    to={`/c/${url}`}
+                    activeClassName="active"
+                >
+                    <span className="communitySectionTitle">
+                        <i className="far fa-comments"></i> DISCUSSIONS
                   </span>
-            </Link>
-            <Link to={`/c/${url}/settings`}>
-                <span className="communitySectionTitle">
-                    <i className="fas fa-cog"></i> SETTINGS
+                </NavLink>
+                <NavLink
+                    exact
+                    to={`/c/${url}/settings`}
+                    activeClassName="active"
+                >
+                    <span className="communitySectionTitle">
+                        <i className="fas fa-cog"></i> SETTINGS
                     </span>
-            </Link>
+                </NavLink>
+            </div >
         </div >
     )
 }

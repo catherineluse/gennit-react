@@ -14,7 +14,7 @@ const renderCommunity = (currentCommunity, communityBodyContent) => {
         case communityBodyContentTypes.DISCUSSION_LIST:
             return (
                 <div>
-                    <CommunityHeader name={name} url={url} />
+                    <CommunityHeader name={name} url={url} activeSection={communityBodyContentTypes.DISCUSSION_LIST} />
                     <div className="communityBody">
                         <DiscussionList currentCommunity={currentCommunity} />
                     </div>
@@ -23,7 +23,7 @@ const renderCommunity = (currentCommunity, communityBodyContent) => {
         case communityBodyContentTypes.SETTINGS:
             return (
                 <div>
-                    <CommunityHeader name={name} url={url} />
+                    <CommunityHeader name={name} url={url} activeSection={communityBodyContentTypes.SETTINGS} />
                     <CommunitySettingsForm currentCommunity={currentCommunity} />
                 </div>
             )

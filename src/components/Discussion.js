@@ -6,7 +6,7 @@ import { GET_DISCUSSION } from '../graphQLData/discussions';
 
 const renderComments = (Comments) => {
     return Comments.map((commentData, i) => {
-        const { id, text } = commentData;
+        const { text } = commentData;
         const { username } = commentData.Author;
 
         return (
@@ -73,7 +73,6 @@ const Discussion = () => {
             setDiscussionData(data.getDiscussion)
             console.log('discussion is ', data.getDiscussion)
         }
-
     };
 
     useEffect(() => {
