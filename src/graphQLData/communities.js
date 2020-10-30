@@ -1,9 +1,15 @@
 import gql from 'graphql-tag';
 
-
 export const ADD_COMMUNITY = gql`
-mutation addCommunity($community: [AddCommunityInput!]!) {
-  addCommunity(input: $community) {
+mutation addCommunity($url: String!, $name: String!, $description: String, $organizer: String) {
+  addCommunity(input: [{
+    description: $description,
+    name: $name,
+    url: $url,
+    Organizer: {
+      username: $organizer
+    }
+  }]) {
     community {
       description
       name

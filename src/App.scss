@@ -2,7 +2,8 @@
 @import "https://fonts.googleapis.com/css?family=Fira+Mono:regular";
 @import "https://fonts.googleapis.com/css?family=Roboto:regular";
 @import "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap";
-
+@import "~bootstrap/scss/bootstrap";
+@import "custom";
 h1 {
     font-family: "IBM Plex Sans", sans-serif;
     padding-top: 20px;
@@ -31,12 +32,10 @@ p {
 a {
     color: black;
     font-size: inherit;
-
     &:hover {
         text-decoration: none;
         color: inherit;
     }
-
 }
 
 form {
@@ -81,7 +80,6 @@ div {
     padding: 0;
     display: inline-block;
     font-family: "Fira Mono";
-
     a {
         text-decoration: none;
         font-size: 12px;
@@ -92,42 +90,32 @@ div {
         padding-left: 20px;
         padding-right: 20px;
         width: 100%;
-
         &:hover {
             background-color: #1f4737;
         }
     }
-
     li {
         list-style-type: none;
     }
-
     Link {
         color: #6fdeb0;
         float: right;
         padding-right: 10px;
     }
-
     .closeButtonInSideNav {
         cursor: pointer;
         float: right;
         color: #6fdeb0;
         font-size: 24px;
         padding-right: 10px;
-
         &:hover {
             color: white;
         }
     }
-
     .sideNavItems {
         margin-top: 30px;
     }
-
 }
-
-
-
 
 .main {
     display: block;
@@ -150,7 +138,6 @@ div {
     width: 100%;
     border-bottom: 1px solid lightgray;
     margin-bottom: 0;
-
     a {
         float: left;
         display: block;
@@ -161,26 +148,21 @@ div {
         margin-top: 0;
         font-size: 14px;
         box-shadow: 5px;
-
         &:hover {
             background-color: #f0f0f0;
         }
     }
-
     li {
         display: inline;
     }
-
     .logo {
         margin-right: 7px;
         color: white;
     }
-
     .icon-background {
         color: #42bda0;
         display: block;
     }
-
     .site-logo {
         float: left;
         color: black;
@@ -192,7 +174,6 @@ div {
         margin-right: 0px;
         font-size: 10px;
     }
-
     .sitename {
         font-family: "Fira Mono";
         float: left;
@@ -205,7 +186,6 @@ div {
         margin-right: 10px;
         font-size: 18px;
     }
-
     .toggleSideNavButton {
         cursor: pointer;
         float: left;
@@ -218,13 +198,11 @@ div {
         text-decoration: none;
         margin-top: 0;
         font-size: 17px;
-
         &:hover {
             color: black;
         }
     }
 }
-
 
 .profile {
     padding: 15px;
@@ -241,30 +219,24 @@ div {
     font-size: 12px;
 }
 
-
-
 .communityHeader {
     background-color: white;
     padding-bottom: 0;
-
     .communityNameBar {
         padding-left: 30px;
         margin-bottom: 10px;
     }
-
     .communityDescription {
         font-size: 16px;
         padding: 0px;
         font-family: IBM Plex Sans, sans-serif;
         color: black;
     }
-
     .communitySectionBar {
         padding-left: 30px;
         display: inline-block;
         width: 100%;
         background-color: lightgray;
-
         a {
             float: left;
             display: block;
@@ -274,18 +246,13 @@ div {
             padding-left: 15px;
             padding-right: 15px;
             font-size: 14px;
-
-            &.active{
+            &.active {
                 background-color: #e6ffec;
             }
-
             &:hover {
                 background-color: #e6ffec;
             }
         }
-
-        
-
         .communitySectionTitle {
             color: black;
             font-family: 'Fira Mono';
@@ -298,26 +265,26 @@ div {
 .communityBody {
     margin-left: 10px;
     margin-right: 10px;
-
     .discussionList {
         padding: 0;
         margin-left: 10px;
         margin-bottom: 10px;
-
         >li {
             font-family: IBM Plex Sans, sans-serif;
             list-style-type: none;
             padding-left: 0;
         }
     }
-
     .discussionTitle {
         font-size: 16px;
         padding-top: 10px;
         padding-left: 10px;
         padding-right: 10px;
+        &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
     }
-
     .discussionAuthor {
         font-size: 10px;
         color: #5d6b66;
@@ -325,7 +292,6 @@ div {
         padding-right: 10px;
         padding-top: 5px;
     }
-
     .discussionLinks {
         font-size: 10px;
         color: #538f71;
@@ -334,18 +300,11 @@ div {
         padding-top: 5px;
         padding-bottom: 5px;
     }
-
     .discussionListItem {
         background-color: white;
         border-left: 2px solid white;
         border-bottom: 1px solid lightgray;
-
-        &:hover {
-            cursor: pointer;
-            border-left: 2px solid #6fdeb0;
-        }
     }
-
     .box {
         background-color: white;
         border-radius: 5px;
@@ -353,21 +312,18 @@ div {
         margin-top: 10px;
         margin-bottom: 5px;
         border: 1px solid lightgray;
-
         .boxHeader {
             color: black;
             background-color: #e6ffec;
             padding: 6px;
             font-size: 14px;
         }
-
         .boxContent {
             font-size: 14px;
             padding: 8px;
             font-family: IBM Plex Sans, sans-serif;
             color: black;
         }
-
     }
 }
 
@@ -385,7 +341,6 @@ div {
         padding-right: 10px;
         background-color: #e9fcf4;
     }
-
     .discussionAuthor {
         font-size: 14px;
     }
@@ -393,7 +348,6 @@ div {
 
 .understatedLink {
     color: inherit;
-
     &:hover {
         text-decoration: underline;
     }
@@ -403,8 +357,7 @@ div {
     padding: 0;
     border-top: 1px solid lightgray;
     margin-bottom: 10px;
-    margin-left: 20px;
-
+    margin-left: 15px;
     .communityListItem {
         background-color: white;
         border: 1px solid #dedede;
@@ -413,21 +366,17 @@ div {
         border-radius: 5px;
         width: 600px;
         font-size: 12px;
-
         &:hover {
             border: 1px solid gray;
             cursor: pointer;
         }
     }
-
     >li {
         font-family: IBM Plex Sans, sans-serif;
         list-style-type: none;
         padding-left: 0;
     }
 }
-
-
 
 .community {
     margin: 0;
@@ -439,7 +388,6 @@ div {
     padding: 0;
     font-size: 12px;
     font-weight: bold;
-
     .commentText {
         margin: 0;
         padding: 0;

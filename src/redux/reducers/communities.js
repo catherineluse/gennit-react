@@ -1,11 +1,9 @@
-
-
 const communities = (state = [], action) => {
     switch (action.type) {
         case "GET_COMMUNITIES":
             return action.payload;
         case "ADD_COMMUNITY":
-            const withAdded = [...state.communities, action.payload];
+            const withAdded = [...state, action.payload];
             return withAdded
         case "UPDATE_COMMUNITY":
             const updatedCommunity = { ...action.payload };

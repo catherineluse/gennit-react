@@ -6,7 +6,7 @@ import {
     GET_USERS,
     ADD_USER,
 } from '../graphQLData/users';
-import { useAuth0 } from '../react-auth0-spa';
+import { useAuth0 } from '../Auth0Provider';
 
 const useImperativeQuery = (query) => {
     const { refetch } = useQuery(query, { skip: true });
