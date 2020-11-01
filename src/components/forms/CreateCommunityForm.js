@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { Button, Modal } from 'react-bootstrap'
 import { ADD_COMMUNITY } from '../../graphQLData/communities'
-import { Redirect, useLocation } from 'react-router'
+import { Redirect } from 'react-router'
 import { useDispatch } from 'react-redux'
 
 // dispatch({
@@ -53,8 +53,8 @@ const CreateCommunityForm = () => {
         }
       })
     } catch (e) {
-      console.log('error is ', e)
       alert('add community returned', e)
+      alert(error)
     }
     // need to add dispatch to update communities
     // need to redirect to new community

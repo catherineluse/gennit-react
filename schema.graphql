@@ -34,7 +34,6 @@ type User {
  location:                 String
  email:                    String!
  bio:                      String
- interests:                String
  Comments:                 [Comment!] @hasInverse(field: Author)
  OrganizerOfCommunities:   [Community!] @hasInverse(field: Organizer)
  SubscriberOfCommunities:  [Community!] @hasInverse(field: Subscribers)
@@ -51,7 +50,7 @@ type Community {
  url:                      String!       @id @search(by: [hash])
  Organizer:                User          @hasInverse(field: OrganizerOfCommunities)
  Subscribers:              [User!]       @hasInverse(field: SubscriberOfCommunities)
- Discussions:               [Discussion!] @hasInverse(field: Community)
+ Discussions:              [Discussion!] @hasInverse(field: Community)
  RelatedCommunities:       [Community!]  @hasInverse(field: RelatedCommunities)
  Events:                   [Event]       @hasInverse(field: Community)
 }
@@ -60,7 +59,7 @@ type Discussion {
  id:           ID!
  Author:       User!
  body:         String
- Community:    Community!  @hasInverse(field: Discussions)
+ Community:    Community!   @hasInverse(field: Discussions)
  title:        String!
  Comments:     [Comment]   @hasInverse(field: Discussion)
 }
@@ -73,6 +72,7 @@ type Comment {
  text:            String
  isRootComment:   Boolean!      @search
  ChildComments:   [Comment]     @hasInverse(field: ParentComment)
+ Community:       Community!
 }
 
 type Message {

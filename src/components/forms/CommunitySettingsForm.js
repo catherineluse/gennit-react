@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useMutation, useQuery } from '@apollo/react-hooks'
-import {
-  UPDATE_COMMUNITY,
-  GET_COMMUNITY_WITH_DISCUSSIONS
-} from '../../graphQLData/communities'
+import { useMutation } from '@apollo/react-hooks'
+import { UPDATE_COMMUNITY } from '../../graphQLData/communities'
+import DeleteCommunityForm from './DeleteCommunityForm'
 
 const CommunitySettingsForm = ({ currentCommunity }) => {
   const { url } = currentCommunity
@@ -25,27 +23,28 @@ const CommunitySettingsForm = ({ currentCommunity }) => {
     e.preventDefault()
     try {
       await updateCommunity()
+
+      dispatch({
+        type: 'UPDATE_COMMUNITY',
+        payload: {
+          ...currentCommunity,
+          name,
+          description
+        }
+      })
+
+      dispatch({
+        type: 'SET_CURRENT_COMMUNITY',
+        payload: {
+          ...currentCommunity,
+          name,
+          description
+        }
+      })
     } catch (e) {
-      console.log('error is ', e)
+      alert('error is ', e)
+      alert(error)
     }
-
-    dispatch({
-      type: 'UPDATE_COMMUNITY',
-      payload: {
-        ...currentCommunity,
-        name,
-        description
-      }
-    })
-
-    dispatch({
-      type: 'SET_CURRENT_COMMUNITY',
-      payload: {
-        ...currentCommunity,
-        name,
-        description
-      }
-    })
 
     setUpdatedSuccessfully(true)
   }
@@ -81,7 +80,7 @@ const CommunitySettingsForm = ({ currentCommunity }) => {
 
   return (
     <div className='container'>
-      <form onSubmit={handleSubmit}>
+      <form>
         <h3 className='formTitle'>Edit Community Settings</h3>
 
         <div className='form-group'>
@@ -109,6 +108,8 @@ const CommunitySettingsForm = ({ currentCommunity }) => {
         </div>
         <span>{renderSubmitButton(updatedSuccessfully)}</span>
       </form>
+      <hr className='solid' />
+      <DeleteCommunityForm url={url} />
     </div>
   )
 }

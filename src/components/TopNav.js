@@ -15,7 +15,9 @@ const TopNav = () => {
     })
   }
 
-  return (
+  return loading ? (
+    <>'Loading...'</>
+  ) : (
     <div className='topnav'>
       <div className='toggleSideNavButton' onClick={toggleSideNav}>
         <i className='fas fa-bars'></i>

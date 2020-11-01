@@ -55,6 +55,12 @@ div {
     all: none;
 }
 
+hr {
+    .solid {
+        border-top: 1px solid gray
+    }
+}
+
 .container {
     margin-left: 20px;
 }
