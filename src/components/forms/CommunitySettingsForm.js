@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useMutation } from '@apollo/react-hooks'
 import { UPDATE_COMMUNITY } from '../../graphQLData/communities'
 import DeleteCommunityForm from './DeleteCommunityForm'
 
-const CommunitySettingsForm = ({ currentCommunity }) => {
+const CommunitySettingsForm = () => {
+  const currentCommunity = useSelector(state => state.currentCommunity)
   const { url } = currentCommunity
   const dispatch = useDispatch()
   const [name, setName] = useState(currentCommunity.name)

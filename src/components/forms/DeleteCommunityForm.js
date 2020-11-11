@@ -83,8 +83,8 @@ const DeleteCommunityForm = ({ url }) => {
       setCommentsToDelete(commentIdsForDeletion)
       await deleteComments()
     } catch (e) {
-      alert('Delete comments error:', e)
-      alert('Delete comment error', deleteCommentError)
+      console.log('Delete comments error:', e)
+      console.log('Delete comment error', deleteCommentError)
     }
 
     try {
@@ -93,8 +93,8 @@ const DeleteCommunityForm = ({ url }) => {
       setDiscussionsToDelete(discussionIdsForDeletion)
       await deleteDiscussions()
     } catch (e) {
-      alert('Delete discussion error', e)
-      alert('Delete discussion error:', deleteDiscussionError)
+      console.log('Delete discussion error', e)
+      console.log('Delete discussion error:', deleteDiscussionError)
     }
 
     try {
@@ -143,7 +143,7 @@ const DeleteCommunityForm = ({ url }) => {
             name='description'
             placeholder={url}
             className='form-control'
-            onChange={handleDeleteFieldChange}
+            onKeyUp={handleDeleteFieldChange}
           />
         </div>
         {error}

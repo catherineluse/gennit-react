@@ -32,7 +32,7 @@ const renderCommunity = (currentCommunity, communityBodyContent) => {
             url={url}
             activeSection={communityBodyContentTypes.SETTINGS}
           />
-          <CommunitySettingsForm currentCommunity={currentCommunity} />
+          <CommunitySettingsForm  />
         </div>
       )
     default:
