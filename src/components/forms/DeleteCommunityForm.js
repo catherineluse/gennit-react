@@ -84,7 +84,7 @@ const DeleteCommunityForm = ({ url }) => {
       await deleteComments()
     } catch (e) {
       alert('Delete comments error:', e)
-      alert('Delete comments error:', deleteCommentError)
+      alert('Delete comment error', deleteCommentError)
     }
 
     try {

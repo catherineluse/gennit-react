@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { GET_COMMUNITY_WITH_DISCUSSIONS } from '../graphQLData/communities'
 import CommunitySettingsForm from './forms/CommunitySettingsForm'
 import DiscussionList from './DiscussionList'
@@ -48,7 +48,7 @@ const renderCommunity = (currentCommunity, communityBodyContent) => {
 }
 const Community = ({ match, communityBodyContent }) => {
   const { url } = match.params
-  const [currentCommunity, setCurrentCommunity] = useState({})
+  const currentCommunity = useSelector(state => state.currentCommunity)
   const dispatch = useDispatch()
 
   const { loading: communityIsLoading, error, data } = useQuery(
@@ -68,7 +68,6 @@ const Community = ({ match, communityBodyContent }) => {
       throw new Error(`GET_COMMUNITY_WITH_DISCUSSIONS error: ${error}`)
     }
     if (data.getCommunity) {
-      setCurrentCommunity(data.getCommunity)
       dispatch({
         type: 'SET_CURRENT_COMMUNITY',
         payload: data.getCommunity
