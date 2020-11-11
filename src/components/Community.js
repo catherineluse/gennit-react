@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { useDispatch, useSelector } from 'react-redux'
 import { GET_COMMUNITY_WITH_DISCUSSIONS } from '../graphQLData/communities'
-import CommunitySettingsForm from './forms/CommunitySettingsForm'
+import CommunitySettingsForm from './forms/community/CommunitySettingsForm'
 import DiscussionList from './DiscussionList'
 import CommunityHeader from './CommunityHeader'
 import { communityBodyContentTypes } from './Main'
@@ -32,7 +32,7 @@ const renderCommunity = (currentCommunity, communityBodyContent) => {
             url={url}
             activeSection={communityBodyContentTypes.SETTINGS}
           />
-          <CommunitySettingsForm  />
+          <CommunitySettingsForm currentCommunity={currentCommunity}/>
         </div>
       )
     default:

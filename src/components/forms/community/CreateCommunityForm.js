@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { Button, Modal } from 'react-bootstrap'
-import { ADD_COMMUNITY } from '../../graphQLData/communities'
+import { ADD_COMMUNITY } from '../../../graphQLData/communities'
 import { Redirect } from 'react-router'
 import { useDispatch } from 'react-redux'
 
@@ -43,8 +43,6 @@ const CreateCommunityForm = () => {
       const { data } = await addCommunity()
       handleClose()
       setSubmitted(true)
-
-      console.log('data is ', data)
 
       dispatch({
         type: 'ADD_COMMUNITY',

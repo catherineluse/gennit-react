@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useQuery } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
 import { GET_COMMUNITIES } from '../graphQLData/communities'
-import CreateCommunityForm from './forms/CreateCommunityForm'
+import CreateCommunityForm from './forms/community/CreateCommunityForm'
 
 const CommunityList = () => {
   const communities = useSelector(state => state.communities)

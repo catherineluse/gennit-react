@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useMutation } from '@apollo/react-hooks'
-import { UPDATE_COMMUNITY } from '../../graphQLData/communities'
+import { UPDATE_COMMUNITY } from '../../../graphQLData/communities'
 import DeleteCommunityForm from './DeleteCommunityForm'
 
 const CommunitySettingsForm = () => {
@@ -25,23 +25,28 @@ const CommunitySettingsForm = () => {
     try {
       await updateCommunity()
 
+      let updateCommunityPayload = {
+        ...currentCommunity,
+        name,
+        description
+      }
+
       dispatch({
         type: 'UPDATE_COMMUNITY',
-        payload: {
-          ...currentCommunity,
-          name,
-          description
-        }
+        payload: updateCommunityPayload
       })
+
+      let setCurrentCommunityPayload = {
+        ...currentCommunity,
+        name,
+        description
+      }
 
       dispatch({
         type: 'SET_CURRENT_COMMUNITY',
-        payload: {
-          ...currentCommunity,
-          name,
-          description
-        }
+        payload: setCurrentCommunityPayload
       })
+      console.log('set current community payload is ', setCurrentCommunityPayload)
     } catch (e) {
       alert('error is ', e)
       alert(error)
@@ -50,6 +55,7 @@ const CommunitySettingsForm = () => {
     setUpdatedSuccessfully(true)
   }
 
+  
   const handleNameChange = e => {
     setName(e.target.value)
     setUpdatedSuccessfully(false)
@@ -89,7 +95,7 @@ const CommunitySettingsForm = () => {
           <input
             name='name'
             type='text'
-            placeholder={name}
+            value={name || ""}
             className='form-control'
             onChange={handleNameChange}
           />
@@ -102,7 +108,7 @@ const CommunitySettingsForm = () => {
             rows='3'
             type='description'
             name='description'
-            placeholder={description}
+            value={description || ""}
             className='form-control'
             onChange={handleDescriptionChange}
           />
