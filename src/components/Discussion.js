@@ -25,14 +25,18 @@ const renderDiscussionPage = ({ title, body, Author, Comments }, url) => {
   return (
     <div className='discussionPage'>
       <div className='communitySectionTitle'>DISCUSSION IN {`c/${url}`}</div>
-      <h2>{title}</h2>
-      <div className='discussionBody'>{body}</div>
-      <div className='discussionAuthor'>
-        Posted by{' '}
-        <Link to={`/u/${username ? username : '[deleted]'}`}>{`/u/${
-          username ? username : '[deleted'
-        }`}</Link>
+      
+      <div className='discussionBody'>
+        <h2>{title}</h2>
+        {body}
+        <div className='discussionAuthor'>
+          Posted by{' '}
+          <Link to={`/u/${username ? username : '[deleted]'}`}>{`/u/${
+            username ? username : '[deleted'
+          }`}</Link>
       </div>
+      </div>
+      
       <div className='communitySectionTitle'>COMMENTS</div>
       {renderComments(Comments)}
     </div>

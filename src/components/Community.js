@@ -20,7 +20,7 @@ const renderCommunity = (currentCommunity, communityBodyContent) => {
             activeSection={communityBodyContentTypes.DISCUSSION_LIST}
           />
           <div className='communityBody'>
-            <DiscussionList currentCommunity={currentCommunity} />
+            <DiscussionList />
           </div>
         </div>
       )

@@ -11,16 +11,16 @@ export const ADD_DISCUSSION = gql`
   mutation addDiscussion(
     $title: String!
     $body: String
-    $communityUrl: String!
-    $authorUsername: String!
+    $url: String!
+    $author: String!
   ) {
     addDiscussion(
       input: [
         {
           title: $title
           body: $body
-          Community: { url: $communityUrl }
-          Author: { username: $authorUsername }
+          Community: { url: $url }
+          Author: { username: $author }
         }
       ]
     ) {

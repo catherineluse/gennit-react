@@ -4,10 +4,7 @@ const initialState = {
 const currentDiscussion = (state = initialState, action) => {
     switch (action.type) {
         case "SET_CURRENT_DISCUSSION":
-            return {
-                ...state,
-                currentDiscussion: action.payload
-            };
+            return action.payload;
         default:
             return state
     }

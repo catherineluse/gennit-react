@@ -1,5 +1,7 @@
 import React from 'react'
+import CreateDiscussionForm from './forms/discussion/CreateDiscussionForm'
 import { Link, useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const renderDiscussions = (Discussions, url, history) => {
   const discussionList = Discussions.map((discussionData, i) => {
@@ -30,11 +32,12 @@ const renderDiscussions = (Discussions, url, history) => {
   return discussionList.length > 0 ? (
     <div className='discussionList'>{discussionList}</div>
   ) : (
-    'There are no discussions yet.'
+    <div className='discussionList'>There are no discussions yet.</div>
   )
 }
 
-const DiscussionList = ({ currentCommunity }) => {
+const DiscussionList = () => {
+  const currentCommunity = useSelector(state => state.currentCommunity)
   const { url, description, Organizer, Discussions } = currentCommunity
 
   const history = useHistory()
@@ -42,6 +45,7 @@ const DiscussionList = ({ currentCommunity }) => {
   return (
     <div className='row'>
       <div className='col-6'>
+        <CreateDiscussionForm/>
         {!Discussions ? null : renderDiscussions(Discussions, url, history)}
       </div>
       <div className='col-3'>

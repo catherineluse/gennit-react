@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useQuery } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
@@ -28,10 +28,7 @@ const CommunityList = () => {
     }
   }
 
-  useEffect(() => {
-    getCommunities()
-    // eslint-disable-next-line
-  }, [data])
+  getCommunities()
 
   const communityListItems = () => {
     return communities.map((communityData, i) => {
