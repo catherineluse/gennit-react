@@ -41,7 +41,7 @@ export const ADD_DISCUSSION = gql`
 
 // Update discussion
 export const UPDATE_DISCUSSION = gql`
-  mutation udpatedDiscussion($id: ID!, $title: String, $body: String) {
+  mutation updateDiscussion($id: ID!, $title: String, $body: String) {
     updateDiscussion(
       input: { filter: { id: [$id] }, set: { title: $title, body: $body } }
     ) {

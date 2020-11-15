@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/react-hooks'
 import { Button, Modal } from 'react-bootstrap'
 import { ADD_COMMUNITY } from '../../../graphQLData/communities'
 import { Redirect } from 'react-router'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 // dispatch({
 //     type: "SET_CURRENT_COMMUNITY",
@@ -36,26 +36,31 @@ const CreateCommunityForm = () => {
   })
 
   const dispatch = useDispatch()
-
+  const communities = useSelector(state => state.communities)
+  
   const handleSubmit = async e => {
     e.preventDefault()
     try {
       const { data } = await addCommunity()
-      handleClose()
-      setSubmitted(true)
+      
+      const newCommunity = {...data.addCommunity.community[0]}
 
-      dispatch({
+      await dispatch({
         type: 'ADD_COMMUNITY',
         payload: {
-          ...data.addCommunity.community[0]
+          ...newCommunity
         }
       })
+      console.log('was supposed to add ', newCommunity)
+      console.log('communities are ', communities)
+
+      handleClose()
+      setSubmitted(true)
+      
     } catch (e) {
       alert('add community returned', e)
       alert(error)
     }
-    // need to add dispatch to update communities
-    // need to redirect to new community
   }
 
   const handleNameChange = e => {

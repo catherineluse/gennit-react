@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useQuery } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
@@ -28,7 +28,10 @@ const CommunityList = () => {
     }
   }
 
-  getCommunities()
+  useEffect(() => {
+    getCommunities()
+    console.log('rendered list of communities')
+  }, [data, communities])
 
   const communityListItems = () => {
     return communities.map((communityData, i) => {

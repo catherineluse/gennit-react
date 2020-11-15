@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { GET_DISCUSSION } from '../graphQLData/discussions'
+import EditDiscussionForm from './forms/discussion/EditDiscussionForm'
+import DeleteDiscussionForm from './forms/discussion/DeleteDiscussionForm'
 
 const renderComments = Comments => {
   return Comments.map((commentData, i) => {
@@ -20,7 +23,8 @@ const renderComments = Comments => {
   })
 }
 
-const renderDiscussionPage = ({ title, body, Author, Comments }, url) => {
+const renderDiscussionPage = (discussionData, url) => {
+  const { title, body, Author, Comments } = discussionData;
   const { username } = Author
   return (
     <div className='discussionPage'>
@@ -34,7 +38,9 @@ const renderDiscussionPage = ({ title, body, Author, Comments }, url) => {
           <Link to={`/u/${username ? username : '[deleted]'}`}>{`/u/${
             username ? username : '[deleted'
           }`}</Link>
-      </div>
+        </div>
+        <EditDiscussionForm discussionData={discussionData} />
+        <DeleteDiscussionForm discussionData={discussionData}/>
       </div>
       
       <div className='communitySectionTitle'>COMMENTS</div>
@@ -45,6 +51,9 @@ const renderDiscussionPage = ({ title, body, Author, Comments }, url) => {
 
 const Discussion = () => {
   const { url, discussionId } = useParams()
+  const discussionData = useSelector(state => state.currentDiscussion)
+  // discussion data is: { currentDiscussion: {...}}
+  const { currentDiscussion } = discussionData;
 
   const { loading: discussionIsLoading, error, data } = useQuery(
     GET_DISCUSSION,
@@ -55,25 +64,9 @@ const Discussion = () => {
     }
   )
 
-  const [discussionData, setDiscussionData] = useState()
-
-  // getDiscussion(id: $id) {
-  //     title
-  //     body
-  //     Author {
-  //         username
-  //     }
-  //     Community {
-  //         url
-  //     }
-  //     Comments {
-  //         Author {
-  //             username
-  //         }
-  //         text
-  //     }
-  //   }
-
+  
+  const dispatch = useDispatch()
+  
   const getDiscussion = () => {
     if (discussionIsLoading) {
       return null
@@ -82,17 +75,22 @@ const Discussion = () => {
       alert(`GET_DISCUSSION error: ${error}`)
     }
     if (data.getDiscussion) {
-      setDiscussionData(data.getDiscussion)
+      dispatch({
+        type: 'SET_CURRENT_DISCUSSION',
+        payload: data.getDiscussion
+      })
+      console.log('data.getDiscussion', data.getDiscussion)
     }
   }
 
   useEffect(() => {
     getDiscussion()
     // eslint-disable-next-line
-  }, [data])
+  }, [discussionData])
+  console.log('discussiondata is ', discussionData)
 
-  return !discussionData ? null : (
-    <div className='container'>{renderDiscussionPage(discussionData, url)}</div>
+  return Object.keys(currentDiscussion).length === 0 ? <div>Loading...</div> : (
+    <div className='container'>{renderDiscussionPage(discussionData.currentDiscussion, url)}</div>
   )
 }
 
