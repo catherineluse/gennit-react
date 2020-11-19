@@ -35,7 +35,6 @@ const EditDiscussionForm = ({discussionData}) => {
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
-
   const [updateDiscussion, { error }] = useMutation(UPDATE_DISCUSSION, {
     variables: {
       id,
@@ -51,8 +50,8 @@ const EditDiscussionForm = ({discussionData}) => {
     try {
         console.log('data to submit is ', {
             id,
-            title,
-            body
+            titleField,
+            bodyField
           })
       const { data } = await updateDiscussion()
       

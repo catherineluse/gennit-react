@@ -40,7 +40,6 @@ const renderDiscussionPage = (discussionData, url) => {
           }`}</Link>
         </div>
         <EditDiscussionForm discussionData={discussionData} />
-        <DeleteDiscussionForm discussionData={discussionData}/>
       </div>
       
       <div className='communitySectionTitle'>COMMENTS</div>
@@ -52,8 +51,9 @@ const renderDiscussionPage = (discussionData, url) => {
 const Discussion = () => {
   const { url, discussionId } = useParams()
   const discussionData = useSelector(state => state.currentDiscussion)
-  // discussion data is: { currentDiscussion: {...}}
-  const { currentDiscussion } = discussionData;
+  // discussion data is in the format: { currentDiscussion: {...}}
+  const { currentDiscussion } = discussionData
+  const dispatch = useDispatch()
 
   const { loading: discussionIsLoading, error, data } = useQuery(
     GET_DISCUSSION,
@@ -63,9 +63,6 @@ const Discussion = () => {
       }
     }
   )
-
-  
-  const dispatch = useDispatch()
   
   const getDiscussion = () => {
     if (discussionIsLoading) {
@@ -79,7 +76,6 @@ const Discussion = () => {
         type: 'SET_CURRENT_DISCUSSION',
         payload: data.getDiscussion
       })
-      console.log('data.getDiscussion', data.getDiscussion)
     }
   }
 
@@ -87,7 +83,6 @@ const Discussion = () => {
     getDiscussion()
     // eslint-disable-next-line
   }, [discussionData])
-  console.log('discussiondata is ', discussionData)
 
   return Object.keys(currentDiscussion).length === 0 ? <div>Loading...</div> : (
     <div className='container'>{renderDiscussionPage(discussionData.currentDiscussion, url)}</div>
