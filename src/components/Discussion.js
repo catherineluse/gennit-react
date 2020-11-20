@@ -82,7 +82,7 @@ const Discussion = () => {
   useEffect(() => {
     getDiscussion()
     // eslint-disable-next-line
-  }, [discussionData])
+  }, [data])
 
   return Object.keys(currentDiscussion).length === 0 ? <div>Loading...</div> : (
     <div className='container'>{renderDiscussionPage(discussionData.currentDiscussion, url)}</div>
