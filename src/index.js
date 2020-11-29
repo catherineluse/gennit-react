@@ -1,11 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './App.scss'
 import { Auth0Provider } from './Auth0Provider'
 import config from './config.json'
 import history from './history'
-import { Provider } from 'react-redux'
-import store from './redux/store'
 
 /* A function that routes the user to the right place after login */
 const onRedirectCallback = appState => {
@@ -17,13 +14,11 @@ const onRedirectCallback = appState => {
 }
 
 ReactDOM.render(
-  <Provider store={store}>
     <Auth0Provider
       domain={config.domain}
       client_id={config.clientId}
       redirect_uri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
-    />
-  </Provider>,
-  document.getElementById('root')
+    />,
+    document.getElementById('root')
 )

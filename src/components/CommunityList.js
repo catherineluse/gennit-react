@@ -1,39 +1,28 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useQuery } from '@apollo/react-hooks'
+import React from 'react'
+import { useQuery } from '@apollo/client'
 import { Link } from 'react-router-dom'
 import { GET_COMMUNITIES } from '../graphQLData/communities'
 import CreateCommunityForm from './forms/community/CreateCommunityForm'
 
 const CommunityList = () => {
-  const communities = useSelector(state => state.communities)
-  const dispatch = useDispatch()
 
-  const { loading: communitiesAreLoading, error, data } = useQuery(
-    GET_COMMUNITIES
-  )
+  const { 
+    loading, 
+    error, 
+    data 
+  } = useQuery(GET_COMMUNITIES)
 
-  const getCommunities = () => {
-    if (communitiesAreLoading) {
-      return null
-    }
-    if (error) {
-      return `GET_COMMUNITIES error: ${error}`
-    }
-    if (data.queryCommunity) {
-      dispatch({
-        type: 'GET_COMMUNITIES',
-        payload: data.queryCommunity
-      })
-    }
+  if (loading) {
+    return <p>Loading...</p>
+  }
+  
+  if (error) {
+      return <p>{`GET_COMMUNITIES error: ${error}`}</p>
   }
 
-  useEffect(() => {
-    getCommunities()
-    console.log('rendered list of communities')
-  }, [data, communities])
-
   const communityListItems = () => {
+    const communities = data.queryCommunity;
+
     return communities.map((communityData, i) => {
       const { url, name, description } = communityData
 

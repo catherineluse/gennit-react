@@ -4,8 +4,12 @@ import { useAuth0 } from "../Auth0Provider";
 const Profile = () => {
   const { loading, user } = useAuth0();
 
-  if (loading || !user) {
+  if (loading) {
     return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return <div>User not found.</div>;
   }
 
   return (

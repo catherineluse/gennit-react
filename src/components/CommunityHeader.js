@@ -1,8 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const CommunityHeader = ({ name, url, activeSection }) => {
-
+const CommunityHeader = ({ name, url }) => {
     return (
         <div className="communityHeader" >
             <div className="communityNameBar">
@@ -28,8 +27,8 @@ const CommunityHeader = ({ name, url, activeSection }) => {
                         <i className="fas fa-cog"></i> SETTINGS
                     </span>
                 </NavLink>
-            </div >
-        </div >
+            </div>
+        </div>
     )
 }
 

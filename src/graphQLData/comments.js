@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 // Auth restrictions:
 // - Comments can only be deleted by their author
@@ -147,17 +147,52 @@ export const DELETE_COMMENTS = gql`
   }
 `
 
-// Get all discussion IDs in community
-// Gets IDs of discussions just so they can be
-// deleted when a community is deleted. This query
+// Get all comment IDs in community
+// Gets IDs of comments just so they can be
+// deleted when a community or discussion is deleted. This query
 // is needed because you can't cascade delete communities.
 export const GET_COMMENT_IDS_IN_COMMUNITY = gql`
-  query getCommentIdsInCommunity($url: String!) {
-    queryComment @cascade {
-      id
-      Community(filter: { url: { eq: $url } }) {
-        url
-      }
-    }
+  query queryCommentIds($url: String!) {
+      queryComment @cascade {
+          id
+          Community(filter: { url: { eq: $url } }) {
+            url
+          }
+        }
   }
 `
+
+// Get all comment IDs in discussion
+// so that the comments can be deleted 
+// when the discussion is deleted. This query
+// is needed because you can't cascade
+// delete discussions.
+export const GET_COMMENT_IDS_IN_DISCUSSION = gql`
+  query queryComment($discussionId: [ID!]) {
+      queryComment @cascade {
+          id
+          Discussion(
+            filter: { 
+              id: $discussionId
+            }
+          ) {
+            id
+          }
+       }
+  }
+`
+
+// this works in Insomnia:
+
+// query {
+//   queryComment @cascade {
+//       id
+//       Discussion(
+//         filter: {
+//           id: ["0x4"] 
+//       }) {
+//         id
+//       }
+//       text
+//     }
+// }

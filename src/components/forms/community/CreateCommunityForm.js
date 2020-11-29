@@ -1,27 +1,17 @@
 import React, { useState } from 'react'
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation, gql } from '@apollo/client'
 import { Button, Modal } from 'react-bootstrap'
 import { ADD_COMMUNITY } from '../../../graphQLData/communities'
 import { Redirect } from 'react-router'
-import { useDispatch, useSelector } from 'react-redux'
-
-// dispatch({
-//     type: "SET_CURRENT_COMMUNITY",
-//     payload: {
-//         ...currentCommunity,
-//         name,
-//         description
-//     }
-// })
 
 const CreateCommunityForm = () => {
   const [show, setShow] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [organizer, setOrganizer] = useState('')
-  const [url, setUrl] = useState('')
+  const [name, setName] = useState("")
+  const [description, setDescription] = useState("")
+  const [organizer, setOrganizer] = useState("")
+  const [url, setUrl] = useState("")
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -32,51 +22,45 @@ const CreateCommunityForm = () => {
       name,
       description,
       organizer
+    },
+    update(cache, { data: { addCommunity }}) {
+      cache.modify({
+        fields: {
+          communities(existingCommunities = [], { readField }) {
+            const newCommunityRef = cache.writeFragment({
+              data: addCommunity,
+              fragment: gql`
+                fragment NewCommunity on Community {
+                  url
+                  type
+                }
+              `
+            })
+
+            // Quick safety check - if the new community is already
+            // present in the cache, we don't need to add it again.
+            if (existingCommunities.some(
+              ref => readField('id', ref) === addCommunity.id
+            )) {
+              return existingCommunities;
+            }
+            return [...existingCommunities, newCommunityRef];
+          }
+        }
+      })
     }
   })
 
-  const dispatch = useDispatch()
-  const communities = useSelector(state => state.communities)
-  
   const handleSubmit = async e => {
     e.preventDefault()
-    try {
-      const { data } = await addCommunity()
-      
-      const newCommunity = {...data.addCommunity.community[0]}
-
-      await dispatch({
-        type: 'ADD_COMMUNITY',
-        payload: {
-          ...newCommunity
-        }
-      })
-      console.log('was supposed to add ', newCommunity)
-      console.log('communities are ', communities)
-
-      handleClose()
-      setSubmitted(true)
-      
-    } catch (e) {
-      alert('add community returned', e)
-      alert(error)
+    const { data } = await addCommunity()
+    
+    if (error) {
+      alert(error + "Could not add the community: " + JSON.stringify({...data.addCommunity.community[0]}))
     }
-  }
-
-  const handleNameChange = e => {
-    setName(e.target.value)
-  }
-
-  const handleDescriptionChange = e => {
-    setDescription(e.target.value)
-  }
-
-  const handleUrlChange = e => {
-    setUrl(e.target.value)
-  }
-
-  const handleOrganizerChange = e => {
-    setOrganizer(e.target.value)
+    
+    handleClose()
+    setSubmitted(true)
   }
 
   return submitted ? (
@@ -104,7 +88,7 @@ const CreateCommunityForm = () => {
                 name='url'
                 type='text'
                 className='form-control'
-                onChange={handleUrlChange}
+                onChange={e => setUrl(e.target.value)}
               />
             </div>
 
@@ -114,7 +98,7 @@ const CreateCommunityForm = () => {
                 name='name'
                 type='text'
                 className='form-control'
-                onChange={handleNameChange}
+                onChange={e => setName(e.target.value)}
               />
             </div>
 
@@ -125,7 +109,7 @@ const CreateCommunityForm = () => {
                 rows='3'
                 name='description'
                 className='form-control'
-                onChange={handleDescriptionChange}
+                onChange={e => setDescription(e.target.value)}
               />
             </div>
 
@@ -135,7 +119,7 @@ const CreateCommunityForm = () => {
                 name='organizer'
                 type='text'
                 className='form-control'
-                onChange={handleOrganizerChange}
+                onChange={e => setOrganizer(e.target.value)}
               />
             </div>
           </form>

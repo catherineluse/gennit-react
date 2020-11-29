@@ -1,29 +1,34 @@
 import React from 'react'
 import CreateDiscussionForm from './forms/discussion/CreateDiscussionForm'
 import { Link, useHistory } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 
 const renderDiscussions = (Discussions, url, history) => {
   const discussionList = Discussions.map((discussionData, i) => {
-    const { id } = discussionData
+    const { id, title, Author } = discussionData
+    const { username } = Author;
+
     const handleClick = () => history.push(`/c/${url}/discussion/${id}`)
 
     return (
       <div className='discussionListItem' key={i}>
         <div className='discussionTitle' onClick={handleClick}>
-          {discussionData.title}
+          {title}
         </div>
         <div className='discussionAuthor'>
           Posted by{' '}
           <Link
             className='understatedLink'
-            to={`/u/${discussionData.Author.username}`}
+            to={`/u/${username}`}
           >
-            {`u/${discussionData.Author.username}`}
+            {`u/${username}`}
           </Link>
         </div>
         <div className='discussionLinks'>
-          <i className='far fa-comment'></i> Comments
+          <button 
+            onClick={handleClick}
+          >
+            <i className='far fa-comment'></i> Comments
+          </button>
         </div>
       </div>
     )
@@ -32,47 +37,31 @@ const renderDiscussions = (Discussions, url, history) => {
   return discussionList.length > 0 ? (
     <div className='discussionList'>{discussionList}</div>
   ) : (
-    <div className='discussionList'>There are no discussions yet.</div>
+    <div className='discussionList'>
+     <p className='emptyNotice'>There are no discussions yet.</p>
+    </div>
   )
 }
 
-const DiscussionList = () => {
-  const currentCommunity = useSelector(state => state.currentCommunity)
-  const { url, description, Organizer, Discussions } = currentCommunity
+const DiscussionList = ({ 
+  url, 
+  communityData,
+  setNewDiscussionFormWasSubmitted,
+  setNewDiscussionId
+}) => {
+  const { Discussions } = communityData;
 
   const history = useHistory()
 
   return (
-    <div className='row'>
       <div className='col-6'>
-        <CreateDiscussionForm/>
+        <CreateDiscussionForm 
+          currentCommunity={communityData}
+          setNewDiscussionFormWasSubmitted={setNewDiscussionFormWasSubmitted}
+          setNewDiscussionId={setNewDiscussionId}
+        />
         {!Discussions ? null : renderDiscussions(Discussions, url, history)}
       </div>
-      <div className='col-3'>
-        <div className='box'>
-          <div className='boxHeader'>About Community</div>
-          <div className='boxContent'>
-            <p className='communityDescription'>
-              {description ? description : 'Welcome'}
-            </p>
-          </div>
-        </div>
-        <div className='box'>
-          <div className='boxHeader'>Moderators</div>
-          <div className='boxContent'>
-            <p className='communityInfo'>
-              {Organizer ? (
-                <Link
-                  to={`/u/${Organizer.username}`}
-                >{`u/${Organizer.username}`}</Link>
-              ) : (
-                'None'
-              )}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
   )
 }
 

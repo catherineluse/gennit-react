@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 // Auth restrictions:
 // - Discussion can only be updated by their author
@@ -43,7 +43,15 @@ export const ADD_DISCUSSION = gql`
 export const UPDATE_DISCUSSION = gql`
   mutation updateDiscussion($id: ID!, $title: String, $body: String) {
     updateDiscussion(
-      input: { filter: { id: [$id] }, set: { title: $title, body: $body } }
+      input: { 
+        filter: { 
+          id: [$id] 
+        },
+        set: { 
+          title: $title, 
+          body: $body 
+        } 
+      }
     ) {
       discussion {
         Author {
@@ -115,6 +123,21 @@ export const GET_DISCUSSIONS_IN_COMMUNITY = gql`
 export const DELETE_DISCUSSIONS = gql`
   mutation deleteDiscussion($id: [ID!]) {
     deleteDiscussion(filter: { id: $id }) {
+      discussion {
+        id
+        title
+        body
+        Author {
+          username
+        }
+      }
+    }
+  }
+`
+
+export const DELETE_DISCUSSION = gql`
+  mutation deleteDiscussion($id: ID!) {
+    deleteDiscussion(filter: { id: [$id] }) {
       discussion {
         id
         title

@@ -1,14 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { showSideNavVar } from '../cache';
 
 const SideNav = () => {
-  const dispatch = useDispatch()
 
   const toggleSideNav = () => {
-    dispatch({
-      type: 'TOGGLE_SIDE_NAV'
-    })
+    showSideNavVar(!showSideNavVar())
   }
 
   return (

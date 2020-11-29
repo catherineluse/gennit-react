@@ -1,57 +1,19 @@
-import React, { useEffect } from 'react'
-import { useQuery } from '@apollo/react-hooks'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useQuery } from '@apollo/client'
 import { GET_COMMUNITY_WITH_DISCUSSIONS } from '../graphQLData/communities'
 import CommunitySettingsForm from './forms/community/CommunitySettingsForm'
 import DiscussionList from './DiscussionList'
 import CommunityHeader from './CommunityHeader'
 import { communityBodyContentTypes } from './Main'
-
-const renderCommunity = (currentCommunity, communityBodyContent) => {
-  const { name, url } = currentCommunity
-
-  switch (communityBodyContent) {
-    case communityBodyContentTypes.DISCUSSION_LIST:
-      return (
-        <div>
-          <CommunityHeader
-            name={name}
-            url={url}
-            activeSection={communityBodyContentTypes.DISCUSSION_LIST}
-          />
-          <div className='communityBody'>
-            <DiscussionList />
-          </div>
-        </div>
-      )
-    case communityBodyContentTypes.SETTINGS:
-      return (
-        <div>
-          <CommunityHeader
-            name={name}
-            url={url}
-            activeSection={communityBodyContentTypes.SETTINGS}
-          />
-          <CommunitySettingsForm currentCommunity={currentCommunity}/>
-        </div>
-      )
-    default:
-      return (
-        <div>
-          <CommunityHeader name={name} url={url} />
-          <div className='communityBody'>
-            <DiscussionList currentCommunity={currentCommunity} />
-          </div>
-        </div>
-      )
-  }
-}
+import CommunitySidebar from './CommunitySidebar';
+import { Redirect } from 'react-router'
+  
 const Community = ({ match, communityBodyContent }) => {
   const { url } = match.params
-  const currentCommunity = useSelector(state => state.currentCommunity)
-  const dispatch = useDispatch()
+  const [newDiscussionFormWasSubmitted, setNewDiscussionFormWasSubmitted] = useState(false)
+  const [newDiscussionId, setNewDiscussionId] = useState(null)
 
-  const { loading: communityIsLoading, error, data } = useQuery(
+  const { loading, error, data } = useQuery(
     GET_COMMUNITY_WITH_DISCUSSIONS,
     {
       variables: {
@@ -60,28 +22,71 @@ const Community = ({ match, communityBodyContent }) => {
     }
   )
 
-  const getCommunity = () => {
-    if (communityIsLoading) {
-      return null
-    }
-    if (error) {
-      throw new Error(`GET_COMMUNITY_WITH_DISCUSSIONS error: ${error}`)
-    }
-    if (data.getCommunity) {
-      dispatch({
-        type: 'SET_CURRENT_COMMUNITY',
-        payload: data.getCommunity
-      })
+  if (loading){
+    return <p>Loading...</p>
+  }
+  
+  if (error) {
+   return <p>{`GET_COMMUNITY_WITH_DISCUSSIONS error: ${error}`}</p>
+  }
+
+  const currentCommunity = data.getCommunity;
+
+  const { name, description, Organizer } = currentCommunity;
+  const { username } = Organizer;
+
+  const renderBody = () => {
+    switch (communityBodyContent) {
+      case communityBodyContentTypes.DISCUSSION_LIST:
+        return (
+          <div className='row'>
+              <DiscussionList 
+                url={url} 
+                communityData={currentCommunity} 
+                setNewDiscussionFormWasSubmitted={setNewDiscussionFormWasSubmitted}
+                setNewDiscussionId={setNewDiscussionId}
+              />
+              <CommunitySidebar description={description} username={username}/>
+           </div>
+        )
+      case communityBodyContentTypes.SETTINGS:
+        return (
+              <CommunitySettingsForm 
+                url={url} 
+                currentCommunity={currentCommunity}
+              />
+        )
+      default:
+        return (
+          <div className='row'>
+              <DiscussionList 
+                url={url} 
+                communityData={currentCommunity} 
+                setNewDiscussionFormWasSubmitted={setNewDiscussionFormWasSubmitted}
+                setNewDiscussionId={setNewDiscussionId}
+              />
+              <CommunitySidebar description={description} username={username}/>
+          </div>
+        )
     }
   }
 
-  useEffect(() => {
-    getCommunity()
-    // eslint-disable-next-line
-  }, [data])
-
-  return !currentCommunity ? null : (
-    <div>{renderCommunity(currentCommunity, communityBodyContent)}</div>
+  return newDiscussionFormWasSubmitted && newDiscussionId ? (
+    <Redirect
+      push
+      to={{
+        pathname: `/c/${url}/discussion/${newDiscussionId}`
+      }}
+    />) : (
+      <div>
+        <CommunityHeader 
+          name={name} 
+          url={url}
+        />
+        <div className='communityBody'>
+          {renderBody()}
+        </div>
+      </div>
   )
 }
 

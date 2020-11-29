@@ -5,8 +5,12 @@ const UserProfile = ({ match }) => {
     const { username } = match.params;
     const { loading } = useAuth0();
 
-    if (loading || !username) {
+    if (loading) {
         return <div>Loading...</div>;
+    }
+
+    if (!username) {
+        return <div>Could not find user.</div>;
     }
 
     return (

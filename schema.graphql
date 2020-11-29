@@ -25,22 +25,21 @@
 #   tasks: [Task] @hasInverse(field: user)
 # }
 
-
 type User {
- username:                 String! @id @search(by: [hash])
- name:                     String @search(by: [exact])
+ username:                 String!      @id @search(by: [hash])
+ name:                     String       @search(by: [exact])
  age:                      Int
  pronouns:                 String
  location:                 String
  email:                    String!
  bio:                      String
- Comments:                 [Comment!] @hasInverse(field: Author)
- OrganizerOfCommunities:   [Community!] @hasInverse(field: Organizer)
- SubscriberOfCommunities:  [Community!] @hasInverse(field: Subscribers)
+ Comments:                 [Comment!]    @hasInverse(field: Author)
+ OrganizerOfCommunities:   [Community!]  @hasInverse(field: Organizer)
+ SubscriberOfCommunities:  [Community!]  @hasInverse(field: Subscribers)
  Discussions:              [Discussion!] @hasInverse(field: Author)
- SentMessages:             [Message!] @hasInverse(field: Author)
- ReceivedMessages:         [Message!] @hasInverse(field: Recipient)
- Feeds:                    [Feed!] @hasInverse(field: Owner)
+ SentMessages:             [Message!]    @hasInverse(field: Author)
+ ReceivedMessages:         [Message!]    @hasInverse(field: Recipient)
+ Feeds:                    [Feed!]       @hasInverse(field: Owner)
  DefaultFeed:              Feed
 }
 
@@ -61,7 +60,7 @@ type Discussion {
  body:         String
  Community:    Community!   @hasInverse(field: Discussions)
  title:        String!
- Comments:     [Comment]   @hasInverse(field: Discussion)
+ Comments:     [Comment]    @hasInverse(field: Discussion)
 }
 
 type Comment {
@@ -83,6 +82,7 @@ type Message {
 }
 
 type Event {
+  id: ID!
   title: String!
   description: String
   date: String!
@@ -94,6 +94,7 @@ type Event {
 }
 
 type Feed {
+  id: ID!
   Owner: User
   Communities: [Community!]
 }

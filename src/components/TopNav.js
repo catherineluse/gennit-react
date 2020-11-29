@@ -1,20 +1,16 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useAuth0 } from '../Auth0Provider'
+import { showSideNavVar } from '../cache'
 
 const TopNav = () => {
-  const showSideNav = useSelector(state => state.sideNav)
-  const dispatch = useDispatch()
+
   const { loading, logout } = useAuth0()
 
   const toggleSideNav = () => {
-    console.log('toggle side nav ran ')
-    dispatch({
-      type: 'TOGGLE_SIDE_NAV'
-    })
+    showSideNavVar(!showSideNavVar())
   }
-
+  
   return loading ? (
     <>'Loading...'</>
   ) : (
@@ -29,19 +25,25 @@ const TopNav = () => {
         </span>
       </div>
       <div className='sitename'>gennit</div>
-      <ul className={`${showSideNav ? 'movedToTheLeft' : ''}`} id='myTopnav'>
+      <ul className={`${showSideNavVar() ? 'movedToTheLeft' : ''}`} >
         <li>
           <Link to='/'>Home</Link>
         </li>
-        <li style={{ float: 'right' }}>
+        <li style={{ 
+          float: 'right' 
+        }}>
           <Link
             to='logout'
-            onClick={() => logout({ returnTo: global.window.location.href })}
+            onClick={() => logout({ 
+              returnTo: global.window.location.href 
+            })}
           >
             <i className='fas fa-sign-out-alt'></i> Log Out
           </Link>
         </li>
-        <li style={{ float: 'right' }}>
+        <li style={{ 
+          float: 'right' 
+        }}>
           <Link to='/profile'>
             <i className='fas fa-user-circle'></i> Profile
           </Link>

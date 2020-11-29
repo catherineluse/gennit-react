@@ -8,19 +8,25 @@ const PrivateRoute = ({ component: Component, path, ...rest }) => {
   useEffect(() => {
     if (loading || isAuthenticated) {
       return;
-    }
-    const fn = async () => {
-      await loginWithRedirect({
-        appState: { targetUrl: window.location.pathname },
-      });
-    };
-    fn();
+    } 
+
+    // If you aren't logged in, you get
+    // redirected to the Auth0 login page.
+    await loginWithRedirect({
+      appState: { targetUrl: window.location.pathname },
+    });
+
   }, [loading, isAuthenticated, loginWithRedirect, path]);
 
-  const render = (props) =>
-    isAuthenticated === true ? <Component {...props} /> : null;
 
-  return <Route path={path} render={render} {...rest} />;
+  return (
+    <Route 
+      path={path} 
+      render={(props) => {
+        isAuthenticated === true ? <Component {...props} /> : null
+      }} 
+      {...rest}
+    />);
 };
 
 export default PrivateRoute;

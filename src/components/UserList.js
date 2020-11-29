@@ -1,66 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import React from 'react';
+import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
-import {
-    GET_USER,
-    GET_USERS,
-    ADD_USER,
-} from '../graphQLData/users';
-import { useAuth0 } from '../Auth0Provider';
+import { GET_USERS } from '../graphQLData/users';
 
-const useImperativeQuery = (query) => {
-    const { refetch } = useQuery(query, { skip: true });
-    const imperativelyCallQuery = (variables) => {
-        return refetch(variables);
-    };
-    return imperativelyCallQuery;
-};
 const UserList = () => {
-
-    const [addUser] = useMutation(ADD_USER);
-    const getUserData = useImperativeQuery(GET_USER);
-
-    const { user } = useAuth0();
-
-    const createUser = () => {
-        if (user === undefined) {
-            return null;
-        }
-        const { data: getUser } = getUserData({
-            username: user.email,
-        });
-        if (getUser && getUser.getUser === null) {
-            const newUser = {
-                username: user.email,
-                name: user.nickname,
-            };
-            addUser({
-                variables: {
-                    user: newUser,
-                },
-            });
-        }
-    };
 
     const { loading, error, data } = useQuery(GET_USERS);
 
-    const getData = () => {
-        if (loading) {
-            return null;
-        }
-        if (error) {
-            console.error(`GET_USERS error: ${error}`);
-            return `Error: ${error.message}`;
-        }
-        if (data.queryUser) {
-            setShownUsers(data.queryUser);
-        }
-    };
+    if (loading) {
+        return <p>Loading...</p>;
+    }
 
-    const [shownUsers, setShownUsers] = useState([]);
+    if (error) {
+        return <p>{`GET_USERS error: ${error}`}</p>;
+    }
 
-    const userListItems = shownUsers.map((userData, i) => {
+    const userListItems = data.queryUser.map((userData, i) => {
         const { username, name } = userData
+
         return (
             <tr key={i}>
                 <td><Link to={`/u/${username}`}>{username}</Link></td>
@@ -69,9 +26,10 @@ const UserList = () => {
         )
     });
 
-    const main = !shownUsers.length ? null : (
-
-        <table className="table">
+    return (
+        <div className="container">
+          <h1>Users</h1>
+          <table className="table">
             <thead>
                 <tr>
                     <th scope="col">Username</th>
@@ -79,21 +37,9 @@ const UserList = () => {
                 </tr>
             </thead>
             <tbody>
-                {userListItems}
+              {userListItems}
             </tbody>
         </table>
-    );
-
-    useEffect(() => {
-
-        createUser();
-        getData();
-    }, [user, data]); // eslint-disable-line react-hooks/exhaustive-deps
-
-    return (
-        <div className="container">
-            <h1>Users</h1>
-            {main}
         </div>
     );
 };

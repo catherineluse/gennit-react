@@ -1,17 +1,7 @@
 import React, { useState } from 'react'
-import { useMutation } from '@apollo/react-hooks'
-import { useSelector } from 'react-redux'
+import { useMutation, gql } from '@apollo/client'
 import { Button, Modal } from 'react-bootstrap'
 import { ADD_DISCUSSION } from '../../../graphQLData/discussions'
-import { Redirect } from 'react-router'
-import { useDispatch } from 'react-redux'
-
-// dispatch({
-//     type: "SET_CURRENT_DISCUSSION",
-//     payload: {
-//         ...currentDiscussion
-//     }
-// })
 
 // type Discussion {
 //     id:           ID!
@@ -22,104 +12,75 @@ import { useDispatch } from 'react-redux'
 //     Comments:     [Comment]   @hasInverse(field: Discussion)
 //    }
 
-const CreateDiscussionForm = () => {
-  const currentCommunity = useSelector(state => state.currentCommunity)
+const CreateDiscussionForm = ({ 
+  currentCommunity,
+  setNewDiscussionFormWasSubmitted,
+  setNewDiscussionId
+}) => {
   const { url } = currentCommunity;
   const [show, setShow] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
-  const [newDiscussionId, setNewDiscussionId] = useState("")
 
-  const [author, setAuthor] = useState('')
-  const [body, setBody] = useState('')
-  const [title, setTitle] = useState('')
+  let [author, setAuthor] = useState("")
+  let [body, setBody] = useState("")
+  let [title, setTitle] = useState("")
 
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
-
-  const [addDiscussion, { error }] = useMutation(ADD_DISCUSSION, {
+  const [addDiscussion] = useMutation(ADD_DISCUSSION, {
     variables: {
       url,
       author,
       title,
       body
+    },
+    onCompleted({ addDiscussion }){
+      setNewDiscussionFormWasSubmitted(true)
+      setNewDiscussionId(addDiscussion.discussion[0].id)
+    },
+    update(cache, { data: { addDiscussion }}) {
+      cache.modify({
+        fields: {
+          discussions(existingDiscussionRefs = [], { readField }) {
+            const newDiscussionRef = cache.writeFragment({
+              data: addDiscussion,
+              fragment: gql`
+                fragment NewDiscussion on Discussion {
+                  id
+                  type
+                }
+              `
+            })
+
+            // Quick safety check - if the new community is already
+            // present in the cache, we don't need to add it again.
+            if (existingDiscussionRefs.some(
+              ref => readField('id', ref) === addDiscussion.id
+            )) {
+              return existingDiscussionRefs;
+            }
+
+            return [...existingDiscussionRefs, newDiscussionRef];
+          }
+        }
+      })
     }
   })
 
-  const dispatch = useDispatch()
-
   const handleSubmit = async e => {
     e.preventDefault()
-    try {
-        console.log('data to submit is ', {
-            url,
-            author,
-            title,
-            body
-          })
-      const { data } = await addDiscussion()
-      
-      const newDiscussion = data.addDiscussion.discussion[0]
-      console.log('new discussion is ', data)
-      setNewDiscussionId(newDiscussion.id)
-
-      dispatch({
-        type: 'ADD_DISCUSSION',
-        payload: {
-          ...newDiscussion
-        }
-      })
-
-      dispatch({
-        type: 'SET_CURRENT_DISCUSSION',
-        payload: {
-          ...newDiscussion
-        }
-      })
-
-      dispatch({
-          type: 'SET_CURRENT_COMMUNITY',
-          payload: {
-              ...currentCommunity,
-              Discussions: [newDiscussion, ...currentCommunity.Discussions]
-          }
-      })
-      handleClose()
-      setSubmitted(true)
-    } catch (e) {
-      console.log('Add discussion error: ', e) 
-      alert('The add discussion mutation returned: ', e)
-      alert(error)
-    }
-    // need to add dispatch to update communities
-    // need to redirect to new community
+    addDiscussion()
+    setShow(false)
   }
 
-  const handleTitleChange = e => {
-    setTitle(e.target.value)
-  }
-
-  const handleBodyChange = e => {
-    setBody(e.target.value)
-  }
-
-  const handleAuthorChange = e => {
-    setAuthor(e.target.value)
-  }
-
-  return submitted ? (
-    <Redirect
-      push
-      to={{
-        pathname: `/c/${url}/discussion/${newDiscussionId}`
-      }}
-    />
-  ) : (
+  return (
     <>
-      <Button className='discussionListButton' variant='primary' onClick={handleShow}>
+      <Button 
+        className='discussionListButton'
+        variant='primary' 
+        onClick={() => setShow(true)}
+      >
         + Start Discussion
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Start a Discussion</Modal.Title>
         </Modal.Header>
@@ -128,11 +89,11 @@ const CreateDiscussionForm = () => {
             <div className='form-group'>
               <label htmlFor='name'>Discussion Prompt</label>
               <input
-                name='url'
+                name='title'
                 type='text'
                 placeholder='Questions often start good discussions.'
                 className='form-control'
-                onChange={handleTitleChange}
+                onChange={e => setTitle(e.target.value)}
               />
             </div>
 
@@ -143,7 +104,7 @@ const CreateDiscussionForm = () => {
                 type='text'
                 placeholder='Optionally expand on what is in the prompt.'
                 className='form-control'
-                onChange={handleBodyChange}
+                onChange={e => setBody(e.target.value)}
               />
             </div>
 
@@ -153,18 +114,22 @@ const CreateDiscussionForm = () => {
                 name='organizer'
                 type='text'
                 className='form-control'
-                onChange={handleAuthorChange}
+                onChange={ e => setAuthor(e.target.value) }
               />
             </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='secondary' onClick={handleClose}>
+          <Button variant='secondary' onClick={ () => {setShow(false)} }>
             Close
           </Button>
-          <Button type='submit' variant='primary' onClick={handleSubmit}>
+          <button
+            type='button'
+            onClick={handleSubmit}
+            className='form-submit btn btn-dark'
+          >
             Submit
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
     </>

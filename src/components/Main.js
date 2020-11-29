@@ -1,15 +1,14 @@
 import React from 'react'
+import { Switch } from 'react-router-dom'
+import { Route } from 'react-router-dom'
+import { showSideNavVar } from '../cache';
 import TopNav from './TopNav'
 import CommunityList from './CommunityList'
 import Community from './Community'
-import PrivateRoute from './PrivateRoute'
-import { Route } from 'react-router-dom'
 import Profile from './Profile'
 import UserProfile from './UserProfile'
 import UserList from './UserList'
-import { Switch } from 'react-router-dom'
 import Discussion from './Discussion'
-import { useSelector } from 'react-redux'
 
 export const communityBodyContentTypes = {
   DISCUSSION_LIST: 'DISCUSSION_LIST',
@@ -17,16 +16,18 @@ export const communityBodyContentTypes = {
 }
 
 const Main = () => {
-  const showSideNav = useSelector(state => state.showSideNav)
+  const showSideNav = showSideNavVar();
+
   return (
     <div className={`main ${showSideNav ? 'movedToTheRight' : ''}`}>
       <TopNav />
+
       <Switch>
-        <PrivateRoute path='/' component={CommunityList} exact />
-        <PrivateRoute path='/communities' component={CommunityList} exact />
-        <PrivateRoute path='/users' component={UserList} exact />
-        <PrivateRoute path='/profile' component={Profile} exact />
-        <PrivateRoute path='/u/:username' component={UserProfile} exact />
+        <Route path='/' component={CommunityList} exact />
+        <Route path='/communities' component={CommunityList} exact />
+        <Route path='/users' component={UserList} exact />
+        <Route path='/profile' component={Profile} exact />
+        <Route path='/u/:username' component={UserProfile} exact />
         <Route
           path={`/c/:url`}
           render={props => (

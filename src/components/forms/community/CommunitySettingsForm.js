@@ -1,69 +1,38 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation } from '@apollo/client'
 import { UPDATE_COMMUNITY } from '../../../graphQLData/communities'
 import DeleteCommunityForm from './DeleteCommunityForm'
 
-const CommunitySettingsForm = () => {
-  const currentCommunity = useSelector(state => state.currentCommunity)
-  const { url } = currentCommunity
-  const dispatch = useDispatch()
-  const [name, setName] = useState(currentCommunity.name)
-  const [description, setDescription] = useState(currentCommunity.description)
-  const [updatedSuccessfully, setUpdatedSuccessfully] = useState(false)
+const CommunitySettingsForm = ({ url, currentCommunity }) => {
+  // The url is in the currentCommunity prop, but we
+  // prefer to use the one passed in as the first argument
+  // because it comes from the match params, therefore
+  // it loads faster.
+  
+  const { name, description } = currentCommunity;
+
+  const [updatedSuccessfully, setUpdatedSuccessfully] = useState(false);
+
+  let [nameField, setNameField] = useState(name)
+  let [descriptionField, setDescriptionField] = useState(description)
 
   const [updateCommunity, { error }] = useMutation(UPDATE_COMMUNITY, {
     variables: {
       url,
-      name,
-      description
+      name: nameField,
+      description: descriptionField
     }
   })
 
   const handleSubmit = async e => {
     e.preventDefault()
-    try {
-      await updateCommunity()
+    await updateCommunity()
 
-      let updateCommunityPayload = {
-        ...currentCommunity,
-        name,
-        description
-      }
-
-      dispatch({
-        type: 'UPDATE_COMMUNITY',
-        payload: updateCommunityPayload
-      })
-
-      let setCurrentCommunityPayload = {
-        ...currentCommunity,
-        name,
-        description
-      }
-
-      dispatch({
-        type: 'SET_CURRENT_COMMUNITY',
-        payload: setCurrentCommunityPayload
-      })
-      console.log('set current community payload is ', setCurrentCommunityPayload)
-    } catch (e) {
-      alert('error is ', e)
-      alert(error)
-    }
-
+    if (error){ 
+      alert("Could not update community.")
+    };
+    
     setUpdatedSuccessfully(true)
-  }
-
-  
-  const handleNameChange = e => {
-    setName(e.target.value)
-    setUpdatedSuccessfully(false)
-  }
-
-  const handleDescriptionChange = e => {
-    setDescription(e.target.value)
-    setUpdatedSuccessfully(false)
   }
 
   const renderSubmitButton = updatedSuccessfully => {
@@ -94,10 +63,8 @@ const CommunitySettingsForm = () => {
           <label htmlFor='name'>Community Name</label>
           <input
             name='name'
-            type='text'
-            value={name || ""}
             className='form-control'
-            onChange={handleNameChange}
+            onChange={e => setNameField(e.target.value)}
           />
         </div>
 
@@ -108,9 +75,8 @@ const CommunitySettingsForm = () => {
             rows='3'
             type='description'
             name='description'
-            value={description || ""}
             className='form-control'
-            onChange={handleDescriptionChange}
+            onChange={e => setDescriptionField(e.target.value)}
           />
         </div>
         <span>{renderSubmitButton(updatedSuccessfully)}</span>
