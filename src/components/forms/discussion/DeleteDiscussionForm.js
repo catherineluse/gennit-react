@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { useMutation, useQuery } from '@apollo/client'
 import { DELETE_DISCUSSION } from '../../../graphQLData/discussions'
 import {
   DELETE_COMMENTS,
   GET_COMMENT_IDS_IN_DISCUSSION
 } from '../../../graphQLData/comments'
-import { Redirect } from 'react-router'
+import { Button, Modal } from 'react-bootstrap'
 
-const DeleteDiscussionForm = () => {
-  const { url, discussionId } = useParams()
-  const [submitted, setSubmitted] = useState(false)
+const DeleteDiscussionForm = ({ discussionId, handleClose}) => {
   const [commentIds, setCommentIds] = useState([])
+
   const  { 
     loading: commentIdsAreLoading, 
     error: getCommentIdsError
@@ -40,6 +38,9 @@ const DeleteDiscussionForm = () => {
   if (getCommentIdsError) {
     throw new Error(`GET_COMMENT_IDS_IN_DISCUSSION error: ${getCommentIdsError}`)
   }
+  if (deleteCommentError) {
+    throw new Error(`Delete comment error: ${deleteCommentError}`)
+  }
   if (deleteDiscussionError) {
     throw new Error(`Delete discussion error: ${deleteDiscussionError}`)
   }
@@ -53,41 +54,29 @@ const DeleteDiscussionForm = () => {
       }
     })
 
-    if (deleteCommentError) {
-      throw new Error(deleteCommentError)
-    }
-
     await deleteDiscussion({
       variables: {
         id: discussionId
       }
     })
 
-    if (deleteDiscussionError){
-      throw new Error(deleteDiscussionError)
-    }
-
-    setSubmitted(true)
+    handleClose()
   }
 
-  return submitted ? (
-    <Redirect
-      push
-      to={{
-        pathname: `/c/${url}`
-      }}
-    />
-  ) : (
+  return (
     <>
-      <h3 className='formTitle'>Delete Discussion</h3>
       <form>
-        <button
-          type='button'
-          onClick={handleDelete}
-          className='form-submit btn btn-danger'
-        >
-          Submit
-        </button>
+      <Modal.Body>
+      Are you sure you want to delete this discussion and all of the comments?
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant='secondary' onClick={handleClose}>
+          Close
+        </Button>
+        <Button type='submit' variant='danger' onClick={handleDelete}>
+          Delete
+        </Button>
+      </Modal.Footer>
       </form>
     </>
   )

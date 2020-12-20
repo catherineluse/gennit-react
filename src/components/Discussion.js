@@ -14,6 +14,7 @@ import { GET_DISCUSSION } from '../graphQLData/discussions'
 import EditDiscussionForm from './forms/discussion/EditDiscussionForm'
 import DeleteDiscussionForm from './forms/discussion/DeleteDiscussionForm'
 import RootCommentForm from './forms/comment/RootCommentForm'
+import { Modal } from 'react-bootstrap'
 
 const renderComments = Comments => {
   return Comments.map((commentData, idx) => {
@@ -30,145 +31,48 @@ const renderComments = Comments => {
     )
   })
 }
-const EditDiscussionForm = ({
-  discussionData, 
-  showDiscussionForm, 
-  setShowDiscussionForm
-}) => {
-  const { id, title, body} = discussionData;
 
-  let titleField = title || "";
-  let bodyField = body || "";
-
-  const [updateDiscussion, { error }] = useMutation(UPDATE_DISCUSSION, {
-    variables: {
-      id,
-      title: titleField,
-      body: bodyField
-    }
-  })
-
-  const handleSubmit = async e => {
-    e.preventDefault()
-    await updateDiscussion()
-
-    if (error){
-      alert(error)
-    }
-    setShowDiscussionForm(false)
-  }
-
-  const required = value => (value ? undefined : 'Required')
-
-  return (
-    <>
-
-      <Modal show={showDiscussionForm} onHide={() => {
-        setShowDiscussionForm=(false)
-      }}>
+const EditDiscussionModal = ({ 
+  discussionData,
+  showEditDiscussionModal,
+  setShowEditDiscussionModal
+ }) => {
+  const handleClose = () => setShowEditDiscussionModal(false);
+    return (
+      <Modal 
+        show={showEditDiscussionModal} 
+        onHide={handleClose}
+      >
         <Modal.Header closeButton>
-          <Modal.Title>Edit this Discussion</Modal.Title>
+          <Modal.Title>Edit Discussion</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          
-
-        <Form
-          onSubmit={handleSubmit}
-          validate={values => {
-            const errors = {};
-            if (values.titleField && values.titleField.length < 2) {
-              errors.title = "Must have at least two characters.";
-            }
-            if (values.bodyField && values.bodyField.length < 2) {
-              errors.title = "Must have at least two characters.";
-            }
-            return errors;
-          }}
-          render={({ 
-            handleSubmit, 
-            form, 
-            submitting, 
-            pristine, 
-            values 
-          }) => (
-          <form onSubmit={handleSubmit}>
-            <FormGroup>
-              <Label for="titleField">Title</Label>
-                <Field 
-                name="titleField" 
-                validate={required}
-              >
-                {({ input, meta }) => (
-                  <div>
-                    <label>Title</label>
-                    <input 
-                      {...input}
-                      type="text"
-                      ref={node => {
-                        titleField = node;
-                      }}
-                      invalid={toString(meta.error && meta.touched)}
-                     />
-                    {meta.error && meta.touched && <span>{meta.error}</span>}
-                  </div>
-                )}
-              </Field>
-            </FormGroup>
-            <FormGroup>
-              <Label for="bodyField">Body</Label>
-              <Field 
-                name="bodyField" 
-                validate={required}
-              >
-                {({ input, meta }) => (
-                  <div>
-                    <label>Body</label>
-                    <input 
-                      {...input}
-                      type="text" 
-                      ref={node => {
-                        bodyField = node;
-                      }}
-                     />
-                    {meta.error && meta.touched && <span>{meta.error}</span>}
-                  </div>
-                )}
-              </Field>
-            </FormGroup>
-            
-            <div className="buttons">
-              <button type="submit" disabled={submitting}>
-                Submit
-              </button>
-              <button
-                type="button"
-                onClick={form.reset}
-                disabled={submitting || pristine}
-              >
-                Reset
-              </button>
-            </div>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
-          </form>
-        )}
-      />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={() => {
-            setShowDiscussionForm(false)
-          }}>
-            Close
-          </Button>
-          <Button 
-            type='submit' 
-            variant='primary' 
-            onClick={handleSubmit}
-           >
-            Submit
-          </Button>
-        </Modal.Footer>
+        <EditDiscussionForm 
+          currentDiscussion={discussionData}
+          handleClose={handleClose}
+        />
       </Modal>
-    </>
+    )
+}
+
+const DeleteDiscussionModal = ({ 
+  discussionId,
+  showDeleteDiscussionModal,
+  setShowDeleteDiscussionModal
+ }) => {
+  const handleClose = () => setShowDeleteDiscussionModal(false);
+  return (
+    <Modal 
+      show={showDeleteDiscussionModal} 
+      onHide={handleClose}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>Delete Discussion</Modal.Title>
+      </Modal.Header>
+      <DeleteDiscussionForm 
+        discussionId={discussionId}
+        handleClose={handleClose}
+      />
+    </Modal>
   )
 }
 
@@ -176,14 +80,14 @@ const EditDiscussionForm = ({
 const Discussion = () => {
   const { url, discussionId } = useParams()
   const [anchorEl, setAnchorEl] = useState(null);
-  const [showDiscussionForm, setShowDiscussionForm] = useState(false)
-  const [showDeleteDiscussionForm, setShowDeleteDiscussionForm] = useState(false)
+  const [showEditDiscussionModal, setShowEditDiscussionModal] = useState(false)
+  const [showDeleteDiscussionModal, setShowDeleteDiscussionModal] = useState(false)
 
-  const handleClick = (event) => {
+  const handleClickEllipsis = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleCloseEllipsisMenu = () => {
     setAnchorEl(null);
   };
 
@@ -229,7 +133,7 @@ const Discussion = () => {
       <div className='container'>
         <div className='discussionPage'>
 
-          <div className='communitySectionTitle'>DISCUSSION IN {`c/${url}`}</div>
+          <div className='communitySectionTitle'>Discussion in {`c/${url}`}</div>
 
           <div className='discussionBody'>
 
@@ -238,7 +142,7 @@ const Discussion = () => {
                   aria-label="edit-or-delete-button"
                   aria-controls="simple-menu" 
                   aria-haspopup="true" 
-                  onClick={handleClick}
+                  onClick={handleClickEllipsis}
                 >
                   <MoreVertIcon />
                 </IconButton>
@@ -249,24 +153,38 @@ const Discussion = () => {
               anchorEl={anchorEl}
               keepMounted
               open={Boolean(anchorEl)}
-              onClose={handleClose}
+              onClose={handleCloseEllipsisMenu}
             >
               <MenuItem onClick={() => {
-                handleClose()
-                setShowDiscussionForm(true)
+                handleCloseEllipsisMenu()
+                setShowEditDiscussionModal(true)
               }}>
                 <ListItemIcon>
                   <EditIcon fontSize="small" />
                 </ListItemIcon>
                 <Typography variant="inherit"><div>Edit</div></Typography>
               </MenuItem>
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={() => {
+                handleCloseEllipsisMenu()
+                setShowDeleteDiscussionModal(true)
+              }}>
                 <ListItemIcon>
                   <DeleteIcon/>
                 </ListItemIcon>
                 <Typography variant="inherit"><div>Delete</div></Typography>
               </MenuItem>
             </Menu>
+
+            <EditDiscussionModal
+              discussionData={discussionData}
+              showEditDiscussionModal={showEditDiscussionModal}
+              setShowEditDiscussionModal={setShowEditDiscussionModal}
+            />
+            <DeleteDiscussionModal
+              discussionData={discussionData}
+              showDeleteDiscussionModal={showDeleteDiscussionModal}
+              setShowDeleteDiscussionModal={setShowDeleteDiscussionModal}
+            />
             
             <h2 className='discussionPageTitle'>{title}</h2>
             
@@ -279,15 +197,9 @@ const Discussion = () => {
                 }`}
                 </Link>
             </div>
-            <EditDiscussionForm 
-              discussionData={discussionData}
-              showDiscussionForm={showDiscussionForm}
-              setShowDiscussionForm={setShowDiscussionForm}
-            />
-            <DeleteDiscussionForm discussionData={discussionData} />
           </div>
           
-          <div className='communitySectionTitle'>COMMENTS</div>
+          <div className='communitySectionTitle'>Comments</div>
           <RootCommentForm/>
           {renderComments(Comments)}
         </div>

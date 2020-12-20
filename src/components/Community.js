@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useQuery } from '@apollo/client'
 import { GET_COMMUNITY_WITH_DISCUSSIONS } from '../graphQLData/communities'
 import CommunitySettingsForm from './forms/community/CommunitySettingsForm'
@@ -6,13 +6,9 @@ import DiscussionList from './DiscussionList'
 import CommunityHeader from './CommunityHeader'
 import { communityBodyContentTypes } from './Main'
 import CommunitySidebar from './CommunitySidebar';
-import { Redirect } from 'react-router'
   
 const Community = ({ match, communityBodyContent }) => {
   const { url } = match.params
-  const [newDiscussionFormWasSubmitted, setNewDiscussionFormWasSubmitted] = useState(false)
-  const [newDiscussionId, setNewDiscussionId] = useState(null)
-
   const { loading, error, data } = useQuery(
     GET_COMMUNITY_WITH_DISCUSSIONS,
     {
@@ -35,19 +31,28 @@ const Community = ({ match, communityBodyContent }) => {
   const { name, description, Organizer } = currentCommunity;
   const { username } = Organizer;
 
+  const renderDiscussionPage = () => {
+    return (
+      <div className='row'>
+        <DiscussionList 
+          url={url} 
+          communityData={currentCommunity} 
+        />
+        <CommunitySidebar 
+          description={description} 
+          username={username}
+        />
+     </div>
+    )
+  }
+
   const renderBody = () => {
     switch (communityBodyContent) {
       case communityBodyContentTypes.DISCUSSION_LIST:
         return (
-          <div className='row'>
-              <DiscussionList 
-                url={url} 
-                communityData={currentCommunity} 
-                setNewDiscussionFormWasSubmitted={setNewDiscussionFormWasSubmitted}
-                setNewDiscussionId={setNewDiscussionId}
-              />
-              <CommunitySidebar description={description} username={username}/>
-           </div>
+          <>
+          {renderDiscussionPage()}
+          </>
         )
       case communityBodyContentTypes.SETTINGS:
         return (
@@ -58,26 +63,14 @@ const Community = ({ match, communityBodyContent }) => {
         )
       default:
         return (
-          <div className='row'>
-              <DiscussionList 
-                url={url} 
-                communityData={currentCommunity} 
-                setNewDiscussionFormWasSubmitted={setNewDiscussionFormWasSubmitted}
-                setNewDiscussionId={setNewDiscussionId}
-              />
-              <CommunitySidebar description={description} username={username}/>
-          </div>
+          <>
+          {renderDiscussionPage()}
+          </>
         )
     }
   }
 
-  return newDiscussionFormWasSubmitted && newDiscussionId ? (
-    <Redirect
-      push
-      to={{
-        pathname: `/c/${url}/discussion/${newDiscussionId}`
-      }}
-    />) : (
+  return  (
       <div>
         <CommunityHeader 
           name={name} 

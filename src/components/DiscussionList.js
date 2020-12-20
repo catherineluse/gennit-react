@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import CreateDiscussionForm from './forms/discussion/CreateDiscussionForm'
 import { Link, useHistory } from 'react-router-dom'
+import { Redirect } from 'react-router'
 
 const renderDiscussions = (Discussions, url, history) => {
   const discussionList = Discussions.map((discussionData, i) => {
@@ -45,15 +46,22 @@ const renderDiscussions = (Discussions, url, history) => {
 
 const DiscussionList = ({ 
   url, 
-  communityData,
-  setNewDiscussionFormWasSubmitted,
-  setNewDiscussionId
+  communityData
 }) => {
   const { Discussions } = communityData;
+  const [newDiscussionFormWasSubmitted, setNewDiscussionFormWasSubmitted] = useState(false)
+  const [newDiscussionId, setNewDiscussionId] = useState(false)
 
   const history = useHistory()
 
-  return (
+  return newDiscussionFormWasSubmitted ? (
+    <Redirect
+      push
+      to={{
+        pathname: `/c/${url}/discussion/${newDiscussionId}`
+      }}
+    />
+  ) : (
       <div className='col-6'>
         <CreateDiscussionForm 
           currentCommunity={communityData}
