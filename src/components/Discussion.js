@@ -19,6 +19,14 @@ import { Redirect } from 'react-router'
 import { useHistory } from "react-router-dom";
 
 const renderComments = Comments => {
+
+  if (Comments.length === 0) {
+    return (
+      <p>
+      There are no comments yet.
+      </p>
+    )
+  }
   return Comments.map((commentData, idx) => {
     const { text } = commentData
     const { username } = commentData.Author
@@ -91,6 +99,7 @@ const Discussion = () => {
   const [showEditDiscussionModal, setShowEditDiscussionModal] = useState(false)
   const [showDeleteDiscussionModal, setShowDeleteDiscussionModal] = useState(false)
   const [discussionWasDeleted, setDiscussionWasDeleted] = useState(false)
+
   let history = useHistory();
   const handleClickEllipsis = (event) => {
     setAnchorEl(event.currentTarget);
@@ -110,7 +119,7 @@ const Discussion = () => {
   )
   
   if (discussionIsLoading) {
-    return <div>Loading...</div> 
+    return <p>Loading...</p> 
   }
 
   if (error) {
@@ -138,7 +147,6 @@ const Discussion = () => {
     const discussionData = data.getDiscussion;
     const { title, body, Author, Comments } = discussionData;
     const { username } = Author;
-   
 
     return discussionWasDeleted ? (
       <Redirect
@@ -228,9 +236,14 @@ const Discussion = () => {
                 </Link>
             </div>
           </div>
+
+          <RootCommentForm
+            discussionId={discussionId}
+            communityUrl={url}
+          />
           
           <div className='discussionPageTitle'>Comments</div>
-          <RootCommentForm/>
+          <hr/>
           {renderComments(Comments)}
         </div>
     </div>)

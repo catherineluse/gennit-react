@@ -19,7 +19,6 @@ const CreateDiscussionForm = ({
   const { url } = currentCommunity;
   const [show, setShow] = useState(false)
 
-  let [author, setAuthor] = useState("")
   let [body, setBody] = useState("")
   let [title, setTitle] = useState("")
   let [newDiscussionId, setNewDiscussionId] = useState("")
@@ -28,7 +27,7 @@ const CreateDiscussionForm = ({
   const [addDiscussion] = useMutation(ADD_DISCUSSION, {
     variables: {
       url,
-      author,
+      author: "alice",
       title,
       body
     },
@@ -100,7 +99,6 @@ const CreateDiscussionForm = ({
               <input
                 name='title'
                 type='text'
-                placeholder='Questions often start good discussions.'
                 className='form-control'
                 onChange={e => setTitle(e.target.value)}
               />
@@ -111,19 +109,8 @@ const CreateDiscussionForm = ({
               <input
                 name='name'
                 type='text'
-                placeholder='Optionally expand on what is in the prompt.'
                 className='form-control'
                 onChange={e => setBody(e.target.value)}
-              />
-            </div>
-
-            <div className='form-group'>
-              <label htmlFor='name'>Author</label>
-              <input
-                name='organizer'
-                type='text'
-                className='form-control'
-                onChange={ e => setAuthor(e.target.value) }
               />
             </div>
           </form>
@@ -133,9 +120,9 @@ const CreateDiscussionForm = ({
             Close
           </Button>
           <button
-            type='button'
+            className="btn btn-primary"
+            type="submit"
             onClick={handleSubmit}
-            className='form-submit btn btn-dark'
           >
             Submit
           </button>

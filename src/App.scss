@@ -58,6 +58,10 @@ hr {
     }
 }
 
+p {
+    font-size: 16px;
+}
+
 *:focus {
     outline: none;
 }
@@ -128,7 +132,7 @@ hr {
 .mainContent {
     display: inline-block;
     font-size: 28px;
-    width: 100%;
+    width: 640px;
     margin-left: 160px;
     margin-top: 40px;
 }
@@ -317,6 +321,7 @@ hr {
         padding-bottom: 5px;
     }
     .discussionListItem {
+        padding-bottom: 8px;
         background-color: white;
         border-left: 2px solid white;
         border-bottom: 1px solid lightgray;
@@ -369,6 +374,9 @@ hr {
         padding-left: 10px;
         padding-right: 10px;
         background-color: #e9fcf4;
+        h2 {
+            margin-top: 0;
+        }
     }
     .discussionAuthor {
         font-size: 14px;
@@ -380,6 +388,7 @@ hr {
 
 .understatedLink {
     color: inherit;
+    margin-right: 5px;
     &:hover {
         text-decoration: underline;
     }
@@ -415,16 +424,32 @@ hr {
     padding: 0;
 }
 
+.rootCommentSubmit {
+    margin-top: 0px;
+}
+
 .comment {
-    margin: 0;
     padding: 0;
     font-size: 12px;
     font-weight: bold;
+    border-left: 1px solid #6fdeb0;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    padding-left: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    .commentAuthor {
+        margin-top: 5px;
+    }
     .commentText {
         margin: 0;
         padding: 0;
         font-size: 14px;
         font-weight: normal;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
+    }
+    &:hover {
+        border: 1px solid #6fdeb0;
+        cursor: pointer;
     }
 }

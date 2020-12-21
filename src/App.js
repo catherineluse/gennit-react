@@ -42,7 +42,7 @@ const App = ({ idToken }) => {
   const { loading } = useAuth0()
 
   if (loading) {
-    return <div>Loading...</div>
+    return <p>Loading...</p>
   }
 
   const client = createApolloClient(idToken)

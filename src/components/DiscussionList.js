@@ -21,16 +21,16 @@ const renderDiscussions = (Discussions, url, history) => {
             className='understatedLink'
             to={`/u/${username}`}
           >
-            {`u/${username}`}
+            {`u/${username}`} |
           </Link>
-        </div>
-        <div className='discussionLinks'>
-          <button 
-            onClick={handleClick}
+          <Link
+            className='understatedLink'
+            to={`/c/${url}/discussion/${id}`}
           >
             <i className='far fa-comment'></i> Comments
-          </button>
+          </Link>
         </div>
+        
       </div>
     )
   })

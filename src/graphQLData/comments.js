@@ -166,7 +166,7 @@ export const GET_COMMENT_IDS_IN_COMMUNITY = gql`
 // so that the comments can be deleted 
 // when the discussion is deleted. This query
 // is needed because you can't cascade
-// delete discussions.
+// delete.
 export const GET_COMMENT_IDS_IN_DISCUSSION = gql`
   query queryComment($discussionId: [ID!]) {
       queryComment @cascade {

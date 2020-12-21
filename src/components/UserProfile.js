@@ -6,11 +6,11 @@ const UserProfile = ({ match }) => {
     const { loading } = useAuth0();
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <p>Loading...</p>;
     }
 
     if (!username) {
-        return <div>Could not find user.</div>;
+        return <p>Could not find user.</p>;
     }
 
     return (

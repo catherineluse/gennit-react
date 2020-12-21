@@ -5,11 +5,11 @@ const Profile = () => {
   const { loading, user } = useAuth0();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <p>Loading...</p>;
   }
 
   if (!user) {
-    return <div>User not found.</div>;
+    return <p>User not found.</p>;
   }
 
   return (
