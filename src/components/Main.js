@@ -2,7 +2,6 @@ import React from 'react'
 import { Switch } from 'react-router-dom'
 import { Route } from 'react-router-dom'
 import { showSideNavVar } from '../cache';
-import TopNav from './TopNav'
 import CommunityList from './CommunityList'
 import Community from './Community'
 import Profile from './Profile'
@@ -19,8 +18,7 @@ const Main = () => {
   const showSideNav = showSideNavVar();
 
   return (
-    <div className={`main ${showSideNav ? 'movedToTheRight' : ''}`}>
-      <TopNav />
+    <div className={`mainContent ${showSideNav ? 'movedToTheRight' : ''}`}>
 
       <Switch>
         <Route path='/' component={CommunityList} exact />

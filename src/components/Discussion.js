@@ -16,6 +16,7 @@ import DeleteDiscussionForm from './forms/discussion/DeleteDiscussionForm'
 import RootCommentForm from './forms/comment/RootCommentForm'
 import { Modal } from 'react-bootstrap'
 import { Redirect } from 'react-router'
+import { useHistory } from "react-router-dom";
 
 const renderComments = Comments => {
   return Comments.map((commentData, idx) => {
@@ -90,7 +91,7 @@ const Discussion = () => {
   const [showEditDiscussionModal, setShowEditDiscussionModal] = useState(false)
   const [showDeleteDiscussionModal, setShowDeleteDiscussionModal] = useState(false)
   const [discussionWasDeleted, setDiscussionWasDeleted] = useState(false)
-
+  let history = useHistory();
   const handleClickEllipsis = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -132,10 +133,12 @@ const Discussion = () => {
     </div>)
   }
   
+  
   if (data.getDiscussion) {
     const discussionData = data.getDiscussion;
     const { title, body, Author, Comments } = discussionData;
     const { username } = Author;
+   
 
     return discussionWasDeleted ? (
       <Redirect
@@ -148,7 +151,16 @@ const Discussion = () => {
       <div className='container'>
         <div className='discussionPage'>
 
-          <div className='communitySectionTitle'>Discussion in {`c/${url}`}</div>
+          <div className='discussionPageTitle'>
+            <span className="backButton"
+              onClick={() => history.goBack()}
+            >
+              <i className="fas fa-arrow-left"></i> Back
+            </span> | Discussion in <Link
+              className='understatedLink'
+              to={`/c/${url}`}
+            >{`c/${url}`}</Link>{}
+          </div>
 
           <div className='discussionBody'>
 
@@ -204,7 +216,7 @@ const Discussion = () => {
               setDiscussionWasDeleted={setDiscussionWasDeleted}
             />
             
-            <h2 className='discussionPageTitle'>{title}</h2>
+            <h2>{title}</h2>
             
             {body}
             
@@ -217,7 +229,7 @@ const Discussion = () => {
             </div>
           </div>
           
-          <div className='communitySectionTitle'>Comments</div>
+          <div className='discussionPageTitle'>Comments</div>
           <RootCommentForm/>
           {renderComments(Comments)}
         </div>

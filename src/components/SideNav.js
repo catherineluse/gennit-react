@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { showSideNavVar } from '../cache';
 
 const SideNav = () => {
@@ -10,20 +10,30 @@ const SideNav = () => {
 
   return (
     <div className='sidenav'>
-      <span className='closeButtonInSideNav' onClick={toggleSideNav}>
+      <span 
+        className='closeButtonInSideNav' 
+        onClick={toggleSideNav}>
         &times;
       </span>
       <div className='sideNavItems'>
-        <Link to='/communities' className='sideNavItem'>
-          <li>
-            <i className='fas fa-users'></i> Communities
-          </li>
-        </Link>
-        <Link to='/users'>
-          <li className='sideNavItem'>
-            <i className='fas fa-id-card'></i> Users
-          </li>
-        </Link>
+      <NavLink
+          exact={true}
+          to={'/communities'}
+          activeClassName="active"
+      >
+         <li className="sideNavItem">
+          <i className='fas fa-users'></i> Communities
+        </li>
+      </NavLink>
+      <NavLink
+          exact={true}
+          to={'/users'}
+          activeClassName="active"
+      >
+         <li className='sideNavItem'>
+         <i className='fas fa-id-card'></i> Users
+        </li>
+      </NavLink>
       </div>
     </div>
   )

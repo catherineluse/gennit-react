@@ -12,6 +12,7 @@ import Main from './components/Main'
 import { cache } from './cache';
 import './App.scss'
 import { showSideNavVar } from './cache';
+import TopNav from './components/TopNav'
 
 const typeDefs = gql`
   extend type Query {
@@ -52,11 +53,13 @@ const App = ({ idToken }) => {
         <div>
           {showSideNavVar ? (
             <div>
+              <TopNav />
               <SideNav />
               <Main />
             </div>
           ) : (
             <div>
+              <TopNav />
               <Main />
             </div>
           )}

@@ -8,7 +8,6 @@ const EditDiscussionForm = ({
     currentDiscussion, 
     handleClose 
 }) => {
-    console.log('current discussion, ', currentDiscussion)
     const { title, body } = currentDiscussion;
   
     let [titleField, setTitleField] = useState(title)

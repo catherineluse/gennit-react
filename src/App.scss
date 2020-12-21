@@ -13,6 +13,7 @@ h2 {
     color: #0d2629;
     font-size: 20px;
     margin-bottom: 5px;
+    margin-top: 10px;
 }
 
 h3 {
@@ -79,17 +80,18 @@ hr {
     width: 160px;
     position: fixed;
     z-index: 1;
-    top: 0;
+    top: 43px;
+    bottom: 0;
     left: 0;
-    background-color: #0d2629;
-    overflow-x: hidden;
+    background-color: #f7f7f7;
     padding: 0;
     display: inline-block;
-    font-family: "Fira Mono";
+    font-family: IBM Plex Sans, sans-serif;
+    overflow: scroll;
     a {
         text-decoration: none;
         font-size: 12px;
-        color: #6fdeb0;
+        color: gray;
         display: inline-block;
         padding-top: 10px;
         padding-bottom: 10px;
@@ -97,7 +99,7 @@ hr {
         padding-right: 20px;
         width: 100%;
         &:hover {
-            background-color: #1f4737;
+            color: black;
         }
     }
     li {
@@ -111,11 +113,11 @@ hr {
     .closeButtonInSideNav {
         cursor: pointer;
         float: right;
-        color: #6fdeb0;
+        color: gray;
         font-size: 24px;
         padding-right: 10px;
         &:hover {
-            color: white;
+            color: black;
         }
     }
     .sideNavItems {
@@ -123,20 +125,22 @@ hr {
     }
 }
 
-.main {
-    display: block;
+.mainContent {
+    display: inline-block;
     font-size: 28px;
     width: 100%;
-    margin-left: 360px;
+    margin-left: 160px;
+    margin-top: 40px;
 }
 
 .topnav {
     background-color: white;
-    overflow: hidden;
     display: inline-block;
     width: 100%;
     border-bottom: 1px solid lightgray;
     margin-bottom: 0;
+    position: fixed;
+    z-index: 2;
     a {
         float: left;
         display: block;
@@ -340,6 +344,19 @@ hr {
 }
 
 .discussionPage {
+    .discussionPageTitle {
+        color: gray;
+        font-family: 'Fira Mono';
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-top: 10px;
+    }
+    .backButton {
+        &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
     .discussionBody {
         font-size: 16px;
         border: 1px solid #6fdeb0;
