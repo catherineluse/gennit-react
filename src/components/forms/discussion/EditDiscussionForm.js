@@ -3,7 +3,12 @@ import { useMutation } from '@apollo/client'
 import { Button, Modal } from 'react-bootstrap'
 import { UPDATE_DISCUSSION } from '../../../graphQLData/discussions'
 
-const EditDiscussionForm = ({ currentDiscussion, handleClose }) => {
+const EditDiscussionForm = ({ 
+    discussionId, 
+    currentDiscussion, 
+    handleClose 
+}) => {
+    console.log('current discussion, ', currentDiscussion)
     const { title, body } = currentDiscussion;
   
     let [titleField, setTitleField] = useState(title)
@@ -11,13 +16,16 @@ const EditDiscussionForm = ({ currentDiscussion, handleClose }) => {
   
     const [updateDiscussion, { error }] = useMutation(UPDATE_DISCUSSION, {
       variables: {
+        id: discussionId,
         title: titleField,
-        description: bodyField
-      }
+        body: bodyField
+      },
+      errorPolicy: 'all'
     })
 
+
     if (error){ 
-        alert("Could not update discussion.")
+        alert(error)
     };
   
     const handleSubmit = async e => {
@@ -35,6 +43,7 @@ const EditDiscussionForm = ({ currentDiscussion, handleClose }) => {
                 <input
                   title='title'
                   className='form-control'
+                  value={titleField}
                   onChange={e => setTitleField(e.target.value)}
                 />
               </div>
@@ -46,6 +55,7 @@ const EditDiscussionForm = ({ currentDiscussion, handleClose }) => {
                   rows='3'
                   name='body'
                   className='form-control'
+                  value={bodyField}
                   onChange={e => setBodyField(e.target.value)}
                 />
               </div>

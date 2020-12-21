@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useMutation, gql } from '@apollo/client'
 import { Button, Modal } from 'react-bootstrap'
 import { ADD_DISCUSSION } from '../../../graphQLData/discussions'
+import { Redirect } from 'react-router'
 
 // type Discussion {
 //     id:           ID!
@@ -13,9 +14,7 @@ import { ADD_DISCUSSION } from '../../../graphQLData/discussions'
 //    }
 
 const CreateDiscussionForm = ({ 
-  currentCommunity,
-  setNewDiscussionFormWasSubmitted,
-  setNewDiscussionId
+  currentCommunity
 }) => {
   const { url } = currentCommunity;
   const [show, setShow] = useState(false)
@@ -23,6 +22,8 @@ const CreateDiscussionForm = ({
   let [author, setAuthor] = useState("")
   let [body, setBody] = useState("")
   let [title, setTitle] = useState("")
+  let [newDiscussionId, setNewDiscussionId] = useState("")
+  let [submitted, setSubmitted] = useState(false)
 
   const [addDiscussion] = useMutation(ADD_DISCUSSION, {
     variables: {
@@ -32,8 +33,9 @@ const CreateDiscussionForm = ({
       body
     },
     onCompleted({ addDiscussion }){
-      setNewDiscussionFormWasSubmitted(true)
-      setNewDiscussionId(addDiscussion.discussion[0].id)
+      const newDiscussionId = addDiscussion.discussion[0].id
+      setNewDiscussionId(newDiscussionId)
+      setSubmitted(true)
     },
     update(cache, { data: { addDiscussion }}) {
       cache.modify({
@@ -70,7 +72,14 @@ const CreateDiscussionForm = ({
     setShow(false)
   }
 
-  return (
+  return submitted && newDiscussionId ? (
+    <Redirect
+      push
+      to={{
+        pathname: `/c/${url}/discussion/${newDiscussionId}`
+      }}
+    />
+  ) : (
     <>
       <Button 
         className='discussionListButton'

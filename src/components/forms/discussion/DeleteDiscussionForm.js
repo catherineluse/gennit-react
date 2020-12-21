@@ -7,7 +7,11 @@ import {
 } from '../../../graphQLData/comments'
 import { Button, Modal } from 'react-bootstrap'
 
-const DeleteDiscussionForm = ({ discussionId, handleClose}) => {
+const DeleteDiscussionForm = ({ 
+  discussionId, 
+  handleClose,
+  setDiscussionWasDeleted
+}) => {
   const [commentIds, setCommentIds] = useState([])
 
   const  { 
@@ -48,17 +52,18 @@ const DeleteDiscussionForm = ({ discussionId, handleClose}) => {
   const handleDelete = async e => {
     e.preventDefault()
 
-    await deleteComments({
+    deleteComments({
       variables: {
         id: commentIds
       }
     })
 
-    await deleteDiscussion({
+    deleteDiscussion({
       variables: {
         id: discussionId
       }
     })
+    setDiscussionWasDeleted(true)
 
     handleClose()
   }

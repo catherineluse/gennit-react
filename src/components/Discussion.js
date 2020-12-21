@@ -15,6 +15,7 @@ import EditDiscussionForm from './forms/discussion/EditDiscussionForm'
 import DeleteDiscussionForm from './forms/discussion/DeleteDiscussionForm'
 import RootCommentForm from './forms/comment/RootCommentForm'
 import { Modal } from 'react-bootstrap'
+import { Redirect } from 'react-router'
 
 const renderComments = Comments => {
   return Comments.map((commentData, idx) => {
@@ -34,6 +35,7 @@ const renderComments = Comments => {
 
 const EditDiscussionModal = ({ 
   discussionData,
+  discussionId,
   showEditDiscussionModal,
   setShowEditDiscussionModal
  }) => {
@@ -47,6 +49,7 @@ const EditDiscussionModal = ({
           <Modal.Title>Edit Discussion</Modal.Title>
         </Modal.Header>
         <EditDiscussionForm 
+          discussionId={discussionId}
           currentDiscussion={discussionData}
           handleClose={handleClose}
         />
@@ -55,9 +58,11 @@ const EditDiscussionModal = ({
 }
 
 const DeleteDiscussionModal = ({ 
+  url,
   discussionId,
   showDeleteDiscussionModal,
-  setShowDeleteDiscussionModal
+  setShowDeleteDiscussionModal,
+  setDiscussionWasDeleted
  }) => {
   const handleClose = () => setShowDeleteDiscussionModal(false);
   return (
@@ -69,8 +74,10 @@ const DeleteDiscussionModal = ({
         <Modal.Title>Delete Discussion</Modal.Title>
       </Modal.Header>
       <DeleteDiscussionForm 
+        url={url}
         discussionId={discussionId}
         handleClose={handleClose}
+        setDiscussionWasDeleted={setDiscussionWasDeleted}
       />
     </Modal>
   )
@@ -82,6 +89,7 @@ const Discussion = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [showEditDiscussionModal, setShowEditDiscussionModal] = useState(false)
   const [showDeleteDiscussionModal, setShowDeleteDiscussionModal] = useState(false)
+  const [discussionWasDeleted, setDiscussionWasDeleted] = useState(false)
 
   const handleClickEllipsis = (event) => {
     setAnchorEl(event.currentTarget);
@@ -129,7 +137,14 @@ const Discussion = () => {
     const { title, body, Author, Comments } = discussionData;
     const { username } = Author;
 
-    return (
+    return discussionWasDeleted ? (
+      <Redirect
+        push
+        to={{
+          pathname: `/c/${url}`
+        }}
+      />
+    ) : (
       <div className='container'>
         <div className='discussionPage'>
 
@@ -176,14 +191,17 @@ const Discussion = () => {
             </Menu>
 
             <EditDiscussionModal
+              discussionId={discussionId}
               discussionData={discussionData}
               showEditDiscussionModal={showEditDiscussionModal}
               setShowEditDiscussionModal={setShowEditDiscussionModal}
             />
             <DeleteDiscussionModal
-              discussionData={discussionData}
+              url={url}
+              discussionId={discussionId}
               showDeleteDiscussionModal={showDeleteDiscussionModal}
               setShowDeleteDiscussionModal={setShowDeleteDiscussionModal}
+              setDiscussionWasDeleted={setDiscussionWasDeleted}
             />
             
             <h2 className='discussionPageTitle'>{title}</h2>
