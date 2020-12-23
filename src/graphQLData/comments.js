@@ -107,6 +107,7 @@ export const UPDATE_COMMENT = gql`
   mutation updateComment($id: ID!, $text: String!) {
     updateComment(input: { filter: { id: [$id] }, set: { text: $text } }) {
       comment {
+        id
         Author {
           username
         }

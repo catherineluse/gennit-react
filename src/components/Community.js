@@ -6,6 +6,7 @@ import DiscussionList from './DiscussionList'
 import CommunityHeader from './CommunityHeader'
 import { communityBodyContentTypes } from './Main'
 import CommunitySidebar from './CommunitySidebar';
+import { Link } from 'react-router-dom'
   
 const Community = ({ match, communityBodyContent }) => {
   const { url } = match.params
@@ -24,6 +25,23 @@ const Community = ({ match, communityBodyContent }) => {
   
   if (error) {
    return <p>{`GET_COMMUNITY_WITH_DISCUSSIONS error: ${error}`}</p>
+  }
+
+  // If the community is not found,
+  // provide a link back to the community.
+  if (!data.getCommunity) {
+    return (
+      <div className='container'>
+        <div className='discussionPage'>
+
+          <p>Could not find the community.</p>
+          <Link to={`/communities`}>
+            <p>
+             <i className="fas fa-arrow-left"></i> Go back to community list
+            </p>
+          </Link>
+        </div>
+    </div>)
   }
 
   const currentCommunity = data.getCommunity;

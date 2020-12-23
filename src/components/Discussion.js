@@ -101,6 +101,7 @@ const Discussion = () => {
   const [discussionWasDeleted, setDiscussionWasDeleted] = useState(false)
 
   let history = useHistory();
+
   const handleClickEllipsis = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -136,7 +137,9 @@ const Discussion = () => {
 
           <p>Could not find the discussion.</p>
           <Link to={`/c/${url}`}>
-            <i className="fas fa-arrow-left"></i> Go back to {`c/${url}`}
+            <p>
+              <i className="fas fa-arrow-left"></i> Go back to {`c/${url}`}
+            </p>
           </Link>
         </div>
     </div>)

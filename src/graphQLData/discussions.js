@@ -54,14 +54,9 @@ export const UPDATE_DISCUSSION = gql`
       }
     ) {
       discussion {
-        Author {
-          username
-        }
+        id
         title
         body
-        Community {
-          url
-        }
       }
     }
   }
