@@ -22,7 +22,6 @@ const EditDiscussionForm = ({
       errorPolicy: 'all'
     })
 
-
     if (error){ 
         alert(error)
     };

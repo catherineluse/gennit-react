@@ -17,9 +17,6 @@ import TopNav from './components/TopNav'
 const typeDefs = gql`
   extend type Query {
     showSideNav: Boolean!
-    communities: [Community]!
-    currentCommunity: Community
-    currentDiscussion: Discussion
   }
 `;
 
@@ -33,8 +30,7 @@ const createApolloClient = token => {
     headers: {
       'X-Auth-Token': token || '',
     },
-    typeDefs,
-    resolvers: {},
+    typeDefs
   });
 }
 

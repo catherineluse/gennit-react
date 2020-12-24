@@ -1,58 +1,9 @@
 import React, { useState } from 'react';
 import { CREATE_ROOT_COMMENT } from '../../../graphQLData/comments'
-import { useMutation } from '@apollo/client'
+import { GET_DISCUSSION } from '../../../graphQLData/discussions'
+import { useMutation, gql } from '@apollo/client'
 import { Form, FormGroup, Input } from 'reactstrap'
-
-// type Comment {
-//   id:              ID!
-//   Author:          User!         @hasInverse(field: Comments)
-//   Discussion:      Discussion!   @hasInverse(field: Comments)
-//   ParentComment:   Comment       @hasInverse(field: ChildComments)
-//   text:            String
-//   isRootComment:   Boolean!      @search
-//   ChildComments:   [Comment]     @hasInverse(field: ParentComment)
-//   Community:       Community!
-//  }
-
-// export const CREATE_ROOT_COMMENT = gql`
-// mutation createRootComment(
-//     $authorUsername: String!
-//     $discussionId: ID!
-//     $text: String!
-//     $communityUrl: String!
-//   ) {
-//     addComment(input: [
-//       {
-//         Author: {
-//           username: "alice"
-//         },
-//         isRootComment: true,
-//         Discussion: {
-//           id: "0x10"
-//         },
-//         text: "root"
-//         Community: {
-//           url: "music"
-//         }
-//       }
-//     ]) {
-//       comment {
-//         id
-//         Author {
-//           username
-//         }
-//         isRootComment
-//         Discussion {
-//           title
-//         }
-//         text
-//         Community {
-//           url
-//         }
-//       }
-//     }
-//   }`
-
+import cache from '../../../cache'
 
 
 const RootCommentForm = ({ 
@@ -69,10 +20,29 @@ const RootCommentForm = ({
       text,
       communityUrl
     },
-    // onCompleted({ addComment }){
-    //   const newComment = addComment.comment[0]
-    //   setCommentList([newComment, ...commentList])
-    // }
+    update(
+      cache,
+      {
+        data: { addComment }
+      }
+    ) {
+      cache.modify({
+        fields: {
+          comments(existingComments = []) {
+            const newCommentRef = cache.writeFragment({
+              data: addComment,
+              fragment: gql`
+                fragment NewComment on Comment {
+                  id
+                  text
+                }
+              `
+            });
+            return existingComments.concat(newCommentRef);
+          }
+        }
+      })
+    }
   })
 
 

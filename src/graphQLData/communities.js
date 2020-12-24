@@ -112,9 +112,6 @@ export const UPDATE_COMMUNITY = gql`
         url
         name
         description
-        Organizer {
-          username
-        }
       }
     }
   }
