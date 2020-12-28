@@ -66,6 +66,7 @@ export const UPDATE_DISCUSSION = gql`
 export const GET_DISCUSSION = gql`
   query getDiscussion($id: ID!) {
     getDiscussion(id: $id) {
+      id
       title
       body
       Author {
@@ -75,6 +76,7 @@ export const GET_DISCUSSION = gql`
         url
       }
       Comments {
+        id
         Author {
           username
         }

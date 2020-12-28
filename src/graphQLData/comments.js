@@ -29,14 +29,7 @@ export const CREATE_ROOT_COMMENT = gql`
         Author {
           username
         }
-        isRootComment
-        Discussion {
-          title
-        }
         text
-        Community {
-          url
-        }
       }
     }
   }

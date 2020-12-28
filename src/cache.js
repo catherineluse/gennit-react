@@ -19,6 +19,6 @@ export const cache = new InMemoryCache({
     }
   }
 });
-
+console.log('cache is ', cache)
 
 export const showSideNavVar = makeVar(true);

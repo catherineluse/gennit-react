@@ -3,8 +3,6 @@ import { CREATE_ROOT_COMMENT } from '../../../graphQLData/comments'
 import { GET_DISCUSSION } from '../../../graphQLData/discussions'
 import { useMutation, gql } from '@apollo/client'
 import { Form, FormGroup, Input } from 'reactstrap'
-import cache from '../../../cache'
-
 
 const RootCommentForm = ({ 
   discussionId, 
@@ -26,25 +24,30 @@ const RootCommentForm = ({
         data: { addComment }
       }
     ) {
-      cache.modify({
-        fields: {
-          comments(existingComments = []) {
-            const newCommentRef = cache.writeFragment({
-              data: addComment,
-              fragment: gql`
-                fragment NewComment on Comment {
-                  id
-                  text
-                }
-              `
-            });
-            return existingComments.concat(newCommentRef);
+        const existingDiscussion = cache.readQuery({ 
+          query: GET_DISCUSSION,
+          variables: {
+            id: discussionId
+          } 
+         });
+
+        const newComment = addComment.comment[0]
+        const existingComments = existingDiscussion.getDiscussion.Comments;
+        const updatedComments = [newComment, ...existingComments]
+        cache.writeFragment({
+          id: 'Discussion:' + discussionId,
+          fragment: gql`
+            fragment updatedComments on Discussion {
+              Comments
+            }
+          `,
+          data: {
+            Comments: updatedComments
           }
-        }
-      })
+        })
+      
     }
   })
-
 
   const handleSubmit = async e => {
     e.preventDefault()
