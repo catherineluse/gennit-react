@@ -23,28 +23,34 @@ const CreateCommunityForm = () => {
       description,
       organizer
     },
-    update(cache, { data: { addCommunity }}) {
+    update(
+      cache,
+      {
+        data: { addCommunity }
+      }
+    ) {
+      const newCommunity = addCommunity.community[0];
+      console.log('new community is ', addCommunity.community[0])
       cache.modify({
         fields: {
-          communities(existingCommunities = [], { readField }) {
+          queryCommunity(existingCommunityRefs = [], { readField }) {
             const newCommunityRef = cache.writeFragment({
-              data: addCommunity,
+              data: newCommunity,
               fragment: gql`
                 fragment NewCommunity on Community {
                   url
-                  type
                 }
               `
             })
 
             // Quick safety check - if the new community is already
             // present in the cache, we don't need to add it again.
-            if (existingCommunities.some(
-              ref => readField('id', ref) === addCommunity.id
+            if (existingCommunityRefs.some(
+              ref => readField('url', ref) === addCommunity.url
             )) {
-              return existingCommunities;
+              return existingCommunityRefs;
             }
-            return [...existingCommunities, newCommunityRef];
+            return [newCommunityRef, ...existingCommunityRefs];
           }
         }
       })

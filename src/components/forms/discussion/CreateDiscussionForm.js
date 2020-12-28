@@ -36,33 +36,35 @@ const CreateDiscussionForm = ({
       setNewDiscussionId(newDiscussionId)
       setSubmitted(true)
     },
-    update(cache, { data: { addDiscussion }}) {
-      cache.modify({
-        fields: {
-          discussions(existingDiscussionRefs = [], { readField }) {
-            const newDiscussionRef = cache.writeFragment({
-              data: addDiscussion,
-              fragment: gql`
-                fragment NewDiscussion on Discussion {
-                  id
-                  type
-                }
-              `
-            })
+    // update(
+    //   cache,
+    //   {
+    //     data: { addComment }
+    //   }
+    // ) {
+    //     const existingDiscussion = cache.readQuery({ 
+    //       query: GET_DISCUSSION,
+    //       variables: {
+    //         id: discussionId
+    //       } 
+    //      });
 
-            // Quick safety check - if the new community is already
-            // present in the cache, we don't need to add it again.
-            if (existingDiscussionRefs.some(
-              ref => readField('id', ref) === addDiscussion.id
-            )) {
-              return existingDiscussionRefs;
-            }
-
-            return [...existingDiscussionRefs, newDiscussionRef];
-          }
-        }
-      })
-    }
+    //     const newComment = addComment.comment[0]
+    //     const existingComments = existingDiscussion.getDiscussion.Comments;
+    //     const updatedComments = [newComment, ...existingComments]
+    //     cache.writeFragment({
+    //       id: 'Discussion:' + discussionId,
+    //       fragment: gql`
+    //         fragment updatedComments on Discussion {
+    //           Comments
+    //         }
+    //       `,
+    //       data: {
+    //         Comments: updatedComments
+    //       }
+    //     })
+      
+    // }
   })
 
   const handleSubmit = async e => {
