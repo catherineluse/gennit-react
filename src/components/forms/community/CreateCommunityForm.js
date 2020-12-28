@@ -30,7 +30,6 @@ const CreateCommunityForm = () => {
       }
     ) {
       const newCommunity = addCommunity.community[0];
-      console.log('new community is ', addCommunity.community[0])
       cache.modify({
         fields: {
           queryCommunity(existingCommunityRefs = [], { readField }) {

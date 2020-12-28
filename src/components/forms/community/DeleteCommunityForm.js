@@ -49,11 +49,12 @@ const DeleteCommunityForm = () => {
       },
       update(cache, { data: { deleteCommunity }}) {
         cache.modify({
-          id: cache.identify(deleteCommunity),
           fields: {
-            communities(existingCommunityRefs, { readField }) {
+            queryCommunity(existingCommunityRefs, { readField }) {
               return existingCommunityRefs.filter(
-                communityRef => communityRef.id !== readField('id', communityRef)
+                communityRef => {
+                  return url !== readField('url', communityRef)
+                }
               );
             }
           }
