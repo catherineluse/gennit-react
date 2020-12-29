@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useMutation, gql } from '@apollo/client'
 import { Button, Modal } from 'react-bootstrap'
 import { ADD_DISCUSSION } from '../../../graphQLData/discussions'
+import { GET_COMMUNITY_WITH_DISCUSSIONS } from '../../../graphQLData/communities'
 import { Redirect } from 'react-router'
 
 // type Discussion {
@@ -36,35 +37,37 @@ const CreateDiscussionForm = ({
       setNewDiscussionId(newDiscussionId)
       setSubmitted(true)
     },
-    // update(
-    //   cache,
-    //   {
-    //     data: { addComment }
-    //   }
-    // ) {
-    //     const existingDiscussion = cache.readQuery({ 
-    //       query: GET_DISCUSSION,
-    //       variables: {
-    //         id: discussionId
-    //       } 
-    //      });
+    update(
+      cache,
+      {
+        data: { addDiscussion }
+      }
+    ) {
+        const existingCommunity = cache.readQuery({ 
+          query: GET_COMMUNITY_WITH_DISCUSSIONS,
+          variables: {
+            url
+          } 
+         });
 
-    //     const newComment = addComment.comment[0]
-    //     const existingComments = existingDiscussion.getDiscussion.Comments;
-    //     const updatedComments = [newComment, ...existingComments]
-    //     cache.writeFragment({
-    //       id: 'Discussion:' + discussionId,
-    //       fragment: gql`
-    //         fragment updatedComments on Discussion {
-    //           Comments
-    //         }
-    //       `,
-    //       data: {
-    //         Comments: updatedComments
-    //       }
-    //     })
+        const newDiscussion = addDiscussion.discussion[0]
+        const existingCommunityData = existingCommunity.getCommunity
+        const existingDiscussions = existingCommunityData.Discussions;
+        const updatedDiscussions = [newDiscussion, ...existingDiscussions]
+        
+        cache.writeFragment({
+          id: cache.identify(existingCommunityData),
+          fragment: gql`
+            fragment updatedDiscussions on Community {
+              Discussions
+            }
+          `,
+          data: {
+            Discussions: updatedDiscussions
+          }
+        })
       
-    // }
+    }
   })
 
   const handleSubmit = async e => {

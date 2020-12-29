@@ -27,10 +27,6 @@ export const ADD_DISCUSSION = gql`
       discussion {
         id
         title
-        body
-        Community {
-          url
-        }
         Author {
           username
         }
