@@ -17,6 +17,7 @@ import RootCommentForm from './forms/comment/RootCommentForm'
 import { Modal } from 'react-bootstrap'
 import { Redirect } from 'react-router'
 import { useHistory } from "react-router-dom";
+import Comment from './Comment'
 
 const renderComments = Comments => {
 
@@ -32,12 +33,11 @@ const renderComments = Comments => {
     const { username } = commentData.Author
 
     return (
-      <div className='comment' key={idx}>
-        <div className='commentAuthor'>
-          <Link to={`/u/${username}`}>{username}</Link>
-        </div>
-        <div className='commentText'>{text}</div>
-      </div>
+      <Comment 
+        text={text}
+        username={username}
+        idx={idx}
+      />
     )
   })
 }

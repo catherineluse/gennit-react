@@ -447,6 +447,12 @@ p {
         font-weight: normal;
         margin-bottom: 5px;
     }
+    .comment-buttons {
+        color: gray;
+    }
+    .toggled-comment-buttons {
+        display: inline-block;
+    }
     &:hover {
         border: 1px solid #6fdeb0;
         cursor: pointer;
