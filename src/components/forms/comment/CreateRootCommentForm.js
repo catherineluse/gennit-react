@@ -4,7 +4,7 @@ import { GET_DISCUSSION } from '../../../graphQLData/discussions'
 import { useMutation, gql } from '@apollo/client'
 import { Form, FormGroup, Input } from 'reactstrap'
 
-const RootCommentForm = ({ 
+const CreateRootCommentForm = ({ 
   discussionId, 
   communityUrl
  }) => {
@@ -83,4 +83,4 @@ const RootCommentForm = ({
   )
 }
 
-export default RootCommentForm;
+export default CreateRootCommentForm;

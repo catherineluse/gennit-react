@@ -28,7 +28,6 @@
 type User {
  username:                 String!      @id @search(by: [hash])
  name:                     String       @search(by: [exact])
- age:                      Int
  pronouns:                 String
  location:                 String
  email:                    String!

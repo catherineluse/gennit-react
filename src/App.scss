@@ -438,6 +438,8 @@ p {
     margin-bottom: 5px;
     border-radius: 5px;
     .commentAuthor {
+        color: #53bda0;
+        font-weight: normal;
         margin-top: 5px;
     }
     .commentText {
@@ -446,15 +448,38 @@ p {
         font-size: 14px;
         font-weight: normal;
         margin-bottom: 5px;
+        &:hover {
+            cursor: pointer;
+        }
     }
     .comment-buttons {
+        font-weight: normal;
         color: gray;
+    }
+    .comment-button {
+        display: inline-block;
+        font-size: 10px;
+        margin-right: 10px;
+        margin-bottom: 5px;
+        padding-left: 5px;
+        padding-right: 5px;
+        cursor: pointer;
+        background-color: ghostwhite;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+        &:hover {
+            border: 1px solid #53bda0;
+            color: #53bda0;
+            background-color: #e9fcf4;
+        }
+        i {
+            margin-right: 5px;
+        }
     }
     .toggled-comment-buttons {
         display: inline-block;
     }
     &:hover {
         border: 1px solid #6fdeb0;
-        cursor: pointer;
     }
 }

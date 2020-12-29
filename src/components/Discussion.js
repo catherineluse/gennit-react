@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom'
 import { GET_DISCUSSION } from '../graphQLData/discussions'
 import EditDiscussionForm from './forms/discussion/EditDiscussionForm'
 import DeleteDiscussionForm from './forms/discussion/DeleteDiscussionForm'
-import RootCommentForm from './forms/comment/RootCommentForm'
+import CreateRootCommentForm from './forms/comment/CreateRootCommentForm'
 import { Modal } from 'react-bootstrap'
 import { Redirect } from 'react-router'
 import { useHistory } from "react-router-dom";
@@ -29,11 +29,12 @@ const renderComments = Comments => {
     )
   }
   return Comments.map((commentData, idx) => {
-    const { text } = commentData
+    const { text, id } = commentData
     const { username } = commentData.Author
 
     return (
       <Comment 
+        commentId={id}
         text={text}
         username={username}
         idx={idx}
@@ -240,7 +241,7 @@ const Discussion = () => {
             </div>
           </div>
 
-          <RootCommentForm
+          <CreateRootCommentForm
             discussionId={discussionId}
             communityUrl={url}
           />
