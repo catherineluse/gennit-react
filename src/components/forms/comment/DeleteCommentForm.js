@@ -1,21 +1,48 @@
-import React, { useState } from 'react'
-import { useMutation, useQuery, gql } from '@apollo/client'
+import React from 'react'
+import { useMutation, gql } from '@apollo/client'
 import { DELETE_COMMENT } from '../../../graphQLData/comments'
-import {
-  DELETE_COMMENTS,
-} from '../../../graphQLData/comments'
+import { GET_DISCUSSION } from '../../../graphQLData/discussions'
 import { Button, Modal } from 'react-bootstrap'
-import { GET_COMMUNITY_WITH_COMMENTS } from '../../../graphQLData/communities';
+import { useParams } from 'react-router-dom'
 
 const DeleteCommentForm = ({ 
-  url,
   commentId, 
   handleClose,
-  setCommentWasDeleted
 }) => {
-
+  const { discussionId } = useParams()
   const [deleteComment, { error: deleteCommentError }] = useMutation(
-    DELETE_COMMENT
+    DELETE_COMMENT,
+    {
+      variables: {
+        id: commentId
+      },
+      update(
+        cache
+      ) {
+          const existingDiscussion = cache.readQuery({ 
+            query: GET_DISCUSSION,
+            variables: {
+              id: discussionId
+            } 
+           });
+  
+          const existingComments = existingDiscussion.getDiscussion.Comments;
+          const updatedComments = existingComments.filter(comment => {
+            return comment.id !== commentId
+          })
+          cache.writeFragment({
+            id: 'Discussion:' + discussionId,
+            fragment: gql`
+              fragment updatedComments on Discussion {
+                Comments
+              }
+            `,
+            data: {
+              Comments: updatedComments
+            }
+          })
+      }
+    }
   )
 
   if (deleteCommentError) {
@@ -24,14 +51,7 @@ const DeleteCommentForm = ({
 
   const handleDelete = async e => {
     e.preventDefault()
-
-    deleteComment({
-      variables: {
-        id: commentId
-      }
-    })
-    setCommentWasDeleted(true)
-
+    deleteComment()
     handleClose()
   }
 
@@ -39,7 +59,7 @@ const DeleteCommentForm = ({
     <>
       <form>
       <Modal.Body>
-      Are you sure you want to delete this comment?
+        Are you sure you want to delete this comment?
       </Modal.Body>
       <Modal.Footer>
         <Button variant='secondary' onClick={handleClose}>

@@ -114,7 +114,7 @@ export const UPDATE_COMMENT = gql`
 `
 
 export const DELETE_COMMENT = gql`
-  mutation deleteComment($id: ID) {
+  mutation deleteComment($id: ID!) {
     deleteComment(filter: { id: [$id] }) {
       comment {
         id

@@ -37,7 +37,7 @@ const renderComments = Comments => {
         commentId={id}
         text={text}
         username={username}
-        idx={idx}
+        key={id}
       />
     )
   })

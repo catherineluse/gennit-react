@@ -437,6 +437,9 @@ p {
     padding-left: 5px;
     margin-bottom: 5px;
     border-radius: 5px;
+    .alt {
+        border-left: 1px solid #73ffe8;
+    }
     .commentAuthor {
         color: #53bda0;
         font-weight: normal;

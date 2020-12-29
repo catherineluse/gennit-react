@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Modal } from 'react-bootstrap'
-import { Redirect } from 'react-router'
-import { useHistory } from "react-router-dom";
 import EditCommentForm from './forms/comment/EditCommentForm';
 import DeleteCommentForm from './forms/comment/DeleteCommentForm';
 
@@ -32,7 +30,30 @@ const EditCommentModal = ({
     )
 }
 
-const Comment = ({ text, commentId, username, idx }) => {
+const DeleteCommentModal = ({
+  commentId,
+  showDeleteCommentModal,
+  setShowDeleteCommentModal
+ }) => {
+    const handleClose = () => setShowDeleteCommentModal(false);
+
+    return (
+      <Modal 
+        show={showDeleteCommentModal} 
+        onHide={handleClose}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Comment</Modal.Title>
+        </Modal.Header>
+        <DeleteCommentForm 
+          commentId={commentId}
+          handleClose={handleClose}
+        />
+      </Modal>
+    )
+}
+
+const Comment = ({ text, commentId, username }) => {
     const [ showButtons, setShowButtons ] = useState(false)
     const [ locked, setLocked ] = useState(false)
     const [ showEditCommentModal, setShowEditCommentModal ] = useState(false)
@@ -41,7 +62,6 @@ const Comment = ({ text, commentId, username, idx }) => {
     return (
         <div 
           className='comment' 
-          key={idx}
           onMouseEnter={() => {
             setShowButtons(true)
           }}
@@ -84,7 +104,10 @@ const Comment = ({ text, commentId, username, idx }) => {
                     >
                       <i className="fas fa-edit"></i>Edit
                     </div>
-                    <div className="comment-button">
+                    <div 
+                      className="comment-button"
+                      onClick={() => {setShowDeleteCommentModal(true)}}
+                    >
                       <i className="fas fa-trash-alt"></i>Delete
                     </div>
                   </div>
@@ -95,6 +118,11 @@ const Comment = ({ text, commentId, username, idx }) => {
               commentId={commentId}
               showEditCommentModal={showEditCommentModal}
               setShowEditCommentModal={setShowEditCommentModal}
+            />
+            <DeleteCommentModal 
+              commentId={commentId}
+              showDeleteCommentModal={showDeleteCommentModal}
+              setShowDeleteCommentModal={setShowDeleteCommentModal}
             />
         </div>
     )
