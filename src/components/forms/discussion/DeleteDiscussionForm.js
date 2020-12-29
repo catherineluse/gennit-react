@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery, gql } from '@apollo/client'
 import { DELETE_DISCUSSION } from '../../../graphQLData/discussions'
 import {
   DELETE_COMMENTS,
   GET_COMMENT_IDS_IN_DISCUSSION
 } from '../../../graphQLData/comments'
 import { Button, Modal } from 'react-bootstrap'
+import { GET_COMMUNITY_WITH_DISCUSSIONS } from '../../../graphQLData/communities';
 
 const DeleteDiscussionForm = ({ 
+  url,
   discussionId, 
   handleClose,
   setDiscussionWasDeleted
@@ -33,7 +35,32 @@ const DeleteDiscussionForm = ({
   )
 
   const [deleteDiscussion, { error: deleteDiscussionError}] = useMutation(
-    DELETE_DISCUSSION
+    DELETE_DISCUSSION, {
+    update(cache) {
+        const existingCommunity = cache.readQuery({ 
+          query: GET_COMMUNITY_WITH_DISCUSSIONS,
+          variables: {
+            url
+          } 
+         });
+        const existingCommunityData = existingCommunity.getCommunity
+        const existingDiscussions = existingCommunityData.Discussions;
+        const updatedDiscussions = existingDiscussions.filter(discussion => {
+          return discussion.id !== discussionId;
+        })
+        
+        cache.writeFragment({
+          id: cache.identify(existingCommunityData),
+          fragment: gql`
+            fragment updatedDiscussions on Community {
+              Discussions
+            }
+          `,
+          data: {
+            Discussions: updatedDiscussions
+          }
+        })
+    }}
   )
 
   if (commentIdsAreLoading) {

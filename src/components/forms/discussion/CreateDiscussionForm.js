@@ -66,7 +66,6 @@ const CreateDiscussionForm = ({
             Discussions: updatedDiscussions
           }
         })
-      
     }
   })
 
