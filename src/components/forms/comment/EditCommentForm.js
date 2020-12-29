@@ -25,7 +25,7 @@ const EditCommentForm = ({
   
     const handleSubmit = async e => {
       e.preventDefault()
-      await updateComment()
+      updateComment()
       handleClose()
     }
   
