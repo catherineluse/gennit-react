@@ -73,6 +73,10 @@ export const GET_DISCUSSION = gql`
       }
       Comments {
         id
+        isRootComment
+        ParentComment {
+          id
+        }
         Author {
           username
         }

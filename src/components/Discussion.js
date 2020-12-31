@@ -17,31 +17,7 @@ import CreateRootCommentForm from './forms/comment/CreateRootCommentForm'
 import { Modal } from 'react-bootstrap'
 import { Redirect } from 'react-router'
 import { useHistory } from "react-router-dom";
-import Comment from './Comment'
-
-const renderComments = Comments => {
-
-  if (Comments.length === 0) {
-    return (
-      <p>
-      There are no comments yet.
-      </p>
-    )
-  }
-  return Comments.map((commentData, idx) => {
-    const { text, id } = commentData
-    const { username } = commentData.Author
-
-    return (
-      <Comment 
-        commentId={id}
-        text={text}
-        username={username}
-        key={id}
-      />
-    )
-  })
-}
+import CommentList from './CommentList'
 
 const EditDiscussionModal = ({ 
   discussionData,
@@ -248,7 +224,7 @@ const Discussion = () => {
           
           <div className='discussionPageTitle'>Comments</div>
           <hr/>
-          {renderComments(Comments)}
+          <CommentList Comments={Comments}/>
         </div>
     </div>)
   }  

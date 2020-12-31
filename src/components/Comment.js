@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Modal } from 'react-bootstrap'
 import EditCommentForm from './forms/comment/EditCommentForm';
 import DeleteCommentForm from './forms/comment/DeleteCommentForm';
-
+import ReplyToCommentForm from './forms/comment/ReplyToCommentForm';
 
 const EditCommentModal = ({ 
   text,
@@ -53,11 +53,39 @@ const DeleteCommentModal = ({
     )
 }
 
+const ReplyToCommentModal = ({
+  parentCommentId,
+  text,
+  authorUsername,
+  showReplyToCommentModal,
+  setShowReplyToCommentModal
+ }) => {
+    const handleClose = () => setShowReplyToCommentModal(false);
+
+    return (
+      <Modal 
+        show={showReplyToCommentModal} 
+        onHide={handleClose}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Reply to Comment</Modal.Title>
+        </Modal.Header>
+        <ReplyToCommentForm 
+          authorUsername={authorUsername}
+          parentCommentId={parentCommentId}
+          text={text}
+          handleClose={handleClose}
+        />
+      </Modal>
+    )
+}
+
 const Comment = ({ text, commentId, username }) => {
     const [ showButtons, setShowButtons ] = useState(false)
     const [ locked, setLocked ] = useState(false)
     const [ showEditCommentModal, setShowEditCommentModal ] = useState(false)
     const [ showDeleteCommentModal, setShowDeleteCommentModal ] = useState(false)
+    const [ showReplyToCommentModal, setShowReplyToCommentModal ] = useState(false)
 
     return (
         <div 
@@ -91,6 +119,7 @@ const Comment = ({ text, commentId, username }) => {
             <div className="comment-buttons">
                   <div 
                     className="comment-button"
+                    onClick={() => {setShowReplyToCommentModal(true)}}
                   >
                     <i className="fas fa-reply"></i>Reply
                   </div> 
@@ -123,6 +152,13 @@ const Comment = ({ text, commentId, username }) => {
               commentId={commentId}
               showDeleteCommentModal={showDeleteCommentModal}
               setShowDeleteCommentModal={setShowDeleteCommentModal}
+            />
+            <ReplyToCommentModal
+              parentCommentId={commentId}
+              authorUsername={username}
+              text={text}
+              showReplyToCommentModal={showReplyToCommentModal}
+              setShowReplyToCommentModal={setShowReplyToCommentModal}
             />
         </div>
     )

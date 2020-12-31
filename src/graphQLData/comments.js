@@ -26,6 +26,10 @@ export const CREATE_ROOT_COMMENT = gql`
     ) {
       comment {
         id
+        isRootComment
+        ParentComment {
+          id
+        }
         Author {
           username
         }
@@ -62,12 +66,14 @@ export const CREATE_CHILD_COMMENT = gql`
         }
         isRootComment
         ParentComment {
+          id
           Author {
             username
           }
           text
         }
         Discussion {
+          id
           title
         }
         text

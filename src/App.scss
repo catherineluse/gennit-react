@@ -347,6 +347,16 @@ p {
     }
 }
 
+.quoted-comment {
+    font-style: italic;
+    color: gray;
+    margin: 15px;
+}
+
+.child-comment-list {
+    border-left: 1px solid #6fdeb0;
+}
+
 .discussionPage {
     .discussionPageTitle {
         color: gray;
@@ -427,16 +437,20 @@ p {
     margin-top: 0px;
 }
 
+.thread {
+    .child-comment-list {
+        margin-left: 30px;
+    }
+}
+
 .comment {
-    padding: 0;
+    padding-top: 5px;
     font-size: 12px;
     font-weight: bold;
-    border-left: 1px solid #6fdeb0;
     border-top: 1px solid white;
     border-bottom: 1px solid white;
     padding-left: 5px;
     margin-bottom: 5px;
-    border-radius: 5px;
     .alt {
         border-left: 1px solid #73ffe8;
     }
@@ -467,13 +481,9 @@ p {
         padding-left: 5px;
         padding-right: 5px;
         cursor: pointer;
-        background-color: ghostwhite;
-        border: 1px solid lightgray;
-        border-radius: 5px;
         &:hover {
-            border: 1px solid #53bda0;
             color: #53bda0;
-            background-color: #e9fcf4;
+            text-decoration: underline;
         }
         i {
             margin-right: 5px;
@@ -483,6 +493,6 @@ p {
         display: inline-block;
     }
     &:hover {
-        border: 1px solid #6fdeb0;
+        background-color: #f7f7f7;
     }
 }
