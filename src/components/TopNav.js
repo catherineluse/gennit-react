@@ -1,14 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth0 } from '../Auth0Provider'
-import { showSideNavVar } from '../cache'
 
-const TopNav = () => {
+const TopNav = ({
+  showSideNav,
+  setShowSideNav
+}) => {
 
   const { loading, logout } = useAuth0()
 
   const toggleSideNav = () => {
-    showSideNavVar(!showSideNavVar())
+    setShowSideNav(!showSideNav)
   }
   
   return loading ? (
@@ -25,7 +27,7 @@ const TopNav = () => {
         </span>
       </div>
       <div className='sitename'>gennit</div>
-      <ul className={`${showSideNavVar() ? 'movedToTheLeft' : ''}`} >
+      <ul className={`${showSideNav ? 'movedToTheLeft' : ''}`} >
         <li>
           <Link to='/'>Home</Link>
         </li>

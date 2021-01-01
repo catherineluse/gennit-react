@@ -7,17 +7,6 @@ export const cache = new InMemoryCache({
     },
     User: {
       keyFields: ["username"]
-    },
-    Query: {
-      fields: {
-        showSideNav: {
-          read() {
-            return showSideNavVar();
-          }
-        }
-      }
     }
   }
 });
-
-export const showSideNavVar = makeVar(true);

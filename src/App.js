@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Router } from 'react-router-dom'
 import { 
   ApolloClient, 
@@ -11,7 +11,6 @@ import SideNav from './components/SideNav'
 import Main from './components/Main'
 import { cache } from './cache';
 import './App.scss'
-import { showSideNavVar } from './cache';
 import TopNav from './components/TopNav'
 
 const typeDefs = gql`
@@ -36,6 +35,7 @@ const createApolloClient = token => {
 
 const App = ({ idToken }) => {
   const { loading } = useAuth0()
+  const [ showSideNav, setShowSideNav ] = useState(true)
 
   if (loading) {
     return <p>Loading...</p>
@@ -47,16 +47,29 @@ const App = ({ idToken }) => {
     <ApolloProvider client={client}>
       <Router history={history}>
         <div>
-          {showSideNavVar ? (
+          {showSideNav ? (
             <div>
-              <TopNav />
-              <SideNav />
-              <Main />
+              <TopNav 
+                showSideNav={showSideNav}
+                setShowSideNav={setShowSideNav}
+              />
+              <SideNav 
+                showSideNav={showSideNav}
+                setShowSideNav={setShowSideNav}
+              />
+              <Main
+                showSideNav={showSideNav}
+              />
             </div>
           ) : (
             <div>
-              <TopNav />
-              <Main />
+              <TopNav 
+                showSideNav={showSideNav}
+                setShowSideNav={setShowSideNav}
+              />
+              <Main
+                showSideNav={showSideNav}
+              />
             </div>
           )}
         </div>

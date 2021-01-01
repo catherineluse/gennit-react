@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { showSideNavVar } from '../cache';
 
-const SideNav = () => {
+const SideNav = ({
+  showSideNav,
+  setShowSideNav
+}) => {
 
   const toggleSideNav = () => {
-    showSideNavVar(!showSideNavVar())
+    setShowSideNav(!showSideNav)
   }
 
-  return (
+  return showSideNav ? (
     <div className='sidenav'>
       <span 
         className='closeButtonInSideNav' 
@@ -36,7 +38,7 @@ const SideNav = () => {
       </NavLink>
       </div>
     </div>
-  )
+  ) : null;
 }
 
 export default SideNav
