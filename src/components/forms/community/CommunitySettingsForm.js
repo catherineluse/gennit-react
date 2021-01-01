@@ -13,8 +13,8 @@ const CommunitySettingsForm = ({ url, currentCommunity }) => {
 
   const [updatedSuccessfully, setUpdatedSuccessfully] = useState(false);
 
-  let [nameField, setNameField] = useState(name)
-  let [descriptionField, setDescriptionField] = useState(description)
+  const [nameField, setNameField] = useState(name)
+  const [descriptionField, setDescriptionField] = useState(description)
 
   const [updateCommunity, { error }] = useMutation(UPDATE_COMMUNITY, {
     variables: {
@@ -63,18 +63,20 @@ const CommunitySettingsForm = ({ url, currentCommunity }) => {
           <label htmlFor='name'>Community Name</label>
           <input
             name='name'
+            value={nameField}
             className='form-control'
             onChange={e => setNameField(e.target.value)}
           />
         </div>
 
         <div className='form-group'>
-          <label htmlFor='communityDescription'>Description</label>
+          <label htmlFor='communityDescription'>About Community</label>
           <input
             component='textarea'
             rows='3'
             type='description'
             name='description'
+            value={descriptionField}
             className='form-control'
             onChange={e => setDescriptionField(e.target.value)}
           />

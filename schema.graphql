@@ -65,7 +65,8 @@ type Discussion {
 type Comment {
  id:              ID!
  Author:          User!         @hasInverse(field: Comments)
- Discussion:      Discussion!   @hasInverse(field: Comments)
+ Discussion:      Discussion    @hasInverse(field: Comments)
+ Event:           Event         @hasInverse(field: Comments)
  ParentComment:   Comment       @hasInverse(field: ChildComments)
  text:            String
  isRootComment:   Boolean!      @search
@@ -81,15 +82,20 @@ type Message {
 }
 
 type Event {
-  id: ID!
-  title: String!
-  description: String
-  date: String!
-  Community: Community!
-  location: String
-  isVirtual: Boolean!
-  Organizer: User!
-  rsvps: [User!]
+  id:                  ID!
+  title:               String!
+  description:         String
+  startDay:            String
+  startTime:           String
+  durationInMinutes:   Int
+  Community:           Community!
+  Comments:            [Comment] @hasInverse(field: Event)
+  location:            String
+  isVirtual:           Boolean!
+  Organizer:           User!
+  rsvps:               [User!]
+  hostedBy:            String
+  moreInfoLink:        String
 }
 
 type Feed {

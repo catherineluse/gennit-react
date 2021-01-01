@@ -1,9 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import CreateDiscussionForm from './forms/discussion/CreateDiscussionForm';
+import CreateEventForm from './forms/event/CreateEventForm';
+  
 
-const CommunitySidebar = ({ description, username }) => {
+const CommunitySidebar = ({ 
+  description, 
+  username,
+  communityData
+ }) => {
     return (
-        <div className='col-3'>
+        <>
+            
             <div className='box'>
               <div className='boxHeader'>About Community</div>
               <div className='boxContent'>
@@ -12,6 +20,12 @@ const CommunitySidebar = ({ description, username }) => {
                 </p>
               </div>
             </div>
+            <CreateDiscussionForm 
+              currentCommunity={communityData}
+            />
+            <CreateEventForm
+              currentCommunity={communityData}
+            />
             <div className='box'>
               <div className='boxHeader'>Moderators</div>
               <div className='boxContent'>
@@ -26,7 +40,7 @@ const CommunitySidebar = ({ description, username }) => {
                 </p>
               </div>
             </div>
-       </div>
+       </>
     )
 }
 export default CommunitySidebar

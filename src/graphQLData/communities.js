@@ -41,7 +41,7 @@ export const GET_COMMUNITY = gql`
     }
   }
 `
-export const GET_COMMUNITY_WITH_DISCUSSIONS = gql`
+export const GET_COMMUNITY_WITH_DISCUSSIONS_AND_EVENTS = gql`
   query getCommunityWithDiscussions($url: String!) {
     getCommunity(url: $url) {
       name
@@ -59,6 +59,16 @@ export const GET_COMMUNITY_WITH_DISCUSSIONS = gql`
         Author {
           username
         }
+      }
+      Events {
+        id
+        title
+        startDay
+        location
+        Organizer {
+          username
+        }
+        isVirtual
       }
     }
   }

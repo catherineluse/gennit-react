@@ -161,6 +161,25 @@ export const GET_COMMENT_IDS_IN_COMMUNITY = gql`
         }
   }
 `
+// Get all comment IDs in event
+// so that the comments can be deleted 
+// when the event is deleted. This query
+// is needed because you can't cascade
+// delete.
+export const GET_COMMENT_IDS_IN_EVENT = gql`
+  query queryCommentIds($eventId: [ID!]) {
+      queryComment @cascade {
+          id
+          Event(
+            filter: { 
+              id: $eventId 
+            }
+          ) {
+            id
+          }
+        }
+  }
+`
 
 // Get all comment IDs in discussion
 // so that the comments can be deleted 

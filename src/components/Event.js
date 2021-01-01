@@ -10,112 +10,113 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { Link } from 'react-router-dom'
-import { GET_DISCUSSION } from '../graphQLData/discussions'
-import EditDiscussionForm from './forms/discussion/EditDiscussionForm'
-import DeleteDiscussionForm from './forms/discussion/DeleteDiscussionForm'
-import DiscussionRootCommentForm from './forms/comment/DiscussionRootCommentForm'
+import { GET_EVENT } from '../graphQLData/events'
+import EditEventForm from './forms/event/EditEventForm'
+import DeleteEventForm from './forms/event/DeleteEventForm'
+import EventRootCommentForm from './forms/comment/EventRootCommentForm'
 import { Modal } from 'react-bootstrap'
 import { Redirect } from 'react-router'
 import { useHistory } from "react-router-dom";
 import CommentList from './CommentList'
+import { Table } from 'reactstrap';
 
-const EditDiscussionModal = ({ 
-  discussionData,
-  discussionId,
-  showEditDiscussionModal,
-  setShowEditDiscussionModal
+const EditEventModal = ({ 
+  eventData,
+  eventId,
+  showEditEventModal,
+  setShowEditEventModal
  }) => {
-  const handleClose = () => setShowEditDiscussionModal(false);
+  const handleClose = () => setShowEditEventModal(false);
     return (
       <Modal 
-        show={showEditDiscussionModal} 
+        show={showEditEventModal} 
         onHide={handleClose}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Edit Discussion</Modal.Title>
+          <Modal.Title>Edit Event</Modal.Title>
         </Modal.Header>
-        <EditDiscussionForm 
-          discussionId={discussionId}
-          currentDiscussion={discussionData}
+        <EditEventForm 
+          eventId={eventId}
+          currentEvent={eventData}
           handleClose={handleClose}
         />
       </Modal>
     )
 }
 
-const DeleteDiscussionModal = ({ 
+const DeleteEventModal = ({ 
   url,
-  discussionId,
-  showDeleteDiscussionModal,
-  setShowDeleteDiscussionModal,
-  setDiscussionWasDeleted
+  eventId,
+  showDeleteEventModal,
+  setShowDeleteEventModal,
+  setEventWasDeleted
  }) => {
-  const handleClose = () => setShowDeleteDiscussionModal(false);
+  const handleClose = () => setShowDeleteEventModal(false);
   return (
     <Modal 
-      show={showDeleteDiscussionModal} 
+      show={showDeleteEventModal} 
       onHide={handleClose}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Delete Discussion</Modal.Title>
+        <Modal.Title>Delete Event</Modal.Title>
       </Modal.Header>
-      <DeleteDiscussionForm 
+      <DeleteEventForm 
         url={url}
-        discussionId={discussionId}
+        eventId={eventId}
         handleClose={handleClose}
-        setDiscussionWasDeleted={setDiscussionWasDeleted}
+        setEventWasDeleted={setEventWasDeleted}
       />
     </Modal>
   )
 }
 
 
-const Discussion = () => {
-  const { url, discussionId } = useParams()
+const Event = () => {
+  const { url, eventId } = useParams()
   const [anchorEl, setAnchorEl] = useState(null);
-  const [showEditDiscussionModal, setShowEditDiscussionModal] = useState(false)
-  const [showDeleteDiscussionModal, setShowDeleteDiscussionModal] = useState(false)
-  const [discussionWasDeleted, setDiscussionWasDeleted] = useState(false)
+  const [showEditEventModal, setShowEditEventModal] = useState(false)
+  const [showDeleteEventModal, setShowDeleteEventModal] = useState(false)
+  const [eventWasDeleted, setEventWasDeleted] = useState(false)
 
   let history = useHistory();
 
-  const handleClickEllipsis = (discussion) => {
-    setAnchorEl(discussion.currentTarget);
+  const handleClickEllipsis = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
   const handleCloseEllipsisMenu = () => {
     setAnchorEl(null);
   };
 
-  const { loading: discussionIsLoading, error, data } = useQuery(
-    GET_DISCUSSION,
+  const { loading: eventIsLoading, error, data } = useQuery(
+    GET_EVENT,
     {
       variables: {
-        id: discussionId
+        id: eventId
       }
     }
   )
   
-  if (discussionIsLoading) {
+  if (eventIsLoading) {
     return <p>Loading...</p> 
   }
 
   if (error) {
-    alert(`GET_DISCUSSION error: ${error}`)
+    alert(`GET_EVENT error: ${error}`)
     return null
   }
 
-  // If the discussion is not found,
+  // If the event is not found,
   // provide a link back to the community.
-  if (!data.getDiscussion) {
+  if (!data.getEvent) {
     return (
       <div className='container'>
-        <div className='discussionPage'>
+        <div className='eventPage'>
 
-          <p>Could not find the discussion.</p>
-          <Link to={`/c/${url}`}>
+          <p>Could not find the event.</p>
+          <Link to={`/c/${url}/events`}>
             <p>
-              <i className="fas fa-arrow-left"></i> Go back to {`c/${url}`}
+              <i className="fas fa-arrow-left"></i> Go back to {`c/${url}/events`}
             </p>
           </Link>
         </div>
@@ -123,34 +124,45 @@ const Discussion = () => {
   }
   
   
-  if (data.getDiscussion) {
-    const discussionData = data.getDiscussion;
-    const { title, body, Author, Comments } = discussionData;
-    const { username } = Author;
+  if (data.getEvent) {
+    const eventData = data.getEvent;
+    const { 
+      title, 
+      description,
+      startDay,
+      startTime,
+      durationInMinutes,
+      location,
+      isVirtual,
+      Organizer: {
+        username
+      },
+      Comments
+    } = eventData
 
-    return discussionWasDeleted ? (
+    return eventWasDeleted ? (
       <Redirect
         push
         to={{
-          pathname: `/c/${url}`
+          pathname: `/c/${url}/events`
         }}
       />
     ) : (
       <div className='container'>
-        <div className='discussionPage'>
+        <div className='eventPage'>
 
           <div className='pageTitle'>
             <span className="backButton"
               onClick={() => history.goBack()}
             >
               <i className="fas fa-arrow-left"></i> Back
-            </span> | Discussion in <Link
+            </span> | Event in <Link
               className='understatedLink'
               to={`/c/${url}`}
-            >{`c/${url}`}</Link>{}
+            >{`c/${url}`}</Link>
           </div>
 
-          <div className='discussionBody'>
+          <div className='eventBody'>
 
             <div className='options-button'>
                 <IconButton 
@@ -172,7 +184,7 @@ const Discussion = () => {
             >
               <MenuItem onClick={() => {
                 handleCloseEllipsisMenu()
-                setShowEditDiscussionModal(true)
+                setShowEditEventModal(true)
               }}>
                 <ListItemIcon>
                   <EditIcon fontSize="small" />
@@ -181,7 +193,7 @@ const Discussion = () => {
               </MenuItem>
               <MenuItem onClick={() => {
                 handleCloseEllipsisMenu()
-                setShowDeleteDiscussionModal(true)
+                setShowDeleteEventModal(true)
               }}>
                 <ListItemIcon>
                   <DeleteIcon/>
@@ -190,26 +202,46 @@ const Discussion = () => {
               </MenuItem>
             </Menu>
 
-            <EditDiscussionModal
-              discussionId={discussionId}
-              discussionData={discussionData}
-              showEditDiscussionModal={showEditDiscussionModal}
-              setShowEditDiscussionModal={setShowEditDiscussionModal}
+            <EditEventModal
+              eventId={eventId}
+              eventData={eventData}
+              showEditEventModal={showEditEventModal}
+              setShowEditEventModal={setShowEditEventModal}
             />
-            <DeleteDiscussionModal
+            <DeleteEventModal
               url={url}
-              discussionId={discussionId}
-              showDeleteDiscussionModal={showDeleteDiscussionModal}
-              setShowDeleteDiscussionModal={setShowDeleteDiscussionModal}
-              setDiscussionWasDeleted={setDiscussionWasDeleted}
+              eventId={eventId}
+              showDeleteEventModal={showDeleteEventModal}
+              setShowDeleteEventModal={setShowDeleteEventModal}
+              setEventWasDeleted={setEventWasDeleted}
             />
             
             <h2>{title}</h2>
+            <div className="details">
+              <Table size="sm" borderless>
+                <tbody>
+                  <tr>
+                    <td>
+                      <i className="far fa-clock"></i>{startDay} at {startTime} for {durationInMinutes} minutes
+                    </td>
+                  </tr>
+                  {location ? (
+                    <tr>
+                      <td><i className="fas fa-map-marker-alt"></i>{location}</td>
+                    </tr>
+                  ) : null}
+                  {isVirtual ? (
+                    <tr>
+                      <td><i className="fas fa-globe"></i>This is a virtual event.</td>
+                    </tr>
+                  ) : null}
+                </tbody>
+              </Table>
+            </div>
+            {description}
             
-            {body}
-            
-            <div className='discussionAuthor'>
-                Posted by{' '}
+            <div className='organizer'>
+                Hosted by{' '}
                 <Link to={`/u/${username ? username : '[deleted]'}`}>{`/u/${
                   username ? username : '[deleted]'
                 }`}
@@ -217,8 +249,8 @@ const Discussion = () => {
             </div>
           </div>
 
-          <DiscussionRootCommentForm
-            discussionId={discussionId}
+          <EventRootCommentForm
+            eventId={eventId}
             communityUrl={url}
           />
           
@@ -230,4 +262,4 @@ const Discussion = () => {
   }  
 }
 
-export default Discussion
+export default Event

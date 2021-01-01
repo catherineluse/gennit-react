@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import CreateDiscussionForm from './forms/discussion/CreateDiscussionForm'
+import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Redirect } from 'react-router'
 
@@ -46,11 +45,11 @@ const renderDiscussions = (Discussions, url, history) => {
 
 const DiscussionList = ({ 
   url, 
-  communityData
+  communityData,
+  newDiscussionId,
+  newDiscussionFormWasSubmitted
 }) => {
   const { Discussions } = communityData;
-  const [newDiscussionFormWasSubmitted, setNewDiscussionFormWasSubmitted] = useState(false)
-  const [newDiscussionId, setNewDiscussionId] = useState(false)
 
   const history = useHistory()
 
@@ -62,14 +61,9 @@ const DiscussionList = ({
       }}
     />
   ) : (
-      <div className='col-6'>
-        <CreateDiscussionForm 
-          currentCommunity={communityData}
-          setNewDiscussionFormWasSubmitted={setNewDiscussionFormWasSubmitted}
-          setNewDiscussionId={setNewDiscussionId}
-        />
+      <>
         {!Discussions ? null : renderDiscussions(Discussions, url, history)}
-      </div>
+      </>
   )
 }
 

@@ -7,8 +7,10 @@ import Profile from './Profile'
 import UserProfile from './UserProfile'
 import UserList from './UserList'
 import Discussion from './Discussion'
+import Event from './Event'
 
 export const communityBodyContentTypes = {
+  EVENT_LIST: 'EVENT_LIST',
   DISCUSSION_LIST: 'DISCUSSION_LIST',
   SETTINGS: 'SETTINGS'
 }
@@ -35,6 +37,16 @@ const Main = ({ showSideNav }) => {
           exact
         />
         <Route
+          path={`/c/:url/events`}
+          render={props => (
+            <Community
+              {...props}
+              communityBodyContent={communityBodyContentTypes.EVENT_LIST}
+            />
+          )}
+          exact
+        />
+        <Route
           path={`/c/:url/settings`}
           render={props => (
             <Community
@@ -44,8 +56,17 @@ const Main = ({ showSideNav }) => {
           )}
           exact
         ></Route>
-        <Route path={`/c/:url/discussion/:discussionId`} exact>
+        <Route 
+          path={`/c/:url/discussion/:discussionId`} 
+          exact
+        >
           <Discussion />
+        </Route>
+        <Route 
+          path={`/c/:url/event/:eventId`} 
+          exact
+        >
+          <Event />
         </Route>
       </Switch>
     </div>

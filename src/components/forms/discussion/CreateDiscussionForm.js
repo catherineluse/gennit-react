@@ -2,17 +2,8 @@ import React, { useState } from 'react'
 import { useMutation, gql } from '@apollo/client'
 import { Button, Modal } from 'react-bootstrap'
 import { ADD_DISCUSSION } from '../../../graphQLData/discussions'
-import { GET_COMMUNITY_WITH_DISCUSSIONS } from '../../../graphQLData/communities'
+import { GET_COMMUNITY_WITH_DISCUSSIONS_AND_EVENTS } from '../../../graphQLData/communities'
 import { Redirect } from 'react-router'
-
-// type Discussion {
-//     id:           ID!
-//     Author:       User!
-//     body:         String
-//     Community:    Community!   @hasInverse(field: Discussions)
-//     title:        String!
-//     Comments:     [Comment]   @hasInverse(field: Discussion)
-//    }
 
 const CreateDiscussionForm = ({ 
   currentCommunity
@@ -44,7 +35,7 @@ const CreateDiscussionForm = ({
       }
     ) {
         const existingCommunity = cache.readQuery({ 
-          query: GET_COMMUNITY_WITH_DISCUSSIONS,
+          query: GET_COMMUNITY_WITH_DISCUSSIONS_AND_EVENTS,
           variables: {
             url
           } 
@@ -85,7 +76,7 @@ const CreateDiscussionForm = ({
   ) : (
     <>
       <Button 
-        className='discussionListButton'
+        className='communityActionButton'
         variant='primary' 
         onClick={() => setShow(true)}
       >

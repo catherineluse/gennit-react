@@ -1,17 +1,19 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
-import { GET_COMMUNITY_WITH_DISCUSSIONS } from '../graphQLData/communities'
+import { GET_COMMUNITY_WITH_DISCUSSIONS_AND_EVENTS } from '../graphQLData/communities'
 import CommunitySettingsForm from './forms/community/CommunitySettingsForm'
 import DiscussionList from './DiscussionList'
+import CommunityEventList from './CommunityEventList'
 import CommunityHeader from './CommunityHeader'
 import { communityBodyContentTypes } from './Main'
 import CommunitySidebar from './CommunitySidebar';
-import { Link } from 'react-router-dom'
-  
+import { Link, NavLink } from 'react-router-dom'
+
 const Community = ({ match, communityBodyContent }) => {
   const { url } = match.params
+
   const { loading, error, data } = useQuery(
-    GET_COMMUNITY_WITH_DISCUSSIONS,
+    GET_COMMUNITY_WITH_DISCUSSIONS_AND_EVENTS,
     {
       variables: {
         url
@@ -24,7 +26,7 @@ const Community = ({ match, communityBodyContent }) => {
   }
   
   if (error) {
-   return <p>{`GET_COMMUNITY_WITH_DISCUSSIONS error: ${error}`}</p>
+   return <p>{`GET_COMMUNITY_WITH_DISCUSSIONS_AND_EVENTS error: ${error}`}</p>
   }
 
   // If the community is not found,
@@ -51,16 +53,10 @@ const Community = ({ match, communityBodyContent }) => {
 
   const renderDiscussionPage = () => {
     return (
-      <div className='row'>
-        <DiscussionList 
-          url={url} 
-          communityData={currentCommunity} 
-        />
-        <CommunitySidebar 
-          description={description} 
-          username={username}
-        />
-     </div>
+      <DiscussionList 
+        url={url} 
+        communityData={currentCommunity} 
+      />
     )
   }
 
@@ -72,12 +68,19 @@ const Community = ({ match, communityBodyContent }) => {
           {renderDiscussionPage()}
           </>
         )
+      case communityBodyContentTypes.EVENT_LIST:
+        return (
+          <CommunityEventList
+            url={url}
+            currentCommunity={currentCommunity}
+          />
+        )
       case communityBodyContentTypes.SETTINGS:
         return (
-              <CommunitySettingsForm 
-                url={url} 
-                currentCommunity={currentCommunity}
-              />
+          <CommunitySettingsForm 
+            url={url} 
+            currentCommunity={currentCommunity}
+          />
         )
       default:
         return (
@@ -89,13 +92,53 @@ const Community = ({ match, communityBodyContent }) => {
   }
 
   return  (
-      <div>
-        <CommunityHeader 
-          name={name} 
-          url={url}
-        />
-        <div className='communityBody'>
-          {renderBody()}
+      <div className="container communityBody">
+        <div className="row">
+          <CommunityHeader 
+            name={name} 
+            url={url}
+          />
+        </div>
+        <div className="row">
+          <div className="col-sm-3">
+            <CommunitySidebar 
+              description={description} 
+              username={username}
+              communityData={currentCommunity}
+            />
+          </div>
+          <div className="col-sm-6">
+            <div className="communitySectionBar">
+                    <NavLink
+                        exact
+                        to={`/c/${url}`}
+                        activeClassName="active"
+                    >
+                        <span className="communitySectionTitle">
+                            <i className="far fa-comments"></i> Discussions
+                      </span>
+                    </NavLink>
+                    <NavLink
+                        exact
+                        to={`/c/${url}/events`}
+                        activeClassName="active"
+                    >
+                        <span className="communitySectionTitle">
+                        <i className="far fa-calendar-alt"></i> Events
+                      </span>
+                    </NavLink>
+                    <NavLink
+                        exact
+                        to={`/c/${url}/settings`}
+                        activeClassName="active"
+                    >
+                        <span className="communitySectionTitle">
+                            <i className="fas fa-cog"></i> Settings
+                        </span>
+                    </NavLink>
+                </div>
+                {renderBody()}
+          </div>
         </div>
       </div>
   )
