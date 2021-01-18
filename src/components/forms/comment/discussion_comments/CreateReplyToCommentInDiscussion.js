@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { CREATE_CHILD_COMMENT } from '../../../graphQLData/comments'
-import { GET_DISCUSSION } from '../../../graphQLData/discussions'
+import { REPLY_TO_DISCUSSION_COMMENT } from '../../../../graphQLData/comments'
+import { GET_DISCUSSION } from '../../../../graphQLData/discussions'
 import { useMutation, gql } from '@apollo/client'
 import { useParams } from 'react-router-dom'
 import { Modal, Button } from 'react-bootstrap'
 
-const ReplyToCommentForm = ({ 
+const CreateReplyToCommentInDiscussion = ({ 
   authorUsername,
   text,
   handleClose,
@@ -14,7 +14,7 @@ const ReplyToCommentForm = ({
   const { url, discussionId } = useParams()
   const [reply, setReply] = useState("")
 
-  const [addComment, { error }] = useMutation(CREATE_CHILD_COMMENT, {
+  const [addComment, { error }] = useMutation(REPLY_TO_DISCUSSION_COMMENT, {
     variables: {
       authorUsername: "alice",
       discussionId,
@@ -42,7 +42,7 @@ const ReplyToCommentForm = ({
         cache.writeFragment({
           id: 'Discussion:' + discussionId,
           fragment: gql`
-            fragment updatedComments on Discussion {
+            fragment updatedDiscussionComments on Discussion {
               Comments
             }
           `,
@@ -94,4 +94,4 @@ const ReplyToCommentForm = ({
   )
 }
 
-export default ReplyToCommentForm;
+export default CreateReplyToCommentInDiscussion;

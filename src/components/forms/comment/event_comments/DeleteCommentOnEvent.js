@@ -1,15 +1,15 @@
 import React from 'react'
 import { useMutation, gql } from '@apollo/client'
-import { DELETE_COMMENT } from '../../../graphQLData/comments'
-import { GET_DISCUSSION } from '../../../graphQLData/discussions'
+import { DELETE_COMMENT } from '../../../../graphQLData/comments'
+import { GET_EVENT } from '../../../../graphQLData/events'
 import { Button, Modal } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 
-const DeleteCommentForm = ({ 
+const DeleteCommentOnEvent = ({ 
   commentId, 
   handleClose,
 }) => {
-  const { discussionId } = useParams()
+  const { eventId } = useParams()
   const [deleteComment, { error: deleteCommentError }] = useMutation(
     DELETE_COMMENT,
     {
@@ -19,21 +19,21 @@ const DeleteCommentForm = ({
       update(
         cache
       ) {
-          const existingDiscussion = cache.readQuery({ 
-            query: GET_DISCUSSION,
+          const existingEvent = cache.readQuery({ 
+            query: GET_EVENT,
             variables: {
-              id: discussionId
+              id: eventId
             } 
            });
   
-          const existingComments = existingDiscussion.getDiscussion.Comments;
+          const existingComments = existingEvent.getEvent.Comments;
           const updatedComments = existingComments.filter(comment => {
             return comment.id !== commentId
           })
           cache.writeFragment({
-            id: 'Discussion:' + discussionId,
+            id: 'Event:' + eventId,
             fragment: gql`
-              fragment updatedComments on Discussion {
+              fragment updatedEventComments on Event {
                 Comments
               }
             `,
@@ -74,4 +74,4 @@ const DeleteCommentForm = ({
   )
 }
 
-export default DeleteCommentForm
+export default DeleteCommentOnEvent

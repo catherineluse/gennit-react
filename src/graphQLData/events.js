@@ -115,11 +115,15 @@ export const GET_EVENT = gql`
           username
       }
       Comments {
+        id
+        isRootComment
+        ParentComment {
           id
-          Author {
-              username
-          }
-          text
+        }
+        Author {
+          username
+        }
+        text
       }
     }
   }

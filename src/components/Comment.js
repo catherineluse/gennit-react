@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Modal } from 'react-bootstrap'
-import EditCommentForm from './forms/comment/EditCommentForm';
-import DeleteCommentForm from './forms/comment/DeleteCommentForm';
-import ReplyToCommentForm from './forms/comment/ReplyToCommentForm';
+import { useParams } from 'react-router-dom'
+import commentTypes from './forms/commentTypes'
+import EditComment from './forms/comment/EditComment';
+import DeleteCommentOnEvent from './forms/comment/event_comments/DeleteCommentOnEvent';
+import DeleteCommentOnDiscussion from './forms/comment/discussion_comments/DeleteCommentInDiscussion';
+import CreateReplyToCommentOnEvent from './forms/comment/event_comments/CreateReplyToCommentOnEvent';
+import CreateReplyToCommentInDiscussion from './forms/comment/discussion_comments/CreateReplyToCommentInDiscussion';
 
 const EditCommentModal = ({ 
   text,
@@ -21,7 +25,7 @@ const EditCommentModal = ({
         <Modal.Header closeButton>
           <Modal.Title>Edit Comment</Modal.Title>
         </Modal.Header>
-        <EditCommentForm 
+        <EditComment 
           commentId={commentId}
           text={text}
           handleClose={handleClose}
@@ -33,9 +37,31 @@ const EditCommentModal = ({
 const DeleteCommentModal = ({
   commentId,
   showDeleteCommentModal,
-  setShowDeleteCommentModal
+  setShowDeleteCommentModal,
+  commentType
  }) => {
     const handleClose = () => setShowDeleteCommentModal(false);
+
+    const renderDeleteCommentForm = () => {
+      switch ( commentType ) {
+        case commentTypes.DISCUSSION:
+          return (
+            <DeleteCommentOnDiscussion
+              commentId={commentId}
+              handleClose={handleClose}
+            />
+          )
+        case commentTypes.EVENT:
+          return (
+            <DeleteCommentOnEvent
+              commentId={commentId}
+              handleClose={handleClose}
+            />
+          )
+        default:
+          return null;
+      }
+    }
 
     return (
       <Modal 
@@ -45,10 +71,7 @@ const DeleteCommentModal = ({
         <Modal.Header closeButton>
           <Modal.Title>Delete Comment</Modal.Title>
         </Modal.Header>
-        <DeleteCommentForm 
-          commentId={commentId}
-          handleClose={handleClose}
-        />
+        {renderDeleteCommentForm()}
       </Modal>
     )
 }
@@ -58,9 +81,36 @@ const ReplyToCommentModal = ({
   text,
   authorUsername,
   showReplyToCommentModal,
-  setShowReplyToCommentModal
+  setShowReplyToCommentModal,
+  commentType
  }) => {
+    
     const handleClose = () => setShowReplyToCommentModal(false);
+
+    const renderReplyToCommentForm = () => {
+      switch ( commentType ) {
+        case commentTypes.DISCUSSION:
+          return (
+            <CreateReplyToCommentInDiscussion 
+              authorUsername={authorUsername}
+              parentCommentId={parentCommentId}
+              text={text}
+              handleClose={handleClose}
+            />
+          )
+        case commentTypes.EVENT:
+          return (
+            <CreateReplyToCommentOnEvent 
+              authorUsername={authorUsername}
+              parentCommentId={parentCommentId}
+              text={text}
+              handleClose={handleClose}
+            />
+          )
+        default:
+          return null;
+      }
+    }
 
     return (
       <Modal 
@@ -70,17 +120,26 @@ const ReplyToCommentModal = ({
         <Modal.Header closeButton>
           <Modal.Title>Reply to Comment</Modal.Title>
         </Modal.Header>
-        <ReplyToCommentForm 
-          authorUsername={authorUsername}
-          parentCommentId={parentCommentId}
-          text={text}
-          handleClose={handleClose}
-        />
+        { renderReplyToCommentForm() }
       </Modal>
     )
 }
 
-const Comment = ({ text, commentId, username }) => {
+const Comment = ({ 
+  text, 
+  commentId, 
+  username 
+}) => {
+    const { eventId, discussionId } = useParams()
+    let commentType = ""
+
+    if (eventId) {
+      commentType = commentTypes.EVENT;
+    }
+    if (discussionId) {
+      commentType = commentTypes.DISCUSSION;
+    }
+
     const [ showButtons, setShowButtons ] = useState(false)
     const [ locked, setLocked ] = useState(false)
     const [ showEditCommentModal, setShowEditCommentModal ] = useState(false)
@@ -152,6 +211,7 @@ const Comment = ({ text, commentId, username }) => {
               commentId={commentId}
               showDeleteCommentModal={showDeleteCommentModal}
               setShowDeleteCommentModal={setShowDeleteCommentModal}
+              commentType={commentType}
             />
             <ReplyToCommentModal
               parentCommentId={commentId}
@@ -159,6 +219,7 @@ const Comment = ({ text, commentId, username }) => {
               text={text}
               showReplyToCommentModal={showReplyToCommentModal}
               setShowReplyToCommentModal={setShowReplyToCommentModal}
+              commentType={commentType}
             />
         </div>
     )

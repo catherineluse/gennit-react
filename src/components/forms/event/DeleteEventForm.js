@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useMutation, useQuery, gql } from '@apollo/client'
 import { DELETE_EVENT } from '../../../graphQLData/events'
 import {
@@ -14,18 +14,15 @@ const DeleteEventForm = ({
   handleClose,
   setEventWasDeleted
 }) => {
-  const [commentIds, setCommentIds] = useState([])
+  let commentsToDelete = []
 
   const  { 
     loading: commentIdsAreLoading, 
-    error: getCommentIdsError
+    error: getCommentIdsError,
+    data: commentData
   } = useQuery(GET_COMMENT_IDS_IN_EVENT, {
     variables: {
       id: eventId
-    },
-    onCompleted: (data) => {
-      const commentIds = data.queryComment.map(comment => comment.id)
-      setCommentIds(commentIds)
     },
     errorPolicy: 'all'
   })
@@ -46,6 +43,10 @@ const DeleteEventForm = ({
             url
           } 
          });
+        
+        if (!existingCommunity){
+          return;
+        }
         const existingCommunityData = existingCommunity.getCommunity
         const existingEvents = existingCommunityData.Events;
         const updatedEvents = existingEvents.filter(event => {
@@ -79,16 +80,19 @@ const DeleteEventForm = ({
     throw new Error(`Delete event error: ${deleteEventError}`)
   }
 
+  commentsToDelete = commentData.queryComment.map(comment => comment.id)
+  console.log("comments to delete are ", commentsToDelete)
+
   const handleDelete = async e => {
     e.preventDefault()
 
-    deleteComments({
+    await deleteComments({
       variables: {
-        id: commentIds
+        id: commentsToDelete
       }
     })
 
-    deleteEvent({
+    await deleteEvent({
       variables: {
         id: eventId
       }

@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { CREATE_ROOT_COMMENT } from '../../../graphQLData/comments'
-import { GET_DISCUSSION } from '../../../graphQLData/discussions'
+import { CREATE_EVENT_ROOT_COMMENT } from '../../../../graphQLData/comments'
+import { GET_EVENT } from '../../../../graphQLData/events'
 import { useMutation, gql } from '@apollo/client'
 import { Form, FormGroup, Input } from 'reactstrap'
 
 const EventRootCommentForm = ({ 
-  discussionId, 
+  eventId, 
   communityUrl
  }) => {
 
   const [text, setText] = useState("")
 
-  const [addComment, { error }] = useMutation(CREATE_ROOT_COMMENT, {
+  const [addComment, { error }] = useMutation(CREATE_EVENT_ROOT_COMMENT, {
     variables: {
       authorUsername: "alice",
-      discussionId,
+      eventId,
       text,
       communityUrl
     },
@@ -24,20 +24,20 @@ const EventRootCommentForm = ({
         data: { addComment }
       }
     ) {
-        const existingDiscussion = cache.readQuery({ 
-          query: GET_DISCUSSION,
+        const existingEvent = cache.readQuery({ 
+          query: GET_EVENT,
           variables: {
-            id: discussionId
+            id: eventId
           } 
          });
 
         const newComment = addComment.comment[0]
-        const existingComments = existingDiscussion.getDiscussion.Comments;
+        const existingComments = existingEvent.getEvent.Comments;
         const updatedComments = [newComment, ...existingComments]
         cache.writeFragment({
-          id: 'Discussion:' + discussionId,
+          id: 'Event:' + eventId,
           fragment: gql`
-            fragment updatedComments on Discussion {
+            fragment updatedEventComments on Event {
               Comments
             }
           `,
@@ -55,7 +55,7 @@ const EventRootCommentForm = ({
     const data = await addComment()
     
     if (error) {
-      alert(error + "Could not add the community: " + JSON.stringify({...data.addComment.community[0]}))
+      alert(error + "Could not add the commemt: " + JSON.stringify({...data.addComment}))
     }
   }
 
@@ -68,7 +68,7 @@ const EventRootCommentForm = ({
           type='textarea'
           className='form-control'
           value={text}
-          placeholder="Reply here"
+          placeholder="Add a comment here"
           onChange={e => setText(e.target.value)}
         />
         <button

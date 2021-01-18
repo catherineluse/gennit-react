@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { CREATE_ROOT_COMMENT } from '../../../graphQLData/comments'
-import { GET_DISCUSSION } from '../../../graphQLData/discussions'
+import { CREATE_DISCUSSION_ROOT_COMMENT } from '../../../../graphQLData/comments'
+import { GET_DISCUSSION } from '../../../../graphQLData/discussions'
 import { useMutation, gql } from '@apollo/client'
 import { Form, FormGroup, Input } from 'reactstrap'
 
-const DiscussionRootCommentForm = ({ 
+const CreateRootCommentInDiscussion = ({ 
   discussionId, 
   communityUrl
  }) => {
 
   const [text, setText] = useState("")
 
-  const [addComment, { error }] = useMutation(CREATE_ROOT_COMMENT, {
+  const [addComment, { error }] = useMutation(CREATE_DISCUSSION_ROOT_COMMENT, {
     variables: {
       authorUsername: "alice",
       discussionId,
@@ -37,7 +37,7 @@ const DiscussionRootCommentForm = ({
         cache.writeFragment({
           id: 'Discussion:' + discussionId,
           fragment: gql`
-            fragment updatedComments on Discussion {
+            fragment updatedDiscussionComments on Discussion {
               Comments
             }
           `,
@@ -55,7 +55,7 @@ const DiscussionRootCommentForm = ({
     const data = await addComment()
     
     if (error) {
-      alert(error + "Could not add the community: " + JSON.stringify({...data.addComment.community[0]}))
+      alert(error + "Could not add the comment: " + JSON.stringify({...data.addComment}))
     }
   }
 
@@ -83,4 +83,4 @@ const DiscussionRootCommentForm = ({
   )
 }
 
-export default DiscussionRootCommentForm;
+export default CreateRootCommentInDiscussion;

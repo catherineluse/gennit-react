@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useMutation, useQuery, gql } from '@apollo/client'
 import { DELETE_DISCUSSION } from '../../../graphQLData/discussions'
 import {
@@ -14,18 +14,15 @@ const DeleteDiscussionForm = ({
   handleClose,
   setDiscussionWasDeleted
 }) => {
-  const [commentIds, setCommentIds] = useState([])
+  let commentIds = []
 
   const  { 
     loading: commentIdsAreLoading, 
-    error: getCommentIdsError
+    error: getCommentIdsError,
+    data: commentData
   } = useQuery(GET_COMMENT_IDS_IN_DISCUSSION, {
     variables: {
       id: discussionId
-    },
-    onCompleted: (data) => {
-      const commentIds = data.queryComment.map(comment => comment.id)
-      setCommentIds(commentIds)
     },
     errorPolicy: 'all'
   })
@@ -75,6 +72,8 @@ const DeleteDiscussionForm = ({
   if (deleteDiscussionError) {
     throw new Error(`Delete discussion error: ${deleteDiscussionError}`)
   }
+  commentIds = commentData.queryComment.map(comment => comment.id)
+
 
   const handleDelete = async e => {
     e.preventDefault()

@@ -48,8 +48,9 @@ const CommentList = ({ Comments }) => {
         // we do an error check here to make sure all
         // comments that are not root comments do have
         // a parent comment ID.
-        if (ParentComment === null) {
+        if (ParentComment === null || ParentComment === undefined) {
           alert("Could not render the child comment because it has no parent comment ID.")
+          console.log('could not render the comment ', commentData)
           continue;
         }
         const { id: parentCommentId } = ParentComment;

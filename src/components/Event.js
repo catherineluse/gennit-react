@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom'
 import { GET_EVENT } from '../graphQLData/events'
 import EditEventForm from './forms/event/EditEventForm'
 import DeleteEventForm from './forms/event/DeleteEventForm'
-import EventRootCommentForm from './forms/comment/EventRootCommentForm'
+import CreateRootCommentOnEvent from './forms/comment/event_comments/CreateRootCommentOnEvent'
 import { Modal } from 'react-bootstrap'
 import { Redirect } from 'react-router'
 import { useHistory } from "react-router-dom";
@@ -249,7 +249,7 @@ const Event = () => {
             </div>
           </div>
 
-          <EventRootCommentForm
+          <CreateRootCommentOnEvent
             eventId={eventId}
             communityUrl={url}
           />

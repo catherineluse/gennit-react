@@ -10,6 +10,10 @@ import {
   DELETE_COMMENTS,
   GET_COMMENT_IDS_IN_COMMUNITY
 } from '../../../graphQLData/comments'
+import {
+  DELETE_EVENTS,
+  GET_EVENTS_IN_COMMUNITY
+} from '../../../graphQLData/events'
 import { Redirect } from 'react-router'
 
 const DeleteCommunityForm = () => {
@@ -34,6 +38,20 @@ const DeleteCommunityForm = () => {
     data: discussionData
   } = useQuery(
     GET_DISCUSSIONS_IN_COMMUNITY,
+    {
+      variables: {
+        url
+      }
+    }
+  )
+
+  // get events in community
+  const {
+    loading: loadingEvents,
+    error: getEventIdsError,
+    data: eventData
+  } = useQuery(
+    GET_EVENTS_IN_COMMUNITY,
     {
       variables: {
         url
@@ -66,8 +84,13 @@ const DeleteCommunityForm = () => {
   const [deleteDiscussions, { error: deleteDiscussionError }] = useMutation(
     DELETE_DISCUSSIONS
   )
+
   const [deleteComments, { error: deleteCommentError }] = useMutation(
     DELETE_COMMENTS
+  )
+
+  const [deleteEvents, { error: deleteEventError }] = useMutation(
+    DELETE_EVENTS
   )
 
   const [deleteField, setDeleteField] = useState('')
@@ -92,8 +115,17 @@ const DeleteCommunityForm = () => {
     alert(getDiscussionIdsError)
   }
 
+  if (loadingEvents) {
+    return null;
+  }
+
+  if (getEventIdsError) {
+    alert(getEventIdsError)
+  }
+
   let discussionIds = []
   let commentIds = []
+  let eventIds = []
 
   const handleDelete = async e => {
     e.preventDefault()
@@ -121,6 +153,15 @@ const DeleteCommunityForm = () => {
       alert(deleteDiscussionError)
     }
 
+    await deleteEvents({
+      variables: {
+        id: eventIds
+      }
+    })
+    if (deleteEventError) {
+      alert(deleteEventError)
+    }
+
     await deleteCommunity()
     if (deleteCommunityError) {
       alert(deleteCommunityError)
@@ -145,11 +186,12 @@ const DeleteCommunityForm = () => {
     )
   }
 
-  if (!commentData.queryComment || !discussionData.queryDiscussion) {
+  if (!commentData.queryComment || !discussionData.queryDiscussion || !eventData.queryEvent) {
     return null
   }
 
   discussionIds = discussionData.queryDiscussion.map(discussion => discussion.id)
+  eventIds = eventData.queryEvent.map(event => event.id)
   commentIds = commentData.queryComment.map(comment => comment.id)
 
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
-import { Button, Modal } from 'react-bootstrap'
+import { Button, Modal, Form } from 'react-bootstrap'
 import { UPDATE_EVENT } from '../../../graphQLData/events'
 
 const EditEventForm = ({ 
@@ -53,7 +53,7 @@ const EditEventForm = ({
     return (
         <>
         <Modal.Body>
-            <form>
+            <Form>
               <div className='form-group'>
                 <label htmlFor='name'>Event Name</label>
                 <input
@@ -110,17 +110,16 @@ const EditEventForm = ({
                   onChange={e => setLocationField(e.target.value)}
                 />
               </div>
-              <div className='form-group'>
-                <label htmlFor='isVirtual'>Is Virtual</label>
-                <input
-                  title='isVirtual'
-                  className='form-control'
-                  value={isVirtual}
-                  disabled
-                  onChange={e => setIsVirtualField(e.target.value)}
+             <Form.Group controlId="formBasicCheckbox">
+                <Form.Check 
+                  name='isVirtual'
+                  type="checkbox" 
+                  label="This event is virtual" 
+                  checked={isVirtualField}
+                  onChange={e => setIsVirtualField(Boolean(e.target.value))}
                 />
-              </div>
-             </form>
+              </Form.Group>
+            </Form>
           </Modal.Body>
           <Modal.Footer>
               <Button variant='secondary' onClick={handleClose}>

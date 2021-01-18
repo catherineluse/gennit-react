@@ -5,9 +5,12 @@
     "dependencies": {
         "@apollo/client": "^3.2.9",
         "@auth0/auth0-spa-js": "^1.8.1",
+        "@date-io/date-fns": "^2.10.6",
         "@material-ui/core": "^4.11.2",
         "@material-ui/icons": "^4.11.2",
+        "@material-ui/pickers": "^3.2.10",
         "bootstrap": "^4.5.3",
+        "date-fns": "^2.16.1",
         "dgraph-js-http": "20.7.0",
         "final-form": "^4.20.1",
         "graphql": "^14.7.0",

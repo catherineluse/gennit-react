@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom'
 import { GET_DISCUSSION } from '../graphQLData/discussions'
 import EditDiscussionForm from './forms/discussion/EditDiscussionForm'
 import DeleteDiscussionForm from './forms/discussion/DeleteDiscussionForm'
-import DiscussionRootCommentForm from './forms/comment/DiscussionRootCommentForm'
+import CreateRootCommentInDiscussion from './forms/comment/discussion_comments/CreateRootCommentInDiscussion'
 import { Modal } from 'react-bootstrap'
 import { Redirect } from 'react-router'
 import { useHistory } from "react-router-dom";
@@ -217,7 +217,7 @@ const Discussion = () => {
             </div>
           </div>
 
-          <DiscussionRootCommentForm
+          <CreateRootCommentInDiscussion
             discussionId={discussionId}
             communityUrl={url}
           />

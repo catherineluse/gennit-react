@@ -1,9 +1,17 @@
 import React, { useState } from 'react'
 import { useMutation, gql } from '@apollo/client'
-import { Button, Modal } from 'react-bootstrap'
+import { Button, Modal, Form } from 'react-bootstrap'
 import { ADD_EVENT } from '../../../graphQLData/events'
 import { GET_COMMUNITY_WITH_DISCUSSIONS_AND_EVENTS } from '../../../graphQLData/communities'
 import { Redirect } from 'react-router'
+import Grid from '@material-ui/core/Grid';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import 'date-fns';
 
 const CreateEventForm = ({ 
   currentCommunity
@@ -15,8 +23,8 @@ const CreateEventForm = ({
 
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
-  const [startDay, setStartDay] = useState("")
-  const [startTime, setStartTime] = useState("")
+  const [startDay, setStartDay] = useState(new Date())
+  const [startTime, setStartTime] = useState(new Date())
   const [durationInMinutes, setDurationInMinutes] = useState(0)
   const [location, setLocation] = useState("")
   const [isVirtual, setIsVirtual] = useState(false)
@@ -30,7 +38,7 @@ const CreateEventForm = ({
       durationInMinutes,
       communityUrl: url,
       location,
-      isVirtual: false,
+      isVirtual,
       organizer: "alice"
     },
     onCompleted({ addEvent }){
@@ -98,7 +106,7 @@ const CreateEventForm = ({
           <Modal.Title>Create an Event</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <div className='form-group'>
               <label htmlFor='name'>Event Name</label>
               <input
@@ -159,18 +167,16 @@ const CreateEventForm = ({
                 onChange={e => setLocation(e.target.value)}
               />
             </div>
-            <div className='form-group'>
-              <label htmlFor='name'>Is Virtual</label>
-              <input
-                name='durationInMinutes'
-                type='text'
-                value={isVirtual}
-                disabled
-                className='form-control'
-                onChange={e => setIsVirtual(e.target.value)}
+            <Form.Group controlId="formBasicCheckbox">
+              <Form.Check 
+                name='isVirtual'
+                type="checkbox" 
+                label="This event is virtual" 
+                checked={isVirtual}
+                onChange={e => setIsVirtual(Boolean(e.target.value))}
               />
-            </div>
-          </form>
+            </Form.Group>
+          </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant='secondary' onClick={ () => {setShow(false)} }>

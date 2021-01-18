@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client'
 import { Button, Modal } from 'react-bootstrap'
 import { UPDATE_COMMENT } from '../../../graphQLData/comments'
 
-const EditCommentForm = ({ 
+const EditCommentInDiscussion = ({ 
     commentId, 
     text, 
     handleClose 
@@ -55,4 +55,4 @@ const EditCommentForm = ({
     )
   }
 
-export default EditCommentForm
+export default EditCommentInDiscussion

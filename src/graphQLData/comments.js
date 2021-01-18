@@ -6,8 +6,10 @@ import { gql } from '@apollo/client'
 // - Comments can only be updated by their author
 //   or by an admin
 
-export const CREATE_ROOT_COMMENT = gql`
-  mutation createRootComment(
+// Creates a comment in a discussion,
+// without a parent comment
+export const CREATE_DISCUSSION_ROOT_COMMENT = gql`
+  mutation createDiscussionRootComment(
     $authorUsername: String!
     $discussionId: ID!
     $text: String!
@@ -38,8 +40,39 @@ export const CREATE_ROOT_COMMENT = gql`
     }
   }
 `
+// Creates a comment on an event,
+// without a parent comment
+export const CREATE_EVENT_ROOT_COMMENT = gql`
+  mutation createEventRootComment(
+    $authorUsername: String!
+    $eventId: ID!
+    $text: String!
+    $communityUrl: String!
+  ) {
+    addComment(
+      input: [
+        {
+          Author: { username: $authorUsername }
+          isRootComment: true
+          Event: { id: $eventId }
+          text: $text
+          Community: { url: $communityUrl }
+        }
+      ]
+    ) {
+      comment {
+        id
+        isRootComment
+        Author {
+          username
+        }
+        text
+      }
+    }
+  }
+`
 
-export const CREATE_CHILD_COMMENT = gql`
+export const REPLY_TO_DISCUSSION_COMMENT = gql`
   mutation createChildComment(
     $authorUsername: String!
     $parentCommentId: ID!
@@ -73,6 +106,49 @@ export const CREATE_CHILD_COMMENT = gql`
           text
         }
         Discussion {
+          id
+          title
+        }
+        text
+      }
+    }
+  }
+`
+
+export const REPLY_TO_EVENT_COMMENT = gql`
+  mutation createChildComment(
+    $authorUsername: String!
+    $parentCommentId: ID!
+    $eventId: ID!
+    $text: String!
+    $communityUrl: String!
+  ) {
+    addComment(
+      input: [
+        {
+          Author: { username: $authorUsername }
+          isRootComment: false
+          ParentComment: { id: $parentCommentId }
+          Event: { id: $eventId }
+          text: $text
+          Community: { url: $communityUrl }
+        }
+      ]
+    ) {
+      comment {
+        id
+        Author {
+          username
+        }
+        isRootComment
+        ParentComment {
+          id
+          Author {
+            username
+          }
+          text
+        }
+        Event {
           id
           title
         }
