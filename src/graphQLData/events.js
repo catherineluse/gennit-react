@@ -11,12 +11,13 @@ export const ADD_EVENT = gql`
   mutation addEvent(
     $title: String!
     $description: String
-    $startDay: String!
     $startTime: String!
-    $durationInMinutes: Int
+    $endTime: String!
     $communityUrl: String!
-    $location: String!
+    $location: String
+    $howToFindLocation: String
     $isVirtual: Boolean!
+    $virtualEventUrl: String
     $organizer: String!
   ) {
     addEvent(
@@ -24,12 +25,13 @@ export const ADD_EVENT = gql`
         {
           title: $title
           description: $description
-          startDay: $startDay
           startTime: $startTime
-          durationInMinutes: $durationInMinutes
+          endTime: $endTime
           Community: { url: $communityUrl }
           location: $location
+          howToFindLocation: $howToFindLocation
           isVirtual: $isVirtual
+          virtualEventUrl: $virtualEventUrl
           Organizer: { username: $organizer }
         }
       ]
@@ -45,9 +47,10 @@ export const ADD_EVENT = gql`
           username
         }
         location
-        startDay
+        howToFindLocation
         startTime
-        durationInMinutes
+        endTime
+        virtualEventUrl
         isVirtual
       }
     }
@@ -60,11 +63,12 @@ export const UPDATE_EVENT = gql`
       $id: ID!
       $title: String
       $description: String
-      $startDay: String
       $startTime: String
-      $durationInMinutes: Int
+      $endTime: String
       $location: String!
+      $howToFindLocation: String
       $isVirtual: Boolean!
+      $virtualEventUrl: String
     ) {
     updateEvent(
       input: { 
@@ -74,11 +78,12 @@ export const UPDATE_EVENT = gql`
         set: { 
             title: $title
             description: $description
-            startDay: $startDay
             startTime: $startTime
-            durationInMinutes: $durationInMinutes
+            endTime: $endTime
             location: $location
+            howToFindLocation: $howToFindLocation
             isVirtual: $isVirtual
+            virtualEventUrl: $virtualEventUrl
         } 
       }
     ) {
@@ -86,10 +91,11 @@ export const UPDATE_EVENT = gql`
         id
         title
         description
-        startDay
         startTime
-        durationInMinutes
+        endTime
         location
+        howToFindLocation
+        virtualEventUrl
         isVirtual
       }
     }
@@ -103,11 +109,12 @@ export const GET_EVENT = gql`
       id
       title
       description
-      startDay
       startTime
-      durationInMinutes
+      endTime
       location
+      howToFindLocation
       isVirtual
+      virtualEventUrl
       Community {
           url
       }

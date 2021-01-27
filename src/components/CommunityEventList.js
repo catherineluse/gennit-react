@@ -2,26 +2,28 @@ import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Redirect } from 'react-router'
 
-const renderCommunityEventList = (Events, url) => {
+const renderCommunityEventList = (Events, url, history) => {
   if (Events.length === 0) {
     return (
      <p>There are no events yet.</p>
     )
   }
 
-  return Events.map(event => {
+  return Events.map((event) => {
     const { 
         id, 
         title, 
-        startDay, 
-        location, 
+        startTime,
+        endTime, 
+        location,
+        virtualEventUrl,
         Organizer: { 
             username 
         },
         isVirtual
     } = event;
 
-    const history = useHistory()
+    
     const handleClick = () => history.push(`/c/${url}/event/${id}`)
 
     return (
@@ -29,7 +31,7 @@ const renderCommunityEventList = (Events, url) => {
         <div className='discussionTitle' onClick={handleClick}>
           {title}
         </div>
-        <p className="event-details">Date: {startDay}</p>
+        <p className="event-details">Date: {startTime}</p>
         <p className="event-details">Location: {isVirtual ? "Virtual" : location}</p>
         <div className='discussionAuthor'>
           Hosted by{' '}
@@ -59,7 +61,7 @@ const CommunityEventList = ({
     newEventFormWasSubmitted
 }) => {
     const { Events } = currentCommunity;
-    console.log('events ,', currentCommunity.Events)
+    const history = useHistory()
 
     return newEventFormWasSubmitted ? (
       <Redirect
@@ -70,7 +72,7 @@ const CommunityEventList = ({
       />
     ) : (
         <div>
-          {renderCommunityEventList(Events, url)}
+          {renderCommunityEventList(Events, url, history)}
         </div>
     )
 }

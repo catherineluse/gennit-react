@@ -85,13 +85,14 @@ type Event {
   id:                  ID!
   title:               String!
   description:         String
-  startDay:            String
-  startTime:           String
-  durationInMinutes:   Int
+  startTime:           String!
+  endTime:             String
   Community:           Community!
   Comments:            [Comment] @hasInverse(field: Event)
-  location:            String
   isVirtual:           Boolean!
+  location:            String
+  howToFindLocation:   String
+  virtualEventUrl:     String
   Organizer:           User!
   rsvps:               [User!]
   hostedBy:            String

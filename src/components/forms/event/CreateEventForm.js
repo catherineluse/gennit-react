@@ -1,17 +1,23 @@
 import React, { useState } from 'react'
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
 import { useMutation, gql } from '@apollo/client'
-import { Button, Modal, Form } from 'react-bootstrap'
+import { Button, Modal, Form as BootstrapForm } from 'react-bootstrap'
 import { ADD_EVENT } from '../../../graphQLData/events'
 import { GET_COMMUNITY_WITH_DISCUSSIONS_AND_EVENTS } from '../../../graphQLData/communities'
 import { Redirect } from 'react-router'
 import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import 'date-fns';
+import { Form as FinalForm, Field } from 'react-final-form'
+
+const required = value => (value ? undefined : 'Required')
+
+const composeValidators = (...validators) => value =>
+  validators.reduce((error, validator) => error || validator(value), undefined)
 
 const CreateEventForm = ({ 
   currentCommunity
@@ -23,21 +29,33 @@ const CreateEventForm = ({
 
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
-  const [startDay, setStartDay] = useState(new Date())
   const [startTime, setStartTime] = useState(new Date())
-  const [durationInMinutes, setDurationInMinutes] = useState(0)
-  const [location, setLocation] = useState("")
+  const [endTime, setEndTime] = useState(new Date())
   const [isVirtual, setIsVirtual] = useState(false)
+  const [location, setLocation] = useState("")
+  const [howToFindLocation, setHowToFindLocation] = useState("")
+  const [virtualEventUrl, setVirtualEventUrl] = useState("")
+  
+  const handleStartTimeChange = (date) => {
+    setStartTime(date);
+  };
+  const handleEndTimeChange = (date) => {
+    setEndTime(date);
+  };
+
+  const toggleIsVirtual = () => {
+    setIsVirtual(!isVirtual)
+  }
 
   const [addEvent] = useMutation(ADD_EVENT, {
     variables: {
       title,
       description,
-      startDay,
       startTime,
-      durationInMinutes,
+      endTime,
       communityUrl: url,
       location,
+      virtualEventUrl,
       isVirtual,
       organizer: "alice"
     },
@@ -78,7 +96,7 @@ const CreateEventForm = ({
     }
   })
 
-  const handleSubmit = async e => {
+  const onSubmit = async e => {
     e.preventDefault()
     addEvent()
     setShow(false)
@@ -106,77 +124,152 @@ const CreateEventForm = ({
           <Modal.Title>Create an Event</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <div className='form-group'>
-              <label htmlFor='name'>Event Name</label>
-              <input
-                name='title'
-                type='text'
-                value={title}
-                className='form-control'
-                onChange={e => setTitle(e.target.value)}
-              />
-            </div>
-            <div className='form-group'>
-              <label htmlFor='name'>Description</label>
-              <input
-                name='description'
-                type='text'
-                value={description}
-                className='form-control'
-                onChange={e => setDescription(e.target.value)}
-              />
-            </div>
-            <div className='form-group'>
-              <label htmlFor='name'>Day</label>
-              <input
-                name='startDay'
-                type='text'
-                value={startDay}
-                className='form-control'
-                onChange={e => setStartDay(e.target.value)}
-              />
-            </div>
-            <div className='form-group'>
-              <label htmlFor='name'>Time</label>
-              <input
-                name='startDay'
-                type='text'
-                value={startTime}
-                className='form-control'
-                onChange={e => setStartTime(e.target.value)}
-              />
-            </div>
-            <div className='form-group'>
-              <label htmlFor='name'>Duration in Minutes</label>
-              <input
-                name='durationInMinutes'
-                type='text'
-                value={durationInMinutes}
-                className='form-control'
-                onChange={e => setDurationInMinutes(e.target.value)}
-              />
-            </div>
-            <div className='form-group'>
-              <label htmlFor='name'>Location</label>
-              <input
-                name='location'
-                type='text'
-                value={location}
-                className='form-control'
-                onChange={e => setLocation(e.target.value)}
-              />
-            </div>
-            <Form.Group controlId="formBasicCheckbox">
-              <Form.Check 
-                name='isVirtual'
-                type="checkbox" 
-                label="This event is virtual" 
-                checked={isVirtual}
-                onChange={e => setIsVirtual(Boolean(e.target.value))}
-              />
-            </Form.Group>
-          </Form>
+          <FinalForm 
+            onSubmit={onSubmit}
+            render={({
+              handleSubmit,
+              form,
+              submitting,
+              pristine,
+              values
+            }) => (
+              <form onSubmit={handleSubmit}>
+                <div className='form-group'>
+                  <Field 
+                    name="title"
+                    validate={required}
+                  >
+                  {({
+                    input,
+                    meta
+                  }) => (
+                    <div>
+                      <label htmlFor='name'>Event Name</label>
+                      <input
+                        {...input}
+                        name='title'
+                        type='text'
+                        value={title}
+                        className='form-control'
+                        onChange={e => setTitle(e.target.value)}
+                      />
+                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </div>
+                  )}
+                  </Field>
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='description'>Description</label>
+                  <input
+                    name='description'
+                    type='text'
+                    value={description}
+                    className='form-control'
+                    onChange={e => setDescription(e.target.value)}
+                  />
+                </div>
+                <div className='form-group'>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <Grid container justify="space-around">
+                      <KeyboardDatePicker
+                        margin="normal"
+                        id="start-date-picker-dialog"
+                        label="Start Date"
+                        format="MM/dd/yyyy"
+                        value={startTime}
+                        onChange={handleStartTimeChange}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                      <KeyboardTimePicker
+                        margin="normal"
+                        id="start-time-picker"
+                        label="Start Time"
+                        value={startTime}
+                        onChange={handleStartTimeChange}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change time',
+                        }}
+                      />
+                    </Grid>
+                  </MuiPickersUtilsProvider>
+                </div>
+                <div className='form-group'>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <Grid container justify="space-around">
+                      <KeyboardDatePicker
+                        margin="normal"
+                        id="end-date-picker-dialog"
+                        label="End Date"
+                        format="MM/dd/yyyy"
+                        value={endTime}
+                        onChange={handleEndTimeChange}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                      <KeyboardTimePicker
+                        margin="normal"
+                        id="end-time-picker"
+                        label="End Time"
+                        value={endTime}
+                        onChange={handleEndTimeChange}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change time',
+                        }}
+                      />
+                    </Grid>
+                  </MuiPickersUtilsProvider>
+                </div>
+                <BootstrapForm.Group controlId="formBasicCheckbox">
+                  <BootstrapForm.Check 
+                    name='isVirtual'
+                    type="checkbox" 
+                    label="This event is virtual" 
+                    checked={isVirtual}
+                    onChange={toggleIsVirtual}
+                  />
+                </BootstrapForm.Group>
+                { isVirtual ? (
+                  <div className='form-group'>
+                    <label htmlFor='name'>Virtual Event URL</label>
+                    <input
+                      name='location'
+                      type='text'
+                      value={virtualEventUrl}
+                      className='form-control'
+                      onChange={e => setVirtualEventUrl(e.target.value)}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <div className='form-group'>
+                      <label htmlFor='name'>Location</label>
+                      <input
+                        name='location'
+                        type='text'
+                        value={location}
+                        className='form-control'
+                        onChange={e => setLocation(e.target.value)}
+                      />
+                    </div>
+                    <div className='form-group'>
+                      <label htmlFor='name'>How To Find Us</label>
+                      <input
+                        name='how-to-find-us'
+                        type='text'
+                        value={howToFindLocation}
+                        className='form-control'
+                        onChange={e => setHowToFindLocation(e.target.value)}
+                      />
+                    </div>
+                  </>
+                )}
+              </form>
+            )}
+          >
+          </FinalForm>
         </Modal.Body>
         <Modal.Footer>
           <Button variant='secondary' onClick={ () => {setShow(false)} }>
@@ -185,7 +278,7 @@ const CreateEventForm = ({
           <button
             className="btn btn-primary"
             type="submit"
-            onClick={handleSubmit}
+            onClick={onSubmit}
           >
             Submit
           </button>
