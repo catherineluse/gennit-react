@@ -135,40 +135,6 @@ const CreateEventForm = ({
             }) => (
               <form onSubmit={handleSubmit}>
                 <div className='form-group'>
-                  <Field 
-                    name="title"
-                    validate={required}
-                  >
-                  {({
-                    input,
-                    meta
-                  }) => (
-                    <div>
-                      <label htmlFor='name'>Event Name</label>
-                      <input
-                        {...input}
-                        name='title'
-                        type='text'
-                        value={title}
-                        className='form-control'
-                        onChange={e => setTitle(e.target.value)}
-                      />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
-                    </div>
-                  )}
-                  </Field>
-                </div>
-                <div className='form-group'>
-                  <label htmlFor='description'>Description</label>
-                  <input
-                    name='description'
-                    type='text'
-                    value={description}
-                    className='form-control'
-                    onChange={e => setDescription(e.target.value)}
-                  />
-                </div>
-                <div className='form-group'>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <Grid container justify="space-around">
                       <KeyboardDatePicker
@@ -176,7 +142,6 @@ const CreateEventForm = ({
                         id="start-date-picker-dialog"
                         label="Start Date"
                         format="MM/dd/yyyy"
-                        value={startTime}
                         onChange={handleStartTimeChange}
                         KeyboardButtonProps={{
                           'aria-label': 'change date',
@@ -195,33 +160,7 @@ const CreateEventForm = ({
                     </Grid>
                   </MuiPickersUtilsProvider>
                 </div>
-                <div className='form-group'>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Grid container justify="space-around">
-                      <KeyboardDatePicker
-                        margin="normal"
-                        id="end-date-picker-dialog"
-                        label="End Date"
-                        format="MM/dd/yyyy"
-                        value={endTime}
-                        onChange={handleEndTimeChange}
-                        KeyboardButtonProps={{
-                          'aria-label': 'change date',
-                        }}
-                      />
-                      <KeyboardTimePicker
-                        margin="normal"
-                        id="end-time-picker"
-                        label="End Time"
-                        value={endTime}
-                        onChange={handleEndTimeChange}
-                        KeyboardButtonProps={{
-                          'aria-label': 'change time',
-                        }}
-                      />
-                    </Grid>
-                  </MuiPickersUtilsProvider>
-                </div>
+                
                 <BootstrapForm.Group controlId="formBasicCheckbox">
                   <BootstrapForm.Check 
                     name='isVirtual'

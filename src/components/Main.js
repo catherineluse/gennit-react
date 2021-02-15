@@ -8,6 +8,7 @@ import UserProfile from './UserProfile'
 import UserList from './UserList'
 import Discussion from './Discussion'
 import Event from './Event'
+import TestForm from './forms/event/testform'
 
 export const communityBodyContentTypes = {
   EVENT_LIST: 'EVENT_LIST',
@@ -67,6 +68,12 @@ const Main = ({ showSideNav }) => {
           exact
         >
           <Event />
+        </Route>
+        <Route
+          path={`/testform`}
+          exact
+        >
+          <TestForm />
         </Route>
       </Switch>
     </div>
