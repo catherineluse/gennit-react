@@ -13,7 +13,7 @@ const renderCommunityEventList = (Events, url) => {
     const { 
         id, 
         title, 
-        startDay, 
+        startTime, 
         location, 
         Organizer: { 
             username 
@@ -29,9 +29,9 @@ const renderCommunityEventList = (Events, url) => {
         <div className='discussionTitle' onClick={handleClick}>
           {title}
         </div>
-        <p className="event-details">Date: {startDay}</p>
+        <p className="event-details">Date: {startTime }</p>
         <p className="event-details">Location: {isVirtual ? "Virtual" : location}</p>
-        <div className='discussionAuthor'>
+        <div className='event-details'>
           Hosted by{' '}
           <Link
             className='understatedLink'

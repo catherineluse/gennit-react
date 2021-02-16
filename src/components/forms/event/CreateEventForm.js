@@ -23,9 +23,7 @@ const CreateEventForm = ({
 
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
-  const [startDay, setStartDay] = useState(new Date())
   const [startTime, setStartTime] = useState(new Date())
-  const [durationInMinutes, setDurationInMinutes] = useState(0)
   const [location, setLocation] = useState("")
   const [isVirtual, setIsVirtual] = useState(false)
 
@@ -33,9 +31,7 @@ const CreateEventForm = ({
     variables: {
       title,
       description,
-      startDay,
-      startTime,
-      durationInMinutes,
+      startTime: startTime.toString(),
       communityUrl: url,
       location,
       isVirtual,
@@ -130,17 +126,7 @@ const CreateEventForm = ({
             <div className='form-group'>
               <label htmlFor='name'>Day</label>
               <input
-                name='startDay'
-                type='text'
-                value={startDay}
-                className='form-control'
-                onChange={e => setStartDay(e.target.value)}
-              />
-            </div>
-            <div className='form-group'>
-              <label htmlFor='name'>Time</label>
-              <input
-                name='startDay'
+                name='startTime'
                 type='text'
                 value={startTime}
                 className='form-control'
@@ -148,13 +134,13 @@ const CreateEventForm = ({
               />
             </div>
             <div className='form-group'>
-              <label htmlFor='name'>Duration in Minutes</label>
+              <label htmlFor='name'>Time</label>
               <input
-                name='durationInMinutes'
+                name='startTime'
                 type='text'
-                value={durationInMinutes}
+                value={startTime}
                 className='form-control'
-                onChange={e => setDurationInMinutes(e.target.value)}
+                onChange={e => setStartTime(e.target.value)}
               />
             </div>
             <div className='form-group'>

@@ -63,8 +63,8 @@ export const GET_COMMUNITY_WITH_DISCUSSIONS_AND_EVENTS = gql`
       Events {
         id
         title
-        startDay
         location
+        startTime
         Organizer {
           username
         }

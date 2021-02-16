@@ -123,15 +123,12 @@ const Event = () => {
     </div>)
   }
   
-  
   if (data.getEvent) {
     const eventData = data.getEvent;
     const { 
       title, 
       description,
-      startDay,
       startTime,
-      durationInMinutes,
       location,
       isVirtual,
       Organizer: {
@@ -217,12 +214,20 @@ const Event = () => {
             />
             
             <h2>{title}</h2>
+            <div className='organizer'>
+                Hosted by{' '}
+                <Link to={`/u/${username ? username : '[deleted]'}`}>{`/u/${
+                  username ? username : '[deleted]'
+                }`}
+                </Link>
+            </div>
+            <div className="pageTitle">WHEN AND WHERE</div>
             <div className="details">
               <Table size="sm" borderless>
                 <tbody>
                   <tr>
                     <td>
-                      <i className="far fa-clock"></i>{startDay} at {startTime} for {durationInMinutes} minutes
+                      <i className="far fa-clock"></i>{startTime}
                     </td>
                   </tr>
                   {location ? (
@@ -238,15 +243,10 @@ const Event = () => {
                 </tbody>
               </Table>
             </div>
+            <div className="pageTitle">EVENT DESCRIPTION</div>
             {description}
             
-            <div className='organizer'>
-                Hosted by{' '}
-                <Link to={`/u/${username ? username : '[deleted]'}`}>{`/u/${
-                  username ? username : '[deleted]'
-                }`}
-                </Link>
-            </div>
+            
           </div>
 
           <CreateRootCommentOnEvent

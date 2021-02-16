@@ -11,18 +11,14 @@ const EditEventForm = ({
     const { 
         title, 
         description,
-        startDay,
         startTime,
-        durationInMinutes,
         location,
         isVirtual 
     } = currentEvent;
   
     const [titleField, setTitleField] = useState(title)
     const [descriptionField, setDescriptionField] = useState(description)
-    const [startDayField, setStartDayField] = useState(startDay)
     const [startTimeField, setStartTimeField] = useState(startTime)
-    const [durationInMinutesField, setDurationInMinutesField] = useState(durationInMinutes)
     const [locationField, setLocationField] = useState(location)
     const [isVirtualField, setIsVirtualField] = useState(isVirtual)
   
@@ -31,9 +27,7 @@ const EditEventForm = ({
         id: eventId,
         title: titleField,
         description: descriptionField,
-        startDay: startDayField,
         startTime: startTimeField,
-        durationInMinutes: durationInMinutesField,
         location: locationField,
         isVirtual: isVirtualField
       },
@@ -77,10 +71,10 @@ const EditEventForm = ({
               <div className='form-group'>
                 <label htmlFor='day'>Day</label>
                 <input
-                  title='startDay'
+                  title='startTime'
                   className='form-control'
-                  value={startDayField}
-                  onChange={e => setStartDayField(e.target.value)}
+                  value={startTimeField}
+                  onChange={e => setStartTimeField(e.target.value)}
                 />
               </div>
               <div className='form-group'>
@@ -90,15 +84,6 @@ const EditEventForm = ({
                   className='form-control'
                   value={startTimeField}
                   onChange={e => setStartTimeField(e.target.value)}
-                />
-              </div>
-              <div className='form-group'>
-                <label htmlFor='duration'>Duration in Minutes</label>
-                <input
-                  title='durationInMinutes'
-                  className='form-control'
-                  value={durationInMinutesField}
-                  onChange={e => setDurationInMinutesField(e.target.value)}
                 />
               </div>
               <div className='form-group'>
