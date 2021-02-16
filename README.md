@@ -112,4 +112,11 @@ mutation {
 }
 ```
 
+### 5. Run the React app
+
+```
+npm install
+npm start
+```
+
 Then I use the sample user to create, update, and delete items in the UI.
