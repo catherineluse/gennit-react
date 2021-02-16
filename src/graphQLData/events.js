@@ -11,9 +11,7 @@ export const ADD_EVENT = gql`
   mutation addEvent(
     $title: String!
     $description: String
-    $startDay: String!
     $startTime: String!
-    $durationInMinutes: Int
     $communityUrl: String!
     $location: String!
     $isVirtual: Boolean!
@@ -24,9 +22,7 @@ export const ADD_EVENT = gql`
         {
           title: $title
           description: $description
-          startDay: $startDay
           startTime: $startTime
-          durationInMinutes: $durationInMinutes
           Community: { url: $communityUrl }
           location: $location
           isVirtual: $isVirtual
@@ -45,9 +41,7 @@ export const ADD_EVENT = gql`
           username
         }
         location
-        startDay
         startTime
-        durationInMinutes
         isVirtual
       }
     }
@@ -60,9 +54,7 @@ export const UPDATE_EVENT = gql`
       $id: ID!
       $title: String
       $description: String
-      $startDay: String
       $startTime: String
-      $durationInMinutes: Int
       $location: String!
       $isVirtual: Boolean!
     ) {
@@ -74,9 +66,7 @@ export const UPDATE_EVENT = gql`
         set: { 
             title: $title
             description: $description
-            startDay: $startDay
             startTime: $startTime
-            durationInMinutes: $durationInMinutes
             location: $location
             isVirtual: $isVirtual
         } 
@@ -86,9 +76,7 @@ export const UPDATE_EVENT = gql`
         id
         title
         description
-        startDay
         startTime
-        durationInMinutes
         location
         isVirtual
       }
@@ -103,9 +91,7 @@ export const GET_EVENT = gql`
       id
       title
       description
-      startDay
       startTime
-      durationInMinutes
       location
       isVirtual
       Community {

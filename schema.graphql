@@ -85,9 +85,8 @@ type Event {
   id:                  ID!
   title:               String!
   description:         String
-  startDay:            String
   startTime:           String
-  durationInMinutes:   Int
+  endTime:             String
   Community:           Community!
   Comments:            [Comment] @hasInverse(field: Event)
   location:            String
