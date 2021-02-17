@@ -25,7 +25,7 @@ const EditCommentInDiscussion = ({
   
     const handleSubmit = async e => {
       e.preventDefault()
-      updateComment()
+      await updateComment()
       handleClose()
     }
   
