@@ -129,7 +129,10 @@ const Event = () => {
       title, 
       description,
       startTime,
+      endTime,
       location,
+      howToFindLocation,
+      virtualEventUrl,
       isVirtual,
       Organizer: {
         username
@@ -227,19 +230,19 @@ const Event = () => {
                 <tbody>
                   <tr>
                     <td>
-                      <i className="far fa-clock"></i>{startTime}
+                      <i className="far fa-clock"></i>{startTime} to {endTime}
                     </td>
                   </tr>
-                  {location ? (
-                    <tr>
-                      <td><i className="fas fa-map-marker-alt"></i>{location}</td>
-                    </tr>
-                  ) : null}
                   {isVirtual ? (
                     <tr>
-                      <td><i className="fas fa-globe"></i>This is a virtual event.</td>
+                      <td><i className="fas fa-globe"></i>This is a virtual event. {virtualEventUrl}</td>
                     </tr>
-                  ) : null}
+                  ) : (
+                    <tr>
+                      <td><i className="fas fa-map-marker-alt"></i>{location}</td>
+                      {howToFindLocation}
+                    </tr>
+                  ) }
                 </tbody>
               </Table>
             </div>
