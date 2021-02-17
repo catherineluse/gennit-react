@@ -7,6 +7,7 @@ import { ADD_EVENT } from '../../../graphQLData/events'
 import { GET_COMMUNITY_WITH_DISCUSSIONS_AND_EVENTS } from '../../../graphQLData/communities'
 import { Redirect } from 'react-router'
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -169,58 +170,32 @@ const CreateEventForm = ({
                   />
                 </div>
                 <div className='form-group'>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Grid container justify="space-around">
-                      <KeyboardDatePicker
-                        margin="normal"
-                        id="start-date-picker-dialog"
-                        label="Start Date"
-                        format="MM/dd/yyyy"
+                      <TextField
+                        //error={meta.touched && meta.error ? true : false}
+                        id="startTime"
+                        label="Start Date and Time"
+                        type="datetime-local"
                         value={startTime}
-                        onChange={handleStartTimeChange}
-                        KeyboardButtonProps={{
-                          'aria-label': 'change date',
+                        onChange={e => setStartTime(e.target.value)}
+                        InputLabelProps={{
+                          shrink: true,
                         }}
+                        //helperText={meta.touched ? meta.error : ""}
                       />
-                      <KeyboardTimePicker
-                        margin="normal"
-                        id="start-time-picker"
-                        label="Start Time"
-                        value={startTime}
-                        onChange={handleStartTimeChange}
-                        KeyboardButtonProps={{
-                          'aria-label': 'change time',
-                        }}
-                      />
-                    </Grid>
-                  </MuiPickersUtilsProvider>
                 </div>
                 <div className='form-group'>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Grid container justify="space-around">
-                      <KeyboardDatePicker
-                        margin="normal"
-                        id="end-date-picker-dialog"
-                        label="End Date"
-                        format="MM/dd/yyyy"
-                        value={endTime}
-                        onChange={handleEndTimeChange}
-                        KeyboardButtonProps={{
-                          'aria-label': 'change date',
-                        }}
-                      />
-                      <KeyboardTimePicker
-                        margin="normal"
-                        id="end-time-picker"
-                        label="End Time"
-                        value={endTime}
-                        onChange={handleEndTimeChange}
-                        KeyboardButtonProps={{
-                          'aria-label': 'change time',
-                        }}
-                      />
-                    </Grid>
-                  </MuiPickersUtilsProvider>
+                  <TextField
+                    //error={meta.touched && meta.error ? true : false}
+                    id="endTime"
+                    label="End Date and Time"
+                    type="datetime-local"
+                    value={endTime}
+                    onChange={e => setEndTime(e.target.value)}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    //helperText={meta.touched ? meta.error : ""}
+                />
                 </div>
                 <BootstrapForm.Group controlId="formBasicCheckbox">
                   <BootstrapForm.Check 
