@@ -94,7 +94,7 @@ I haven't finished the authentication functionality of this app. So to test othe
 
 I do a POST request to http://localhost:8080/graphql with the following GraphQL mutation attached:
 
-```
+```graphql
 mutation {
   addUser(input: [
     {
